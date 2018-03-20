@@ -1,32 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import {
+  Button,
+  Container,
+  Menu,
+  Input,
+} from 'semantic-ui-react'
 
+export default class NavBar extends Component {
+  state = {
+    activeItem: 'home',
+    name: "",
+   }
 
-const Navbar = (props) => {
-  return (
-  <nav className="navbar navbar-inverse">
-    <a className="navbar-brand">Deck Manager</a>
-      <ul className="navbar-nav mr-auto">
-        <li className="nav-item active">
-          <NavLink className="nav-link" to="/search">Advanced Card Search<span className="sr-only">(current)</span></NavLink>
-        </li>
-      </ul>
-    <form className="form-inline" onSubmit={props.search}>
-      <input
-        className="form-control mr-sm-2"
-        type="search"
-        placeholder="Search Card Name"
-        aria-label="Search"
-      />
-      <button
-        className="btn btn-outline-success my-2 my-sm-0"
-        type="submit"
-      >
-        Search
-      </button>
-    </form>
-  </nav>
-  )
+  handleItemClick = (event, { name }) => this.setState({ activeItem: name })
+
+  handleChange = (event, { value }) => this.setState({ name: value })
+
+  handleSearch = (event) => {
+    this.props.search(this.state.name)
+    this.setState({
+      name: ""
+    })
+  }
+
+  render() {
+
+      return (
+        <Menu inverted
+          pointing
+          size='large'
+        >
+          <Container>
+            <Menu.Item as={NavLink} exact to="/" name='home' onClick={this.handleItemClick} />
+            <Menu.Item as={NavLink} exact to="/search" name='card search' onClick={this.handleItemClick} />
+            <Menu.Item position='right'>
+              <Input icon='search' placeholder='Card name...' value={this.state.name} onChange={this.handleChange}/>
+              <NavLink className="ui button" exact to="/cards" onClick={this.handleSearch}>Search</NavLink>
+            </Menu.Item>
+          </Container>
+        </Menu>
+    )
+  }
 }
-
-export default Navbar

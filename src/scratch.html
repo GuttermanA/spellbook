@@ -1,0 +1,151 @@
+<!-- FIRST SEMANTIC MENU -->
+<Menu>
+  <Menu.Item as={NavLink} exact to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+  <Menu.Item as={NavLink} exact to="/search" name='card search' active={activeItem === 'card search'} onClick={this.handleItemClick} />
+  <Menu.Menu position='right'>
+    <Menu.Item>
+      <Input icon='search' placeholder='Card name...' value={this.state.name} onChange={this.handleChange}/>
+      <Button as={NavLink} exact to="/cards" onClick={this.handleSearch}>Search</Button>
+    </Menu.Item>
+  </Menu.Menu>
+</Menu>
+
+<!-- FORM -->
+
+<div>
+  <h3>Card Search:</h3>
+  <form onSubmit={this.handleSubmit}>
+    <div className="form-group row">
+      <label className="col-sm-1 col-form-label">Name</label>
+      <div className="col-sm-4">
+        <input type="text" className="form-control" id="name" onChange={this.handleChange} value={this.state.name}/>
+      </div>
+      <label className="col-sm-1 col-form-label">Type</label>
+      <div className="col-sm-4">
+        <select id="type" className="form-control" onChange={this.handleChange} value={this.state.type}>
+          <option value=""></option>
+          <option value="Basic Land">Basic Land</option>
+          <option value="Land">Land</option>
+          <option value="Creature">Creature</option>
+          <option value="Instant">Instant</option>
+          <option value="Sorcery">Sorcery</option>
+          <option value="Artifact">Artifact</option>
+          <option value="Enchantment">Enchantment</option>
+          <option value="Planeswalker">Planeswalker</option>
+          <option value="Artifact Creature">Artifact Creature</option>
+        </select>
+      </div>
+    </div>
+
+    <div className="form-group row">
+      <label className="col-sm-1 col-form-label">Power</label>
+      <div className="col-sm-4">
+        <input type="number" className="form-control" id="power" onChange={this.handleChange} value={this.state.power}/>
+      </div>
+      <label className="col-sm-1 col-form-label">Toughness</label>
+      <div className="col-sm-4">
+        <input type="number" className="form-control" id="toughness" onChange={this.handleChange} value={this.state.toughness}/>
+      </div>
+    </div>
+
+
+    <div className="form-group row">
+      <label className="col-sm-1">Colors</label>
+      <div className="col-sm-5">
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">White
+            <input className="form-check-input" type="checkbox" id="white" value="W" onChange={this.handleChange}/>
+          </label>
+        </div>
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">Blue
+            <input className="form-check-input" type="checkbox" id="blue" value="U" onChange={this.handleChange}/>
+          </label>
+        </div>
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">Black
+            <input className="form-check-input" type="checkbox" id="black" value="B" onChange={this.handleChange}/>
+          </label>
+        </div>
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">Red
+            <input className="form-check-input" type="checkbox" id="red" value="R" onChange={this.handleChange}/>
+          </label>
+        </div>
+        <div className="form-check form-check-inline">
+          <label className="form-check-label">Green
+            <input className="form-check-input" type="checkbox" id="green" value="G" onChange={this.handleChange}/>
+          </label>
+        </div>
+      </div>
+      <div className="col-sm-3">
+        <button type="submit" className="btn btn-primary">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- CARD -->
+
+<div className="card ovf-hidden">
+    <div className="view overlay hm-white-slight">
+        <img src={img_url} className="img-fluid" alt={name}/>
+        <a>
+            <div className="mask waves-effect waves-light"></div>
+        </a>
+    </div>
+    <div className="card-body">
+        <a className="activator"><i className="fa fa-share-alt"></i></a>
+        <hr/>
+        <a className="link-text"><h5>Flip<i className="fa fa-chevron-right"></i></h5></a>
+    </div>
+    <div className="card-reveal">
+        <div className="content text-center">
+            <h4 className="card-title">Social shares <i className="fa fa-close"></i></h4>
+            <hr/>
+            <ul className="inline-ul">
+                <li><a className="btn-floating btn-small btn-fb"><i className="fa fa-facebook"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-tw"><i className="fa fa-twitter"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-gplus"><i className="fa fa-google-plus"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-li"><i className="fa fa-linkedin"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-git"><i className="fa fa-github"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-pin"><i className="fa fa-pinterest"> </i></a></li>
+                <li><a className="btn-floating btn-small btn-ins"><i className="fa fa-instagram"> </i></a></li>
+            </ul>
+            <h5>Join our community</h5>
+            <hr/>
+            <ul className="inline-ul">
+                <li><a className="btn btn-fb"><i className="fa fa-facebook"> </i></a></li>
+                <li><a className="btn btn-tw"><i className="fa fa-twitter"> </i></a></li>
+                <li><a className="btn btn-li"><i className="fa fa-linkedin"> </i></a></li>
+                <li><a className="btn btn-ins"><i className="fa fa-instagram"> </i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- NAV -->
+
+<nav className="navbar navbar-inverse">
+  <a className="navbar-brand">Deck Manager</a>
+    <ul className="navbar-nav mr-auto">
+      <li className="nav-item active">
+        <NavLink className="nav-link" to="/search">Advanced Card Search<span className="sr-only">(current)</span></NavLink>
+      </li>
+    </ul>
+  <form className="form-inline" onSubmit={props.search}>
+    <input
+      className="form-control mr-sm-2"
+      type="search"
+      placeholder="Search Card Name"
+      aria-label="Search"
+    />
+    <button
+      className="btn btn-outline-success my-2 my-sm-0"
+      type="submit"
+    >
+      Search
+    </button>
+  </form>
+</nav>
