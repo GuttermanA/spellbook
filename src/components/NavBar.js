@@ -28,7 +28,7 @@ class NavBar extends Component {
   }
 
   render() {
-
+dadf
       return (
         <Menu inverted
           pointing

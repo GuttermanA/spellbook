@@ -18,5 +18,5 @@ const Card = (props) => {
     <img src={img_url} className="img-fluid" alt={name}/>
   )
 }
-
+asd
 export default Card
