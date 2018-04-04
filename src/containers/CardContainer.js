@@ -22,7 +22,7 @@ class CardContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     results: state.cards.results,
-    loading: state.cards.loading
+    loading: state.cards.loading,
   }
 }
 

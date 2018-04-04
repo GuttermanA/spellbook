@@ -6,43 +6,77 @@ import {
   Container,
   Menu,
   Input,
+  Form,
+  Dropdown,
 } from 'semantic-ui-react'
 
 class NavBar extends Component {
   state = {
     activeItem: 'home',
-    name: "",
+    search: "",
+    submit: false,
+    dropdown: 'cards',
    }
 
-  handleItemClick = (event, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (event, { name }) => this.setState({ activeItem: name, submit: false })
 
-  handleChange = (event, { value, name }) => this.setState({ [name]: value })
+  handleChange = (event, { value, name }) => {
+    this.setState({
+      [name]: value,
+      submit: false
+    })
+  }
 
   handleSearch = (event, { name }) => {
     event.preventDefault()
-    this.handleItemClick(event, { name })
-    this.props.fetchCards({name: this.state.name})
+    switch (this.state.dropdown) {
+      case 'cards':
+        this.props.fetchCards({name: this.state.search})
+        break;
+      case 'decks':
+        this.props.fetchDecks({archType: this.state.search})
+        break;
+      default:
+        alert("Something went wrong in React Router")
+    }
     this.setState({
-      name: ""
+      search: "",
+      submit: !this.state.submit
     })
   }
 
   render() {
-dadf
+    const options = [
+      {
+        text:"Cards",
+        value:"cards"
+      },
+      {
+        text:"Decks",
+        value:"decks"
+      }
+    ]
+    const { activeItem, search, dropdown, submit } = this.state
       return (
-        <Menu inverted
-          pointing
-          size='large'
-        >
-          <Container>
-            <Menu.Item as={Link} exact to="/" name='home' onClick={this.handleItemClick} />
-            <Menu.Item as={Link} exact to="/cards/search" name='advancedSearch' onClick={this.handleItemClick} />
-            <Menu.Item position='right'>
-              <Input icon='search' name="name" placeholder='Card name...' value={this.state.name} onChange={this.handleChange}/>
-            </Menu.Item>
-            <Menu.Item as={Link} exact to="/cards/results" name='search' onClick={this.handleSearch} />
-          </Container>
-        </Menu>
+        <div>
+          <Menu
+            inverted
+            pointing
+          >
+            <Container>
+              <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+              <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
+              <Menu.Item position='right'>
+                <Form onSubmit={this.handleSearch}>
+                  <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>
+                </Form>
+              </Menu.Item>
+              <Dropdown name='dropdown' item onChange={this.handleChange} options={options} placeholder='Cards'/>
+            </Container>
+          </Menu>
+          {submit ? <Redirect push to="/results/cards"/>: null}
+        </div>
+
     )
   }
 }

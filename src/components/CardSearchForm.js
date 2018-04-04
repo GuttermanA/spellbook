@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, Container } from 'semantic-ui-react'
+import withLoader from '../components/hocs/withLoader'
 
 const types = [
   {

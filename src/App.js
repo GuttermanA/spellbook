@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
 import CardContainer from './containers/CardContainer'
+import DeckContainer from './containers/DeckContainer'
 import Home from './components/HomePage'
-import CardSearchForm from './components/CardSearchForm'
-import { Route } from 'react-router-dom'
+import AdvancedSearchContainer from './containers/AdvancedSearchContainer'
+import { Route, Redirect, Switch } from 'react-router-dom'
 
 class App extends Component {
 
@@ -13,23 +14,25 @@ class App extends Component {
     deckSearchRedirect: false,
   }
 
-  handleSearch = () => {
-    this.setState({
-      redirect: true
-    })
+  handleSearchRedirect = (search) => {
+    if (search === 'cards') {
+      this.setState({
+        cardSearchRedirect: true
+      })
+    }
   }
 
   render() {
-    console.log(CardContainer)
     const { cardSearchRedirect, deckSearchRedirect } = this.state
     return (
       <div className="App">
         <NavBar />
-
-        <Route exact path="/" component={Home}/>
-        <Route exact path="/cards/results" render={() => <CardContainer />}/>
-        <Route exact path="/cards/search" render={() => <CardSearchForm />}/>
-
+        <Switch>
+          <Route exact path="/" component={Home}/>
+          <Route exact path="/results/cards" render={() => <CardContainer />}/>
+          <Route exact path="/results/decks" render={() => <DeckContainer/>}/>
+          <Route exact path="/search" render={() => <AdvancedSearchContainer />}/>
+        </Switch>
       </div>
     );
   }
