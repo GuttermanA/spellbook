@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
-import CardListContainer from './containers/CardListContainer'
+import CardContainer from './containers/CardContainer'
 import Home from './components/HomePage'
 import CardSearchForm from './components/CardSearchForm'
 import { Route } from 'react-router-dom'
@@ -9,41 +9,27 @@ import { Route } from 'react-router-dom'
 class App extends Component {
 
   state = {
-    filters: {
-      card: {}
-    }
+    cardSearchRedirect: false,
+    deckSearchRedirect: false,
   }
 
-  search = (searchTerms) => {
-    if (typeof searchTerms === "string") {
-      this.setState({
-        filters: {
-          card: {
-            name: searchTerms
-          }
-        }
-      })
-    } else {
-      let newState = {}
-      for(let k in searchTerms) {
-        newState[k] = searchTerms[k]
-      }
-      this.setState({
-        filters: {
-          card: newState
-        }
-      })
-    }
-
+  handleSearch = () => {
+    this.setState({
+      redirect: true
+    })
   }
 
   render() {
+    console.log(CardContainer)
+    const { cardSearchRedirect, deckSearchRedirect } = this.state
     return (
       <div className="App">
-        <NavBar search={this.search}/>
+        <NavBar />
+
         <Route exact path="/" component={Home}/>
-        <Route exact path="/search" render={() => <CardSearchForm search={this.search}/>}/>
-        <Route exact path="/cards" render={() => <CardListContainer filters={this.state.filters.card}/>}/>
+        <Route exact path="/cards/results" render={() => <CardContainer />}/>
+        <Route exact path="/cards/search" render={() => <CardSearchForm />}/>
+
       </div>
     );
   }

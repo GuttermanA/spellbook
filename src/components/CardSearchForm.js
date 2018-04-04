@@ -83,14 +83,14 @@ class CardSearchForm extends Component {
   render() {
     if (this.state.redirect) {
       return (
-        <Redirect to="/cards"/>
+        <Redirect to="/cards/results"/>
       )
     }
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group widths='equal'>
-            <Form.Input fluid label='Name' placeholder='Name' id="name" value={this.state.name} onChange={this.handleChange} value={this.state.name}/>
+            <Form.Input fluid label='Name' placeholder='Name' id="name" value={this.state.name} onChange={this.handleChange}/>
             <Form.Select fluid label='Type' options={types} placeholder='Type' id="base_type" value={this.state.type} onChange={this.handleChange}/>
           </Form.Group>
           <Form.Group widths='equal'>

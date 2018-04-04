@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { fetchCards } from '../actions'
 import {
-  Button,
   Container,
   Menu,
   Input,
 } from 'semantic-ui-react'
 
-export default class NavBar extends Component {
+class NavBar extends Component {
   state = {
     activeItem: 'home',
     name: "",
@@ -15,10 +16,12 @@ export default class NavBar extends Component {
 
   handleItemClick = (event, { name }) => this.setState({ activeItem: name })
 
-  handleChange = (event, { value }) => this.setState({ name: value })
+  handleChange = (event, { value, name }) => this.setState({ [name]: value })
 
-  handleSearch = (event) => {
-    this.props.search(this.state.name)
+  handleSearch = (event, { name }) => {
+    event.preventDefault()
+    this.handleItemClick(event, { name })
+    this.props.fetchCards({name: this.state.name})
     this.setState({
       name: ""
     })
@@ -32,14 +35,16 @@ export default class NavBar extends Component {
           size='large'
         >
           <Container>
-            <Menu.Item as={NavLink} exact to="/" name='home' onClick={this.handleItemClick} />
-            <Menu.Item as={NavLink} exact to="/search" name='card search' onClick={this.handleItemClick} />
+            <Menu.Item as={Link} exact to="/" name='home' onClick={this.handleItemClick} />
+            <Menu.Item as={Link} exact to="/cards/search" name='advancedSearch' onClick={this.handleItemClick} />
             <Menu.Item position='right'>
-              <Input icon='search' placeholder='Card name...' value={this.state.name} onChange={this.handleChange}/>
-              <NavLink className="ui button" exact to="/cards" onClick={this.handleSearch}>Search</NavLink>
+              <Input icon='search' name="name" placeholder='Card name...' value={this.state.name} onChange={this.handleChange}/>
             </Menu.Item>
+            <Menu.Item as={Link} exact to="/cards/results" name='search' onClick={this.handleSearch} />
           </Container>
         </Menu>
     )
   }
 }
+
+export default connect(null, { fetchCards })(NavBar)
