@@ -5,7 +5,6 @@ import { fetchCards } from '../actions'
 import {
   Container,
   Menu,
-  Input,
   Form,
   Dropdown,
 } from 'semantic-ui-react'

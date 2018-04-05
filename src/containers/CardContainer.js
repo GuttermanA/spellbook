@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Card from '../components/Card'
 import { connect } from 'react-redux'
 import withLoader from '../components/hocs/withLoader'
+import withBuilder from '../components/hocs/withBuilder'
 import { Container } from 'semantic-ui-react'
 
 
@@ -15,6 +16,8 @@ class CardContainer extends Component {
           {!this.props.results.length ? <p>No cards found</p> : cards}
         </div>
       </Container>
+
+
     )
   }
 }
@@ -26,4 +29,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(withLoader(CardContainer))
+export default connect(mapStateToProps)(withLoader(withBuilder(CardContainer)))

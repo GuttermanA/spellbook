@@ -1,5 +1,4 @@
 import React from 'react';
-import withLoader from '../components/hocs/withLoader'
 
 const Home = () => {
   return (
