@@ -26,15 +26,16 @@ export default function withBuilder(Component) {
     }
 
     render() {
+
       const { visible, activeItem } = this.state
       return (
       <div>
         <Button.Group>
-          <Button name='craeteDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
+          <Button name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
           <Button name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>
         <Sidebar.Pushable as={Container}>
-          <Sidebar animation='push' size='large' visible={visible} >
+          <Sidebar animation='slide along' width='wide' visible={visible} >
             <DeckBuilderSimpleForm />
           </Sidebar>
           <Sidebar.Pusher>

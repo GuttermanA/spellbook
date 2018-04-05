@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { fetchCards } from '../actions'
+import { fetchCards } from '../actions/cards'
 import {
   Container,
   Menu,

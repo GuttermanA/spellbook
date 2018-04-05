@@ -1,7 +1,7 @@
 const defaultState = {
   results: [],
   loading: false,
-  selectedCard: {},
+  selected: {},
 }
 
 export default function(state = defaultState, action) {
@@ -9,7 +9,7 @@ export default function(state = defaultState, action) {
     case 'LOAD_CARDS':
     console.log("loading cards")
       return {...state, results: action.payload, loading: !state.loading}
-    case 'LOADING':
+    case 'LOADING_CARDS':
       return {...state, loading: !state.loading, results: []}
     default:
       return {...state}

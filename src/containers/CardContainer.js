@@ -10,12 +10,17 @@ class CardContainer extends Component {
 
   render() {
     const cards = this.props.results.map(card => <Card key={card.multiverse_id} card={card}/>)
+    const style = {
+      minHeight: '500px'
+    }
     return (
-      <Container>
+
         <div className="card-list">
-          {!this.props.results.length ? <p>No cards found</p> : cards}
+          <Container style={style}>
+            {!this.props.results.length ? <p>No cards found</p> : cards}
+          </Container>
         </div>
-      </Container>
+
 
 
     )

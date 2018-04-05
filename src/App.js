@@ -6,8 +6,14 @@ import DeckContainer from './containers/DeckContainer'
 import Home from './components/HomePage'
 import AdvancedSearchContainer from './containers/AdvancedSearchContainer'
 import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { fetchFormats } from './actions/decks'
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.fetchFormats()
+  }
 
   render() {
     return (
@@ -24,4 +30,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, { fetchFormats })(App);

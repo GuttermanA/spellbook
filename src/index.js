@@ -8,8 +8,9 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import cardsReducer from './reducers/cardsReducer'
+import decksReducer from './reducers/decksReducer'
 
-const rootReducer = combineReducers({cards: cardsReducer})
+const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer})
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 console.log(store.getState())
