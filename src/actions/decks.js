@@ -12,8 +12,11 @@ export const fetchFormats = () => {
   }
 }
 
-export const createDeck = (deck) => {
+export const createDeck = (deck, history) => {
   return (dispatch) => {
+    dispatch({
+      type: 'LOADING_DECKS'
+    })
     const options = {
       method: 'POST',
       headers: {
@@ -25,11 +28,9 @@ export const createDeck = (deck) => {
     return (
       fetch(`http://localhost:3000/decks`, options)
         .then(res => res.json())
-        .then(payload => dispatch({
-          type: 'SELECT_DECK',
-          payload
-        })
-      )
+        .then(payload => dispatch({ type: 'SELECT_DECK', payload }))
+        // .then((action) => console.log(action.payload))
+        .then((action) => history.push(`/decks/${action.payload.data.id}`))
     )
   }
 }

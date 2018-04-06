@@ -16,10 +16,10 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 console.log(store.getState())
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
+  <Router>
+    <Provider store={store}>
       <App />
-    </Router>
-  </Provider>
+    </Provider>
+  </Router>
 ,document.getElementById('root'));
 registerServiceWorker();

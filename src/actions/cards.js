@@ -10,9 +10,9 @@ export const fetchCards = (searchTerms) => {
     return (
       fetch(`http://localhost:3000/cards/search?${params}`)
         .then(res => res.json())
-        .then(payload => dispatch({
-          type: 'LOAD_CARDS',
-          payload
+        .then(cards => dispatch({
+          type: 'SEARCH_CARDS',
+          payload: cards.data
         })
       )
     )

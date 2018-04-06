@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from '../components/Card'
+import uuid from 'uuid'
 import { connect } from 'react-redux'
-import withLoader from '../components/hocs/withLoader'
 import withBuilder from '../components/hocs/withBuilder'
 import { Container } from 'semantic-ui-react'
 
@@ -9,20 +9,14 @@ import { Container } from 'semantic-ui-react'
 class CardContainer extends Component {
 
   render() {
-    const cards = this.props.results.map(card => <Card key={card.multiverse_id} card={card}/>)
+    const cards = this.props.results.map(card => <Card key={uuid()} card={card.attributes}/>)
     const style = {
       minHeight: '500px'
     }
     return (
-
-        <div className="card-list">
-          <Container style={style}>
-            {!this.props.results.length ? <p>No cards found</p> : cards}
-          </Container>
-        </div>
-
-
-
+        <Container style={style} fluid>
+          {!this.props.results.length ? <p>No cards found</p> : cards}
+        </Container>
     )
   }
 }
@@ -34,4 +28,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(withLoader(withBuilder(CardContainer)))
+export default connect(mapStateToProps)(withBuilder(CardContainer))

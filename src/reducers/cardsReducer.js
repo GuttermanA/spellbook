@@ -6,11 +6,10 @@ const defaultState = {
 
 export default function(state = defaultState, action) {
   switch (action.type) {
-    case 'LOAD_CARDS':
-    console.log("loading cards")
-      return {...state, results: action.payload, loading: !state.loading}
     case 'LOADING_CARDS':
-      return {...state, loading: !state.loading, results: []}
+      return {...state, loading: !state.loading}
+    case 'SEARCH_CARDS':
+      return {...state, results: action.payload, loading: !state.loading}
     default:
       return {...state}
   }

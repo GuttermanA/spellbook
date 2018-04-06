@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
 import { Form, Button, Container, Segment } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
+import { withRouter } from 'react-router-dom'
 
 class DeckBuilderSimpleForm extends Component {
   state = {
@@ -16,6 +17,7 @@ class DeckBuilderSimpleForm extends Component {
   }
 
   appendInput = (event, { name }) => {
+    event.preventDefault()
     if (this.state.cards[name].length <= 100) {
       this.setState({
         cards: {
@@ -52,11 +54,10 @@ class DeckBuilderSimpleForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.createDeck(this.state)
+    this.props.createDeck(this.state, this.props.history)
   }
 
   render() {
-    console.log(this.props);
     const formats = this.props.formats.map(format => {
       return { key: uuid(), text: format.name, value: format.name }
     })
@@ -120,4 +121,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { createDeck })(DeckBuilderSimpleForm)
+export default connect(mapStateToProps, { createDeck })(withRouter(DeckBuilderSimpleForm))

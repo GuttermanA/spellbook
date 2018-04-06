@@ -5,7 +5,8 @@ import CardContainer from './containers/CardContainer'
 import DeckContainer from './containers/DeckContainer'
 import Home from './components/HomePage'
 import AdvancedSearchContainer from './containers/AdvancedSearchContainer'
-import { Route, Switch } from 'react-router-dom'
+import Deck from './components/Deck'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchFormats } from './actions/decks'
 
@@ -16,6 +17,7 @@ class App extends Component {
   }
 
   render() {
+    const { selectedDeck } = this.props
     return (
       <div className="App">
         <NavBar />
@@ -24,10 +26,17 @@ class App extends Component {
           <Route exact path="/results/cards" render={() => <CardContainer />}/>
           <Route exact path="/results/decks" render={() => <DeckContainer/>}/>
           <Route exact path="/search" render={() => <AdvancedSearchContainer />}/>
+          <Route exact path="/decks/:id" render={(renderProps) => <Deck deck={selectedDeck}/>}/>
         </Switch>
       </div>
     );
   }
 }
 
-export default connect(null, { fetchFormats })(App);
+const mapStateToProps = (state) => {
+  return {
+    selectedDeck: state.selectedDeck
+  }
+}
+
+export default withRouter(connect(mapStateToProps, { fetchFormats })(App));
