@@ -1,20 +1,25 @@
 import React, { Component} from 'react'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
-import { Form, Button, Container, Segment } from 'semantic-ui-react'
+import { Form, Button, Container, Segment, Dropdown, Message } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
 
 class DeckBuilderSimpleForm extends Component {
   state = {
-    name: '',
-    archtype: '',
-    format: '',
+    name: "",
+    archtype: "",
+    format: "",
     user: this.props.userId,
     cards: {
-      mainboard: [{name:'', number:''}],
-      sideboard: [{name:'', number:''}],
+      mainboard: [{name:"", number:""}],
+      sideboard: [{name:"", number:""}],
     },
+    searchQuery: "",
+    validation: {
+      error: false,
+      message: ""
+    }
   }
 
   appendInput = (event, { name }) => {
@@ -32,11 +37,14 @@ class DeckBuilderSimpleForm extends Component {
     }
   }
 
-  handleChange = (event, { name, value }) => {
+  handleChange = (event, { name, value, searchQuery }) => {
     this.setState({
-      [name]: value
-    })
+      [name]: value,
+      searchQuery: searchQuery ? searchQuery : ""
+    },()=> console.log(this.state))
   }
+
+  handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
   handleCardChange = (event) => {
     const { name, id, value } = event.target
@@ -55,10 +63,18 @@ class DeckBuilderSimpleForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.createDeck(this.state, this.props.history)
+    const { name, format } = this.state
+    if (name && format) {
+      this.props.createDeck(this.state, this.props.history)
+    } else {
+      const message = `Name and format required for submission `
+      this.setState({validation: { error: true, message }})
+    }
+
   }
 
   render() {
+    const { searchQuery } = this.state
     const formats = this.props.formats.map(format => {
       return { key: uuid(), text: format.name, value: format.name }
     })
@@ -92,12 +108,27 @@ class DeckBuilderSimpleForm extends Component {
         </Form.Group>
       )
     })
+    const { error, message } = this.state.validation
     return (
       <Container as={Segment}>
+
         <Form onSubmit={this.handleSubmit}>
-          <Form.Input inline type='text' label='Deck Name' value={this.state.name} name='name' onChange={this.handleChange}/>
+          <Form.Input required inline type='text' label='Deck Name' value={this.state.name} name='name' onChange={this.handleChange}/>
           <Form.Input inline type='text' label='Archtype' value={this.state.archtype} name='archtype' onChange={this.handleChange}/>
-          <Form.Select inline label='Format' placeholder='Select' value={this.state.format} name='format' options={formats} onChange={this.handleChange}/>
+          <Form.Field required inline>
+            <label>Format</label>
+            <Dropdown
+              onChange={this.handleChange}
+              onSearchChange={this.handleSearchChange}
+              options={formats}
+              placeholder='Search format'
+              search
+              searchQuery={searchQuery}
+              selection
+              value={this.state.format}
+              name='format'
+            />
+          </Form.Field>
           <Form.Field>
             <label>Mainboard</label>
           </Form.Field>
@@ -110,6 +141,9 @@ class DeckBuilderSimpleForm extends Component {
           <Button onClick={this.appendInput} name='sideboard'>Add Card</Button>
           <Form.Button>Finalize</Form.Button>
         </Form>
+        <Message warning attached hidden={ error === false}>
+          <Message.Header>{message}</Message.Header>
+        </Message>
       </Container>
 
     )
@@ -119,6 +153,7 @@ class DeckBuilderSimpleForm extends Component {
 const mapStateToProps = (state) => {
   return {
     formats: state.decks.formats,
+    archtypes: state.decks.archtypes,
     userId: state.auth.currentUser.id,
   }
 }

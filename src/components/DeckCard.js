@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { selectDeck } from '../actions/decks'
+import { Item, Button, Icon } from 'semantic-ui-react'
 
 class DeckCard extends Component {
 
@@ -10,21 +11,35 @@ class DeckCard extends Component {
   }
 
   render() {
+    console.log(this.props.deck)
     const {
       name,
-      // creator,
-      // archtype,
-      // totalCards,
-      // mainboard, sideboard,
-      // tournament,
-      // createdAt,
-      // updatedAt
+      creator,
+      archtype,
+      totalCards,
+      mainboard,
+      sideboard,
+      tournament,
+      createdAt,
+      updatedAt,
+      id,
     } = this.props.deck
-    // const mainboardCards = this.props.mainboardCards
-    // const sideboardCards = this.props.sideboardCards
-    // const user = this.props.user
+    const mainboardCards = this.props.mainboardCards
+    const sideboardCards = this.props.sideboardCards
+    const user = this.props.user
     return (
-      <p onClick={this.handleClick}>{name}</p>
+      <Item>
+        <Item.Content>
+          <Item.Header as={Link} exact to={`decks/${id}`} content={name}/>
+          <Item.Meta> </Item.Meta>
+          <Item.Extra>
+            <Button primary floated='right'>
+              View deck
+              <Icon name='right chevron' />
+            </Button>
+          </Item.Extra>
+        </Item.Content>
+      </Item>
     )
   }
 }

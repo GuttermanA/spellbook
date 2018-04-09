@@ -11,13 +11,13 @@ import SignupForm from './components/SignupForm'
 import UserDecksContainer from './containers/UserDecksContainer'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { fetchFormats } from './actions/decks'
+import { fetchDeckMetaData } from './actions/decks'
 import { fetchUser } from './actions/auth'
 
 class App extends Component {
 
   componentDidMount() {
-    this.props.fetchFormats()
+    this.props.fetchDeckMetaData()
     let jwt = localStorage.getItem("token")
     if (jwt && !this.props.loggedIn) {
       this.props.fetchUser()
@@ -36,7 +36,7 @@ class App extends Component {
           <Route exact path="/results/cards" component={CardContainer}/>
           <Route exact path="/results/decks" component={DeckContainer}/>
           <Route exact path="/search" component={AdvancedSearchContainer}/>
-          <Route exact path="/:username/decks" render={()=> <UserDecksContainer decks={currentUserDecks}/>} />
+          <Route exact path="/:username/decks" component={UserDecksContainer} />
           <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
         </Switch>
       </div>
@@ -48,8 +48,7 @@ const mapStateToProps = (state) => {
   return {
     selectedDeck: state.selectedDeck,
     loggedIn: !!state.auth.currentUser.id,
-    currentUserDecks: state.decks.currentUserDecks,
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchFormats, fetchUser })(App));
+export default withRouter(connect(mapStateToProps, { fetchDeckMetaData, fetchUser })(App));

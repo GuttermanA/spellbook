@@ -1,14 +1,14 @@
 import { generateSearchParams } from '../globalFunctions'
 import { API_ROOT } from '../globalVars'
 
-export const fetchFormats = () => {
+export const fetchDeckMetaData = () => {
   return (dispatch) => {
     return (
-      fetch(`${API_ROOT}/formats`)
+      fetch(`${API_ROOT}/deck_metadata_load`)
         .then(res => res.json())
         .then(payload =>
           dispatch({
-          type: 'LOAD_FORMATS',
+          type: 'LOAD_DECK_METADATA',
           payload
         })
       )
