@@ -9,8 +9,9 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import cardsReducer from './reducers/cardsReducer'
 import decksReducer from './reducers/decksReducer'
+import authReducer from './reducers/authReducer'
 
-const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer})
+const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer, auth: authReducer })
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 console.log(store.getState())

@@ -1,8 +1,8 @@
-export const generateSearchParams = (searchTerms) => {
+export const generateSearchParams = (searchTerms, model) => {
   let params = {}
   for(let input in searchTerms) {
     if (searchTerms[input]) {
-      params[`card[${input}]`] = searchTerms[input]
+      params[`${model}[${input}]`] = searchTerms[input]
     }
   }
   let esc = encodeURIComponent;

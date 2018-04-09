@@ -4,7 +4,7 @@ const defaultState = {
   selected: {},
 }
 
-export default function(state = defaultState, action) {
+export default function (state = defaultState, action) {
   switch (action.type) {
     case 'LOADING_CARDS':
       return {...state, loading: !state.loading}

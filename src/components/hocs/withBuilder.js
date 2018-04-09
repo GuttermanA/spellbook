@@ -1,6 +1,5 @@
 import React from 'react'
 import DeckBuilderSimpleForm from '../DeckBuilderSimpleForm'
-import withLoader from './withLoader'
 import { Sidebar, Button, Container, Dimmer, Loader } from 'semantic-ui-react'
 
 

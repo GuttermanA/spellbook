@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchCards } from '../actions/cards'
+import { fetchDecks } from '../actions/decks'
+import { logoutUser } from '../actions/auth'
 import {
   Container,
   Menu,
@@ -33,7 +35,7 @@ class NavBar extends Component {
         this.props.fetchCards({name: this.state.search})
         break;
       case 'decks':
-        this.props.fetchDecks({archType: this.state.search})
+        this.props.fetchDecks({term: this.state.search})
         break;
       default:
         alert("Something went wrong in React Router")
@@ -65,19 +67,32 @@ class NavBar extends Component {
             <Container>
               <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
               <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
+              {this.props.loggedIn ? (<Menu.Item as={Link} to="/:username/decks" name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>) : null }
+              {this.props.loggedIn ? (<Menu.Item as={Link} to="/:username/collection" name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) : null }
               <Menu.Item position='right'>
                 <Form onSubmit={this.handleSearch}>
                   <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>
                 </Form>
               </Menu.Item>
               <Dropdown name='dropdown' item onChange={this.handleChange} options={options} placeholder='Cards'/>
+              {!this.props.loggedIn ? (
+                <Menu.Item as={Link} to="/login" name="login" active={activeItem === 'login'} onClick={this.handleItemClick}/>
+              ): (
+                <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
+              )}
             </Container>
           </Menu>
-          {submit ? <Redirect push to="/results/cards"/>: null}
+          {submit ? <Redirect push to={`/results/${this.state.dropdown}`}/>: null}
         </div>
 
     )
   }
 }
 
-export default connect(null, { fetchCards })(NavBar)
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: !!state.auth.currentUser.id
+  }
+}
+
+export default connect(mapStateToProps, { fetchCards, fetchDecks, logoutUser })(NavBar)

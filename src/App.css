@@ -31,3 +31,7 @@
   display: flex;
   flex-flow: row wrap;
 }
+
+.login-form {
+  height: 100%;
+}
