@@ -8,8 +8,9 @@ import { withRouter } from 'react-router-dom'
 class DeckBuilderSimpleForm extends Component {
   state = {
     name: '',
-    archtype:'',
-    format:'',
+    archtype: '',
+    format: '',
+    user: this.props.userId,
     cards: {
       mainboard: [{name:'', number:''}],
       sideboard: [{name:'', number:''}],
@@ -117,7 +118,8 @@ class DeckBuilderSimpleForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    formats: state.decks.formats
+    formats: state.decks.formats,
+    userId: state.auth.currentUser.id,
   }
 }
 

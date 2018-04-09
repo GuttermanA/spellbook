@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { loginUser } from '../actions/auth'
+import { createUser } from '../actions/auth'
 import { connect } from 'react-redux'
 import { Button, Form, Grid, Header, Message, Segment, Divider } from 'semantic-ui-react'
 
 class SignupForm extends Component  {
 
   state = {
-    error: false,
+    validation: {
+      error: false,
+      message: "",
+    },
     fields: {
-      username:'',
-      password:'',
+      username: '',
+      password: '',
+      passwordConfirmation: '',
     }
   }
 
@@ -25,62 +29,89 @@ class SignupForm extends Component  {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { fields: { username, password } } = this.state;
-    this.props.loginUser(username, password, this.props.history);
-    this.setState({
-      username: '',
-      password: '',
-    })
+    const { fields: { username, password, passwordConfirmation } } = this.state;
+    if (password === passwordConfirmation) {
+      this.props.createUser(username, password, this.props.history);
+    } else {
+      this.setState({
+        validation: {
+          error: true,
+          message: "Passwords do not match"
+        },
+        fields: {
+          ...this.state.fields,
+          password: '',
+          passwordConfirmation: '',
+        }
+      })
+    }
+
+
   }
 
   render() {
+    const { error, message } = this.state.validation
     return (
-        <Grid
-          textAlign='center'
-          style={{ height: '100%' }}
-          verticalAlign='top'
-          className='login-form'
-        >
-          <Grid.Column style={{ maxWidth: 450 }}>
-            <Divider hidden />
-            <Header as='h2' textAlign='center'>
-              {' '}Log-in to your account
-            </Header>
-            <Form size='large' onSubmit={this.handleSubmit}>
-              <Segment stacked>
-                <Form.Input
-                  fluid
-                  icon='user'
-                  iconPosition='left'
-                  placeholder='Username'
-                  name='username'
-                  type='text'
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  fluid
-                  icon='lock'
-                  iconPosition='left'
-                  placeholder='Password'
-                  name='password'
-                  type='password'
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
+      <Grid
+        textAlign='center'
+        style={{ height: '100%' }}
+        verticalAlign='top'
+        className='login-form'
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Divider hidden />
+          <Header as='h2' textAlign='center'>
+            {' '}Signup for your account
+          </Header>
+          <Message warning attached hidden={ error === false}>
+            <Message.Header>Something went wrong!</Message.Header>
+            <p>{message}</p>
+          </Message>
+          <Form size='large' onSubmit={this.handleSubmit}>
+            <Segment stacked>
+              <Form.Input
+                fluid
+                icon='user'
+                iconPosition='left'
+                placeholder='Username'
+                name='username'
+                type='text'
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+              <Form.Input
+                fluid
+                icon='lock'
+                iconPosition='left'
+                placeholder='Password'
+                name='password'
+                type='password'
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <Form.Input
+                fluid
+                icon='lock'
+                iconPosition='left'
+                placeholder='Password confirmation'
+                name='passwordConfirmation'
+                type='password'
+                value={this.state.passwordConfirmation}
+                onChange={this.handleChange}
+              />
 
-                <Button fluid size='large'>Login</Button>
-              </Segment>
-            </Form>
-            <Message>
-              New to us? <Link to='/signup'>Sign Up</Link>
-            </Message>
-          </Grid.Column>
-        </Grid>
+            <Button fluid size='large'>Signup</Button>
+            </Segment>
+          </Form>
+          <Message>
+            Already have an account? <Link to='/signup'>Login</Link>
+          </Message>
+        </Grid.Column>
+      </Grid>
     )
   }
 }
 
 
 
-export default connect(null, { loginUser })(SignupForm)
+export default connect(null, { createUser })(SignupForm)

@@ -8,9 +8,26 @@ class LoginForm extends Component  {
 
   state = {
     error: false,
+    redirect: false,
     fields: {
       username:'',
       password:'',
+    }
+  }
+
+  componentDidMount = () => {
+    if (this.props.location.state) {
+      this.setState({
+        redirect: this.props.location.state.redirect
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps, prevState) {
+    if (nextProps.authError) {
+      this.setState({
+        error: true,
+      })
     }
   }
 
@@ -28,6 +45,8 @@ class LoginForm extends Component  {
     const { fields: { username, password } } = this.state;
     this.props.loginUser(username, password, this.props.history);
     this.setState({
+      redirect: false,
+      error: false,
       fields: {
         ...this.state.fields,
         password: '',
@@ -36,6 +55,7 @@ class LoginForm extends Component  {
   }
 
   render() {
+    const { error, redirect } = this.state
     return (
         <Grid
           textAlign='center'
@@ -48,6 +68,14 @@ class LoginForm extends Component  {
             <Header as='h2' textAlign='center'>
               {' '}Log-in to your account
             </Header>
+            <Message warning attached hidden={ redirect === false}>
+              <Message.Header>You must be logged before you can do that!</Message.Header>
+              <p>Please login below, then try again.</p>
+            </Message>
+            <Message warning attached hidden={ error === false}>
+              <Message.Header>Something went wrong!</Message.Header>
+              <p>{this.props.authErrorMessage}</p>
+            </Message>
             <Form size='large' onSubmit={this.handleSubmit}>
               <Segment stacked>
                 <Form.Input
@@ -83,6 +111,11 @@ class LoginForm extends Component  {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    authError: state.auth.errorStatus,
+    authErrorMessage: state.auth.errorMessage,
+  }
+}
 
-
-export default connect(null, { loginUser })(LoginForm)
+export default connect(mapStateToProps, { loginUser })(LoginForm)

@@ -58,6 +58,7 @@ class NavBar extends Component {
       }
     ]
     const { activeItem, search, dropdown, submit } = this.state
+    const { currentUser, loggedIn } = this.props
       return (
         <div>
           <Menu
@@ -67,15 +68,15 @@ class NavBar extends Component {
             <Container>
               <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
               <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
-              {this.props.loggedIn ? (<Menu.Item as={Link} to="/:username/decks" name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>) : null }
-              {this.props.loggedIn ? (<Menu.Item as={Link} to="/:username/collection" name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) : null }
+              {loggedIn ? (<Menu.Item as={Link} to={`/${currentUser.name}/decks`} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>) : null }
+              {loggedIn ? (<Menu.Item as={Link} to={`/${currentUser.name}/collection`} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) : null }
               <Menu.Item position='right'>
                 <Form onSubmit={this.handleSearch}>
                   <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>
                 </Form>
               </Menu.Item>
               <Dropdown name='dropdown' item onChange={this.handleChange} options={options} placeholder='Cards'/>
-              {!this.props.loggedIn ? (
+              {!loggedIn ? (
                 <Menu.Item as={Link} to="/login" name="login" active={activeItem === 'login'} onClick={this.handleItemClick}/>
               ): (
                 <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
@@ -91,7 +92,8 @@ class NavBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: !!state.auth.currentUser.id
+    loggedIn: !!state.auth.currentUser.id,
+    currentUser: state.auth.currentUser,
   }
 }
 

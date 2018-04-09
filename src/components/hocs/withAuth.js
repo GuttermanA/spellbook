@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as actions from '../actions';
+import { fetchUser } from '../../actions/auth';
 
 const withAuth = WrappedComponent => {
   class AuthedComponent extends React.Component {
@@ -28,7 +28,10 @@ const withAuth = WrappedComponent => {
         return this.props.loggedIn ? (
           <WrappedComponent {...this.props} />
         ) : (
-          <Redirect to="/login" />
+          <Redirect to={{
+              pathname: '/login',
+              state: { redirect: true }
+            }}/>
         );
       } else {
         return null;
@@ -40,7 +43,7 @@ const withAuth = WrappedComponent => {
     loggedIn: !!state.auth.currentUser.id
   });
 
-  return connect(mapStateToProps, actions)(AuthedComponent);
+  return connect(mapStateToProps, { fetchUser })(AuthedComponent);
 };
 
 export default withAuth;

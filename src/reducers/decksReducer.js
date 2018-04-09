@@ -2,7 +2,8 @@ const defaultState = {
   results: [],
   selected:{},
   loading: false,
-  formats:[]
+  formats:[],
+
 }
 
 export default function (state = defaultState, action) {
