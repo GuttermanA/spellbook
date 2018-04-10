@@ -30,8 +30,8 @@ class DeckContainer extends Component {
   render() {
     const { deckResults, currentUserDecks } = this.props
     const { redirect } = this.state
-    const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes}/>)
-    const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes}/>)
+    const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
+    const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
     console.log(currentUserDecks);
     return(
       <Container >

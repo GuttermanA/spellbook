@@ -10,6 +10,8 @@ export default function (state = defaultState, action) {
       return {...state, loading: !state.loading}
     case 'SEARCH_CARDS':
       return {...state, results: action.payload, loading: !state.loading}
+    case 'SELECT_CARD':
+      return {...state, selected: action.payload}
     default:
       return {...state}
   }

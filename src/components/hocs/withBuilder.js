@@ -22,7 +22,6 @@ export default function withBuilder(Component) {
           visible: true
         })
       }
-
     }
 
     render() {
@@ -40,7 +39,7 @@ export default function withBuilder(Component) {
             <DeckBuilderSimpleForm />
           </Sidebar>
           <Sidebar.Pusher>
-            <Component {...this.props}/>
+            <Component {...this.props} pusherVisible={this.state.visible}/>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Container>

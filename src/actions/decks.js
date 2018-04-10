@@ -57,8 +57,13 @@ export const fetchDecks = (searchTerms) => {
   }
 }
 
-export const selectDeck = (deck, history) => {
-  history.push(`/decks/${deck.id}`)
+export const selectDeck = (deck, history, user) => {
+  if (user) {
+    history.push(`${deck.user.name}/decks/${deck.id}`)
+  } else {
+    history.push(`/decks/${deck.id}`)
+  }
+
   return {
     type: 'SELECT_DECK',
     payload: deck

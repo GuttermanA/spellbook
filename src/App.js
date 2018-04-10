@@ -38,6 +38,7 @@ class App extends Component {
           <Route exact path="/search" component={AdvancedSearchContainer}/>
           <Route exact path="/:username/decks" component={DeckContainer} />
           <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
+          <Route exact path="/:username/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
         </Switch>
       </div>
     );

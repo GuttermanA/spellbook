@@ -28,12 +28,42 @@ class DeckBuilderSimpleForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        user: nextProps.userId
-      }
-    },()=>console.log(this.state.fields))
+    if (nextProps.userId !== this.state.user) {
+      this.setState({fields: {...this.state.fields, user: nextProps.userId}})
+    }
+
+    if (Object.keys(nextProps.selectedCard).length) {
+      this.addCard(nextProps.selectedCard)
+    }
+
+  }
+
+  addCard = (card) => {
+    const board = card.type
+    const cards = [...this.state.fields.cards[board]]
+    const foundCard = cards.find(stateCard => stateCard.name.toLowerCase() === card.attributes.name.toLowerCase())
+    if (!foundCard) {
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          cards: {
+            ...this.state.fields.cards,
+            [board]: cards.length === 1 && (!cards[0].name && !cards[0].number)? [{name: card.attributes.name, number: 1}] : [...cards, {name: card.attributes.name, number: 1}]
+          }
+        }
+      },()=> console.log(this.state.fields.cards[board]))
+    } else {
+      ++cards[cards.indexOf(foundCard)].number
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          cards: {
+            ...this.state.fields.cards,
+            [board]: cards
+          }
+        }
+      },()=> console.log(this.state.fields.cards[board]))
+    }
   }
 
   appendInput = (event, { name }) => {
@@ -188,10 +218,12 @@ class DeckBuilderSimpleForm extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.cards);
   return {
     formats: state.decks.formats,
     archtypes: state.decks.archtypes,
     userId: state.auth.currentUser.id,
+    selectedCard: state.cards.selected,
   }
 }
 
