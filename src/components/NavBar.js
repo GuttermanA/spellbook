@@ -55,7 +55,7 @@ class NavBar extends Component {
       {
         text:"Decks",
         value:"decks"
-      }
+      },
     ]
     const { activeItem, search, dropdown, submit } = this.state
     const { currentUser, loggedIn } = this.props
@@ -68,7 +68,7 @@ class NavBar extends Component {
             <Container>
               <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
               <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
-              {loggedIn ? (<Menu.Item as={Link} to={`/${currentUser.name}/decks`} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>) : null }
+              {loggedIn ? (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`, state:{redirect: false}}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>) : null }
               {loggedIn ? (<Menu.Item as={Link} to={`/${currentUser.name}/collection`} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) : null }
               <Menu.Item position='right'>
                 <Form onSubmit={this.handleSearch}>
@@ -83,7 +83,7 @@ class NavBar extends Component {
               )}
             </Container>
           </Menu>
-          {submit ? <Redirect push to={`/results/${this.state.dropdown}`}/>: null}
+          {submit ? <Redirect to={{pathname:`/results/${this.state.dropdown}`, state:{redirect: true}}}/>: null}
         </div>
 
     )

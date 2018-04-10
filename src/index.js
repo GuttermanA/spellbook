@@ -14,8 +14,6 @@ import authReducer from './reducers/authReducer'
 const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer, auth: authReducer })
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
-console.log(store.getState())
-
 ReactDOM.render(
   <Router>
     <Provider store={store}>

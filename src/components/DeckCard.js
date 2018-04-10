@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { selectDeck } from '../actions/decks'
-import { Item, Button, Icon } from 'semantic-ui-react'
+import { Card, List, Icon } from 'semantic-ui-react'
+import { dateFormater } from '../globalFunctions'
 
 class DeckCard extends Component {
 
@@ -11,35 +12,44 @@ class DeckCard extends Component {
   }
 
   render() {
-    console.log(this.props.deck)
     const {
       name,
       creator,
       archtype,
-      totalCards,
-      mainboard,
-      sideboard,
+      // totalCards,
+      // mainboard,
+      // sideboard,
       tournament,
-      createdAt,
+      // createdAt,
       updatedAt,
+      format,
       id,
     } = this.props.deck
-    const mainboardCards = this.props.mainboardCards
-    const sideboardCards = this.props.sideboardCards
-    const user = this.props.user
+    // const mainboardCards = this.props.mainboardCards
+    // const sideboardCards = this.props.sideboardCards
+    // const user = this.props.user
     return (
-      <Item>
-        <Item.Content>
-          <Item.Header as={Link} exact to={`decks/${id}`} content={name}/>
-          <Item.Meta> </Item.Meta>
-          <Item.Extra>
-            <Button primary floated='right'>
-              View deck
-              <Icon name='right chevron' />
-            </Button>
-          </Item.Extra>
-        </Item.Content>
-      </Item>
+      <Card>
+        <Card.Content>
+
+          <Card.Header as={Link} to={`/decks/${id}`} content={name} floated='left' onClick={this.handleClick}/>
+          <Card.Meta content={creator}/>
+          <List>
+            <List.Item>
+              <List.Header>Archtype</List.Header>
+              {archtype}
+            </List.Item>
+            <List.Item>
+              <List.Header>Format</List.Header>
+              {format}
+            </List.Item>
+          </List>
+        </Card.Content>
+        <Card.Content extra>
+          {tournament ? (<Icon name='trophy' corner/>) : null}
+          {dateFormater(updatedAt)}
+        </Card.Content>
+      </Card>
     )
   }
 }

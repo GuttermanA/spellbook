@@ -8,7 +8,7 @@ import AdvancedSearchContainer from './containers/AdvancedSearchContainer'
 import DeckShow from './components/DeckShow'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
-import UserDecksContainer from './containers/UserDecksContainer'
+
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchDeckMetaData } from './actions/decks'
@@ -25,7 +25,7 @@ class App extends Component {
   }
 
   render() {
-    const { selectedDeck, currentUserDecks } = this.props
+    const { selectedDeck } = this.props
     return (
       <div className="App">
         <NavBar />
@@ -36,7 +36,7 @@ class App extends Component {
           <Route exact path="/results/cards" component={CardContainer}/>
           <Route exact path="/results/decks" component={DeckContainer}/>
           <Route exact path="/search" component={AdvancedSearchContainer}/>
-          <Route exact path="/:username/decks" component={UserDecksContainer} />
+          <Route exact path="/:username/decks" component={DeckContainer} />
           <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
         </Switch>
       </div>

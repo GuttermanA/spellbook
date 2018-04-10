@@ -1,20 +1,25 @@
 import React, { Component} from 'react'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
-import { Form, Button, Container, Segment, Dropdown, Message } from 'semantic-ui-react'
+import { Form, Button, Container, Segment, Dropdown, Message, Checkbox } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
+import {  archtypeOptions } from '../globalVars'
 
 class DeckBuilderSimpleForm extends Component {
   state = {
-    name: "",
-    archtype: "",
-    format: "",
-    user: this.props.userId,
-    cards: {
-      mainboard: [{name:"", number:""}],
-      sideboard: [{name:"", number:""}],
+    fields: {
+      name: "",
+      archtype: "",
+      format: "",
+      user: this.props.userId,
+      tournament: false,
+      cards: {
+        mainboard: [{name:"", number:""}],
+        sideboard: [{name:"", number:""}],
+      },
     },
+
     searchQuery: "",
     validation: {
       error: false,
@@ -22,26 +27,41 @@ class DeckBuilderSimpleForm extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        user: nextProps.userId
+      }
+    },()=>console.log(this.state.fields))
+  }
+
   appendInput = (event, { name }) => {
     event.preventDefault()
-    if (this.state.cards[name].length <= 100) {
+    let cards = this.state.fields.cards[name]
+    if (cards.length <= 100) {
       this.setState({
-        cards: {
-          ...this.state.cards,
-          [name]: [...this.state.cards[name], {name:'', number:''}],
+        fields: {
+          ...this.state.fields,
+          cards: {
+            ...this.state.fields.cards,
+            [name]: [...cards, {name:'', number:''}],
+          }
         }
-
       })
     } else {
       alert("Max cards reached")
     }
   }
 
-  handleChange = (event, { name, value, searchQuery }) => {
+  handleChange = (event, { name, value, searchQuery, checked }) => {
     this.setState({
-      [name]: value,
-      searchQuery: searchQuery ? searchQuery : ""
-    },()=> console.log(this.state))
+      fields: {
+        ...this.state.fields,
+        [name]: checked ? checked : value,
+      },
+      searchQuery: searchQuery ? searchQuery : "",
+    },()=> console.log(this.state.fields))
   }
 
   handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
@@ -49,23 +69,26 @@ class DeckBuilderSimpleForm extends Component {
   handleCardChange = (event) => {
     const { name, id, value } = event.target
     const position = event.target.dataset.position
-    let copy = this.state.cards[id].slice()
+    let copy = this.state.fields.cards[id].slice()
     let found = copy.find((input, index)=> index === parseInt(position, 10))
     found = {...found, [name]: value}
     copy[position] = found
     this.setState({
-      cards: {
-        ...this.state.cards,
-        [id]: copy
+      fields: {
+        ...this.state.fields,
+        cards: {
+          ...this.state.fields.cards,
+          [id]: copy
+        }
       }
-    })
+    },()=> console.log())
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { name, format } = this.state
+    const { name, format } = this.state.fields
     if (name && format) {
-      this.props.createDeck(this.state, this.props.history)
+      this.props.createDeck(this.state.fields, this.props.history)
     } else {
       const message = `Name and format required for submission `
       this.setState({validation: { error: true, message }})
@@ -84,7 +107,7 @@ class DeckBuilderSimpleForm extends Component {
     const numberStyle = {
       width: '30%'
     }
-    const mainboard = this.state.cards.mainboard.map((input, index) => {
+    const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
         <Form.Group key={index}>
           <Form.Field style={nameStyle} >
@@ -96,7 +119,7 @@ class DeckBuilderSimpleForm extends Component {
         </Form.Group>
       )
     })
-    const sideboard = this.state.cards.sideboard.map((input, index) => {
+    const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
       return (
         <Form.Group key={index}>
           <Form.Field style={nameStyle}>
@@ -109,12 +132,12 @@ class DeckBuilderSimpleForm extends Component {
       )
     })
     const { error, message } = this.state.validation
+    const { name, archtype, format} = this.state.fields
     return (
-      <Container as={Segment}>
+      <Container as={Segment} textAlign='left'>
 
         <Form onSubmit={this.handleSubmit}>
-          <Form.Input required inline type='text' label='Deck Name' value={this.state.name} name='name' onChange={this.handleChange}/>
-          <Form.Input inline type='text' label='Archtype' value={this.state.archtype} name='archtype' onChange={this.handleChange}/>
+          <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleChange}/>
           <Form.Field required inline>
             <label>Format</label>
             <Dropdown
@@ -125,9 +148,23 @@ class DeckBuilderSimpleForm extends Component {
               search
               searchQuery={searchQuery}
               selection
-              value={this.state.format}
+              value={format}
               name='format'
             />
+          </Form.Field>
+          <Form.Field inline>
+            <label>Archtype</label>
+            <Dropdown
+              onChange={this.handleChange}
+              options={archtypeOptions}
+              placeholder='Choose archtype'
+              selection
+              value={archtype}
+              name='archtype'
+            />
+          </Form.Field>
+          <Form.Field>
+            <Checkbox label='Tournament' onChange={this.handleChange} name='tournament'/>
           </Form.Field>
           <Form.Field>
             <label>Mainboard</label>

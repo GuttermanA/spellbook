@@ -13,7 +13,6 @@ export default function (state = defaultState, action) {
     case 'SET_CURRENT_USER':
       return { ...state, currentUser: action.user, loading: !state.loading, errorStatus: !state.error, errorMessage: "" };
     case 'LOAD_CURRENT_USER_DECKS':
-    console.log(action)
       return {...state, currentUserDecks: action.payload }
     case 'LOGOUT_USER':
       return { ...state, currentUser: {}, currentUserDecks: [] };

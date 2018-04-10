@@ -5,7 +5,6 @@ export const fetchUser = () => dispatch => {
   dispatch({ type: 'LOADING_USER' });
   adapter.auth.getCurrentUser()
     .then(res => {
-      console.log('current_user',res)
       const { id, name } = res.data.attributes
       const decks = res.data.attributes.decks.data
       dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
@@ -20,7 +19,6 @@ export const loginUser = (username, password, history) => dispatch => {
     if (res.error) {
       dispatch({ type: 'LOGIN_ERROR', payload: res.error })
     } else {
-      console.log(res)
       localStorage.setItem('token', res.jwt);
       const { id, name } = res.user.data.attributes
       const decks = res.user.data.attributes.decks.data

@@ -1,6 +1,7 @@
 import React from 'react'
+import {  Image } from 'semantic-ui-react'
 
-const Card = (props) => {
+const MagicCard = (props) => {
   const {
       // id,
       name,
@@ -15,7 +16,9 @@ const Card = (props) => {
       img_url,
   } = props.card
   return (
-    <img src={img_url} className="img-fluid" alt={name}/>
+
+      <Image src={img_url} alt={name} height="310" width="223"/>
+
   )
 }
-export default Card
+export default MagicCard

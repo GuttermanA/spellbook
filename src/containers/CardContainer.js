@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
-import Card from '../components/Card'
+import MagicCard from '../components/MagicCard'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
 import withBuilder from '../components/hocs/withBuilder'
-import { Container } from 'semantic-ui-react'
+import { Container, Image } from 'semantic-ui-react'
 
 
 class CardContainer extends Component {
 
   render() {
-    const cards = this.props.results.map(card => <Card key={uuid()} card={card.attributes}/>)
+    const cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes}/>)
     const style = {
-      minHeight: '500px'
+      minHeight: '500px',
+      flexWrap: 'wrap',
+      display: 'flex'
     }
     return (
-        <Container style={style} fluid>
+        <Image.Group as={Container} style={style} >
           {!this.props.results.length ? <p>No cards found</p> : cards}
-        </Container>
+        </Image.Group>
     )
   }
 }

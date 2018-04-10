@@ -11,3 +11,7 @@ export const generateSearchParams = (searchTerms, model) => {
       .join('&');
   return query
 }
+
+export const dateFormater = (date) => {
+  return new Date(date).toLocaleDateString('en-US')
+}
