@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import uuid from 'uuid'
 import { connect } from 'react-redux'
 import DeckCard from '../components/DeckCard'
-import { Container , Message, Card} from 'semantic-ui-react'
+import { Container , Message, Card } from 'semantic-ui-react'
 
 
 class DeckContainer extends Component {

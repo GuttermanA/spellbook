@@ -6,7 +6,7 @@ import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
 import {  archtypeOptions } from '../globalVars'
 
-class DeckBuilderSimpleForm extends Component {
+class DeckForm extends Component {
   state = {
     fields: {
       name: "",
@@ -19,7 +19,7 @@ class DeckBuilderSimpleForm extends Component {
         sideboard: [{name:"", number:""}],
       },
     },
-
+    text: false,
     searchQuery: "",
     validation: {
       error: false,
@@ -32,7 +32,7 @@ class DeckBuilderSimpleForm extends Component {
       this.setState({fields: {...this.state.fields, user: nextProps.userId}})
     }
 
-    if (Object.keys(nextProps.selectedCard).length) {
+    if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
       this.addCard(nextProps.selectedCard)
     }
 
@@ -51,7 +51,7 @@ class DeckBuilderSimpleForm extends Component {
             [board]: cards.length === 1 && (!cards[0].name && !cards[0].number)? [{name: card.attributes.name, number: 1}] : [...cards, {name: card.attributes.name, number: 1}]
           }
         }
-      },()=> console.log(this.state.fields.cards[board]))
+      })
     } else {
       ++cards[cards.indexOf(foundCard)].number
       this.setState({
@@ -62,7 +62,7 @@ class DeckBuilderSimpleForm extends Component {
             [board]: cards
           }
         }
-      },()=> console.log(this.state.fields.cards[board]))
+      })
     }
   }
 
@@ -91,7 +91,7 @@ class DeckBuilderSimpleForm extends Component {
         [name]: checked ? checked : value,
       },
       searchQuery: searchQuery ? searchQuery : "",
-    },()=> console.log(this.state.fields))
+    })
   }
 
   handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
@@ -131,19 +131,13 @@ class DeckBuilderSimpleForm extends Component {
     const formats = this.props.formats.map(format => {
       return { key: uuid(), text: format.name, value: format.name }
     })
-    const nameStyle = {
-      width: '70%'
-    }
-    const numberStyle = {
-      width: '30%'
-    }
     const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
         <Form.Group key={index}>
-          <Form.Field style={nameStyle} >
+          <Form.Field className='name-input'  >
             <input type='text' placeholder='Card name' value={input.name} name='name' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
           </Form.Field>
-          <Form.Field style={numberStyle}>
+          <Form.Field className='number-input' >
             <input type='number' placeholder='Num'  value={input.number} name='number' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
           </Form.Field>
         </Form.Group>
@@ -152,10 +146,10 @@ class DeckBuilderSimpleForm extends Component {
     const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
       return (
         <Form.Group key={index}>
-          <Form.Field style={nameStyle}>
+          <Form.Field className='name-input' >
             <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
           </Form.Field>
-          <Form.Field style={numberStyle}>
+          <Form.Field className='number-input' >
             <input type='number' placeholder='Num'  value={input.number} name='number' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
           </Form.Field>
         </Form.Group>
@@ -218,7 +212,6 @@ class DeckBuilderSimpleForm extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.cards);
   return {
     formats: state.decks.formats,
     archtypes: state.decks.archtypes,
@@ -227,4 +220,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { createDeck })(withRouter(DeckBuilderSimpleForm))
+export default connect(mapStateToProps, { createDeck })(withRouter(DeckForm))

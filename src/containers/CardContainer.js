@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import MagicCard from '../components/MagicCard'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
-import withBuilder from '../components/hocs/withBuilder'
+import withPusher from '../components/hocs/withPusher'
 import { Container, Image, Message } from 'semantic-ui-react'
 
 
 class CardContainer extends Component {
 
   render() {
-    const cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes} pusherVisible={this.props.pusherVisible}/>)
-    const style = {
-      minHeight: '500px',
-      flexWrap: 'wrap',
-      display: 'flex'
-    }
+    const { pusherVisible, pusherType } = this.props
+    const cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes} pusherVisible={pusherVisible} pusherType={pusherType}/>)
     return (
       <Container>
         { cards.length ? (
-          <Image.Group style={style} >
+          <Image.Group centered={`${!pusherVisible}`}>
             {cards}
           </Image.Group>
         ): (
@@ -26,9 +22,6 @@ class CardContainer extends Component {
             <Message.Header content='No cards found' />
           </Message>
         )}
-        <Image.Group style={style} >
-          {cards}
-        </Image.Group>
       </Container>
 
     )
@@ -42,4 +35,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(withBuilder(CardContainer))
+export default connect(mapStateToProps)(withPusher(CardContainer))

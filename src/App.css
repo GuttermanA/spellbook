@@ -35,3 +35,17 @@
 .login-form {
   height: 100%;
 }
+
+.name-input {
+  width: 70%;
+}
+
+.number-input {
+  width: 30%;
+}
+
+
+
+.sidebar-pusher {
+  min-height: 500px;
+}

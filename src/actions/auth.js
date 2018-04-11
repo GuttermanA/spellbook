@@ -8,7 +8,7 @@ export const fetchUser = () => dispatch => {
       const { id, name } = res.data.attributes
       const decks = res.data.attributes.decks.data
       dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-      dispatch({ type: 'LOAD_CURRENT_USER_DECKS', payload: decks })
+      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
     });
 };
 
@@ -23,7 +23,7 @@ export const loginUser = (username, password, history) => dispatch => {
       const { id, name } = res.user.data.attributes
       const decks = res.user.data.attributes.decks.data
       dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-      dispatch({ type: 'LOAD_CURRENT_USER_DECKS', payload: decks })
+      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
       history.push('/');
     }
 
@@ -59,7 +59,7 @@ export const createUser = (username, password, history) => {
             const { id, name } = res.user.data.attributes
             const decks = res.user.data.attributes.decks.data
             dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-            dispatch({ type: 'LOAD_CURRENT_USER_DECKS', payload: decks })
+            dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
             history.push('/');
           }
         })

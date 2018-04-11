@@ -1,21 +1,6 @@
 import { generateSearchParams } from '../globalFunctions'
 import { API_ROOT } from '../globalVars'
 
-export const fetchDeckMetaData = () => {
-  return (dispatch) => {
-    return (
-      fetch(`${API_ROOT}/deck_metadata_load`)
-        .then(res => res.json())
-        .then(payload =>
-          dispatch({
-          type: 'LOAD_DECK_METADATA',
-          payload
-        })
-      )
-    )
-  }
-}
-
 export const createDeck = (deck, history) => {
   return (dispatch) => {
     dispatch({
@@ -32,9 +17,9 @@ export const createDeck = (deck, history) => {
     return (
       fetch(`${API_ROOT}/decks`, options)
         .then(res => res.json())
-        .then(payload => dispatch({ type: 'SELECT_DECK', payload }))
+        .then(deck => dispatch({ type: 'SELECT_DECK', payload: deck.data.attributes }))
         // .then((action) => console.log(action.payload))
-        .then((action) => history.push(`/decks/${action.payload.data.id}`))
+        .then((action) => history.push(`/${action.payload.user.name}/decks/${action.payload.id}`))
     )
   }
 }

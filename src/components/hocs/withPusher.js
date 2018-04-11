@@ -1,9 +1,10 @@
 import React from 'react'
-import DeckBuilderSimpleForm from '../DeckBuilderSimpleForm'
+import DeckForm from '../DeckForm'
+import CollectionForm from '../CollectionForm'
 import { Sidebar, Button, Container, Dimmer, Loader } from 'semantic-ui-react'
 
 
-export default function withBuilder(Component) {
+export default function withPusher(Component) {
   return (class extends React.Component {
     state = {
       visible: false,
@@ -34,12 +35,12 @@ export default function withBuilder(Component) {
           <Button name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
           <Button name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>
-        <Sidebar.Pushable as={Container}>
+        <Sidebar.Pushable as={Container} className='sidebar-pusher'>
           <Sidebar animation='slide along' width='wide' visible={visible} >
-            <DeckBuilderSimpleForm />
+            { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
           </Sidebar>
           <Sidebar.Pusher>
-            <Component {...this.props} pusherVisible={this.state.visible}/>
+            <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem}/>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Container>

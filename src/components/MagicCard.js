@@ -40,22 +40,19 @@ class MagicCard extends Component {
         img_url,
     } = this.props.card
     const { mouseOver } = this.state
-    const { pusherVisible } = this.props
+    const { pusherVisible, pusherType } = this.props
+    console.log(pusherType);
     return (
+      <div className="ui image" onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
+        <img src={img_url} height="310" width="223" alt={name}/>
 
+          {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui grey ribbon label" onClick={this.handleAdd} name='mainboard'>Mainboard</a> : null}
 
+          {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui black right ribbon label" onClick={this.handleAdd} name='sideboard'>Sideboard</a> : null}
 
+          {pusherVisible && pusherType === 'addToCollection' && mouseOver ? <a className="ui black ribbon label" onClick={this.handleAdd} name='collection'>Add</a> : null}
 
-    <div className="ui image" onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
-      <img src={img_url} height="310" width="223" alt={name}/>
-
-        {mouseOver && pusherVisible ? <a className="ui grey ribbon label" onClick={this.handleAdd} name='mainboard'>Mainboard</a> : null}
-
-        {mouseOver && pusherVisible ? <a className="ui black right ribbon label" onClick={this.handleAdd} name='sideboard'>Sideboard</a> : null}
-
-
-    </div>
-
+      </div>
     )
   }
 

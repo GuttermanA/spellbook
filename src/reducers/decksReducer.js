@@ -10,8 +10,8 @@ export default function (state = defaultState, action) {
   switch (action.type) {
     case 'LOADING_DECKS':
       return {...state, loading: !state.loading, results: []}
-    case 'LOAD_DECK_METADATA':
-      console.log('loading metdata', action.payload)
+    case 'LOAD_METADATA':
+      console.log('loading deck metdata', action.payload)
       return {...state, formats: action.payload.formats, archtypes: action.payload.archtypes}
     case 'SELECT_DECK':
       return {...state, loading: !state.loading, selected: action.payload }
