@@ -7,8 +7,9 @@ export const fetchUser = () => dispatch => {
     .then(res => {
       const { id, name } = res.data.attributes
       const decks = res.data.attributes.decks.data
+      const collection = res.data.attributes.decks.data
       dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
+      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: {decks, collection} })
     });
 };
 

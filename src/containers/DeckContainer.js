@@ -49,6 +49,7 @@ class DeckContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.auth);
   return {
     deckResults: state.decks.results,
     loading: state.decks.loading,

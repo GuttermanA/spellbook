@@ -14,6 +14,7 @@ export default function (state = defaultState, action) {
     case 'SET_CURRENT_USER':
       return { ...state, currentUser: action.user, loading: !state.loading, errorStatus: !state.error, errorMessage: "" };
     case 'LOAD_CURRENT_USER_DATA':
+      console.log(action.payload);
       return {...state, currentUserDecks: action.payload.decks, currentUserCollection: action.payload.collection }
     case 'UPDATE_CURRENT_USER_COLLECTION':
       return {...state, currentUserCollection: action.payload, loading: !state.loading}
