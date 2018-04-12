@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import withLoader from './hocs/withLoader'
 import uuid from 'uuid'
 import CardSegment from './CardSegment'
 import { withRouter } from 'react-router-dom'
@@ -55,11 +54,3 @@ const mapStateToProps = (state) => {
 }
 
 export default withRouter(connect(mapStateToProps)(DeckShow))
-
-// <Container>
-//   <Grid columns={countCardTypes}>
-//     <Grid.Row>
-//     </Grid.Row>
-//   </Grid>
-// </Container>
-//

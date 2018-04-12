@@ -18,7 +18,7 @@ class DeckCard extends Component {
 
     // If number of properties is different,
     // objects are not equivalent
-    if (aProps.length != bProps.length) {
+    if (aProps.length !== bProps.length) {
         return true;
     }
 

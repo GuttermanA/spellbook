@@ -1,4 +1,3 @@
-import { generateSearchParams } from '../globalFunctions'
 import { API_ROOT } from '../globalVars'
 
 export const fetchMetaData = () => {

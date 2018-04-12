@@ -15,12 +15,11 @@ class DeckForm extends Component {
       user: this.props.userId,
       tournament: false,
       cards: {
-        mainboard: [{name:"", number:""}],
-        sideboard: [{name:"", number:""}],
+        mainboard: [{key:uuid(), name:"", number:""}],
+        sideboard: [{key:uuid(), name:"", number:""}],
       },
     },
     text: false,
-    searchQuery: "",
     validation: {
       error: false,
       message: ""
@@ -75,7 +74,7 @@ class DeckForm extends Component {
           ...this.state.fields,
           cards: {
             ...this.state.fields.cards,
-            [name]: [...cards, {name:'', number:''}],
+            [name]: [...cards, {key: uuid(), name:'', number:''}],
           }
         }
       })
@@ -84,17 +83,14 @@ class DeckForm extends Component {
     }
   }
 
-  handleChange = (event, { name, value, searchQuery, checked }) => {
+  handleChange = (event, { name, value, checked }) => {
     this.setState({
       fields: {
         ...this.state.fields,
         [name]: checked ? checked : value,
       },
-      searchQuery: searchQuery ? searchQuery : "",
     })
   }
-
-  handleSearchChange = (e, { searchQuery }) => this.setState({ searchQuery })
 
   handleCardChange = (event) => {
     const { name, id, value } = event.target
@@ -127,13 +123,12 @@ class DeckForm extends Component {
   }
 
   render() {
-    const { searchQuery } = this.state
     const formats = this.props.formats.map(format => {
       return { key: uuid(), text: format.name, value: format.name }
     })
     const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
-        <Form.Group key={index}>
+        <Form.Group key={input.key}>
           <Form.Field className='name-input'  >
             <input type='text' placeholder='Card name' value={input.name} name='name' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
           </Form.Field>
@@ -145,7 +140,7 @@ class DeckForm extends Component {
     })
     const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
       return (
-        <Form.Group key={index}>
+        <Form.Group key={input.key}>
           <Form.Field className='name-input' >
             <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
           </Form.Field>
@@ -166,11 +161,9 @@ class DeckForm extends Component {
             <label>Format</label>
             <Dropdown
               onChange={this.handleChange}
-              onSearchChange={this.handleSearchChange}
               options={formats}
               placeholder='Search format'
               search
-              searchQuery={searchQuery}
               selection
               value={format}
               name='format'

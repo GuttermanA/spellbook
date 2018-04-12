@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {  Image, Icon } from 'semantic-ui-react'
 import { selectCard } from '../actions/cards'
 
 class MagicCard extends Component {
