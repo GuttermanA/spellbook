@@ -12,7 +12,6 @@ class DeckForm extends Component {
       name: "",
       archtype: "",
       format: "",
-      user: this.props.userId,
       tournament: false,
       cards: {
         mainboard: [{key:uuid(), name:"", number:""}],
@@ -27,9 +26,6 @@ class DeckForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userId !== this.state.user) {
-      this.setState({fields: {...this.state.fields, user: nextProps.userId}})
-    }
 
     if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
       this.addCard(nextProps.selectedCard)
@@ -107,7 +103,7 @@ class DeckForm extends Component {
           [id]: copy
         }
       }
-    },()=> console.log())
+    },()=> console.log(this.state.fields.cards))
   }
 
   handleSubmit = (event) => {

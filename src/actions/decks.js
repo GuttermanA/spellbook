@@ -2,6 +2,7 @@ import { generateSearchParams } from '../globalFunctions'
 import { API_ROOT } from '../globalVars'
 
 export const createDeck = (deck, history) => {
+  console.log(JSON.stringify(deck));
   return (dispatch) => {
     dispatch({
       type: 'LOADING_DECKS'
@@ -11,15 +12,24 @@ export const createDeck = (deck, history) => {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
       },
       body: JSON.stringify(deck),
     }
     return (
       fetch(`${API_ROOT}/decks`, options)
         .then(res => res.json())
-        .then(deck => dispatch({ type: 'SELECT_DECK', payload: deck.data.attributes }))
-        // .then((action) => console.log(action.payload))
-        .then((action) => history.push(`/${action.payload.user.name}/decks/${action.payload.id}`))
+        .then(res => {
+          console.log(res);
+          if (res.error) {
+            dispatch({ type: 'DECK_ERROR', payload: res.error })
+          } else {
+            console.log('hitting deck select');
+            dispatch({ type: 'SELECT_DECK', payload: res.data.attributes })
+          }
+        })
+        .then((action) => console.log(action))
+        // .then((action) => history.push(`/${action.payload.user.name}/decks/${action.payload.id}`))
     )
   }
 }
@@ -41,6 +51,8 @@ export const fetchDecks = (searchTerms) => {
     )
   }
 }
+
+
 
 export const selectDeck = (deck, history, user) => {
   if (user) {

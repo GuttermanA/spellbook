@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import uuid from 'uuid'
+import withLoader from '../components/hocs/withLoader'
 import { connect } from 'react-redux'
+import { fetchUser } from '../actions/auth'
 import DeckCard from '../components/DeckCard'
 import { Container , Message, Card } from 'semantic-ui-react'
 
@@ -12,11 +14,13 @@ class DeckContainer extends Component {
   }
 
   componentDidMount = () => {
+    this.props.fetchUser()
     if (this.props.location.state) {
       this.setState({
         redirect: this.props.location.state.redirect
       })
     }
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,7 +61,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(DeckContainer)
+export default connect(mapStateToProps, { fetchUser })(withLoader(DeckContainer))
 
 // { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
 //   <Message attached>
