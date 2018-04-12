@@ -4,7 +4,7 @@ const defaultState = {
   currentUserCollection: [],
   loading: false,
   errorStatus: false,
-  errorMessage: "",
+  error:{},
 }
 
 export default function (state = defaultState, action) {
@@ -12,7 +12,7 @@ export default function (state = defaultState, action) {
     case 'LOADING_USER':
       return {...state, loading: !state.loading}
     case 'SET_CURRENT_USER':
-      return { ...state, currentUser: action.user, loading: !state.loading, errorStatus: false, errorMessage: "" };
+      return { ...state, currentUser: action.user, loading: !state.loading, errorStatus: false, error:{} };
     case 'LOAD_CURRENT_USER_DATA':
       console.log(action.payload);
       return {...state, currentUserDecks: action.payload.decks, currentUserCollection: action.payload.collection, loading: !state.loading }
@@ -21,7 +21,8 @@ export default function (state = defaultState, action) {
     case 'LOGOUT_USER':
       return { ...state, currentUser: {}, currentUserDecks: [] };
     case 'LOGIN_ERROR':
-      return { ...state, errorStatus: !state.error, errorMessage: action.payload }
+      console.log(action.payload);
+      return { ...state, errorStatus: !state.errorStatus, error: action.payload }
     default:
       return state;
   }

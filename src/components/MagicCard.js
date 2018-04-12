@@ -40,7 +40,6 @@ class MagicCard extends Component {
     } = this.props.card
     const { mouseOver } = this.state
     const { pusherVisible, pusherType } = this.props
-    console.log(pusherType);
     return (
       <div className="ui image" onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
         <img src={img_url} height="310" width="223" alt={name}/>

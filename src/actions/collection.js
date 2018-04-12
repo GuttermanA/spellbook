@@ -8,6 +8,7 @@ export const addToCollection = (collectionCards, history) => {
       headers: {
         Accept: 'application/json',
         'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
       },
       body: JSON.stringify(collectionCards),
     }

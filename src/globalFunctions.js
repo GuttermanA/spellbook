@@ -15,3 +15,10 @@ export const generateSearchParams = (searchTerms, model) => {
 export const dateFormater = (date) => {
   return new Date(date).toLocaleDateString('en-US')
 }
+
+// export const updateCardFormat = (card, index) => {
+//   if (index === parseInt(position, 10)) {
+//     card[name] = value
+//   }
+//   return card
+// }

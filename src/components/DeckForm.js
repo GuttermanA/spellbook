@@ -14,23 +14,51 @@ class DeckForm extends Component {
       format: "",
       tournament: false,
       cards: {
-        mainboard: [{key:uuid(), name:"", number:""}],
-        sideboard: [{key:uuid(), name:"", number:""}],
+        mainboard: [{key:uuid(), name:"", number:"", error: false}],
+        sideboard: [{key:uuid(), name:"", number:"", error: false}],
       },
     },
     text: false,
     validation: {
       error: false,
-      message: ""
+      message: "",
     }
   }
 
   componentWillReceiveProps(nextProps) {
-
     if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
       this.addCard(nextProps.selectedCard)
     }
+    console.log(nextProps.deckError);
 
+    if (nextProps.deckError) {
+      const mainboardCopy = this.state.fields.cards.mainboard.map(card => {
+        if (nextProps.deckErrorRes.keys.mainboard.includes(card.key) ) {
+          card.error = true
+        }
+        return card
+      })
+      const sideboardCopy = this.state.fields.cards.sideboard.map(card => {
+        if (nextProps.deckErrorRes.keys.sideboard.includes(card.key) ) {
+          card.error = true
+        }
+        return card
+      })
+
+      this.setState({
+        validation: {
+          error: true,
+          message: nextProps.deckErrorRes.message
+        },
+        fields: {
+          ...this.state.fields,
+          cards: {
+            mainboard: mainboardCopy,
+            sideboard: sideboardCopy
+          }
+        }
+      },()=> console.log(this.state.fields.cards))
+    }
   }
 
   addCard = (card) => {
@@ -70,7 +98,7 @@ class DeckForm extends Component {
           ...this.state.fields,
           cards: {
             ...this.state.fields.cards,
-            [name]: [...cards, {key: uuid(), name:'', number:''}],
+            [name]: [...cards, {key: uuid(), name:'', number:'', error: false}],
           }
         }
       })
@@ -91,10 +119,12 @@ class DeckForm extends Component {
   handleCardChange = (event) => {
     const { name, id, value } = event.target
     const position = event.target.dataset.position
-    let copy = this.state.fields.cards[id].slice()
-    let found = copy.find((input, index)=> index === parseInt(position, 10))
-    found = {...found, [name]: value}
-    copy[position] = found
+    const copy = this.state.fields.cards[id].map((card, index) => {
+      if (index === parseInt(position, 10)) {
+        card[name] = value
+      }
+      return card
+    })
     this.setState({
       fields: {
         ...this.state.fields,
@@ -119,13 +149,10 @@ class DeckForm extends Component {
   }
 
   render() {
-    const formats = this.props.formats.map(format => {
-      return { key: uuid(), text: format.name, value: format.name }
-    })
     const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
         <Form.Group key={input.key}>
-          <Form.Field className='name-input'  >
+          <Form.Field className='name-input'  error={input.error}>
             <input type='text' placeholder='Card name' value={input.name} name='name' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
           </Form.Field>
           <Form.Field className='number-input' >
@@ -137,7 +164,7 @@ class DeckForm extends Component {
     const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
       return (
         <Form.Group key={input.key}>
-          <Form.Field className='name-input' >
+          <Form.Field className='name-input' error={input.error}>
             <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
           </Form.Field>
           <Form.Field className='number-input' >
@@ -148,6 +175,7 @@ class DeckForm extends Component {
     })
     const { error, message } = this.state.validation
     const { name, archtype, format} = this.state.fields
+    const { formats } = this.props
     return (
       <Container as={Segment} textAlign='left'>
 
@@ -202,10 +230,14 @@ class DeckForm extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    formats: state.decks.formats,
+    formats: state.decks.formats.map(format => {
+      return { key: uuid(), text: format.name, value: format.name }
+    }),
     archtypes: state.decks.archtypes,
     userId: state.auth.currentUser.id,
     selectedCard: state.cards.selected,
+    deckError: state.decks.errorStatus,
+    deckErrorRes: state.decks.error
   }
 }
 

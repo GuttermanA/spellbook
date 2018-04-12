@@ -112,9 +112,10 @@ class LoginForm extends Component  {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.auth);
   return {
     authError: state.auth.errorStatus,
-    authErrorMessage: state.auth.errorMessage,
+    authErrorMessage: state.auth.error.message,
   }
 }
 

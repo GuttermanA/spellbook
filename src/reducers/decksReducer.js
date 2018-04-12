@@ -21,7 +21,7 @@ export default function (state = defaultState, action) {
     case 'SEARCH_DECKS':
       return {...state, loading: !state.loading, results: action.payload, errorStatus: false, error: {} }
     case 'DECK_ERROR':
-      return { ...state, errorStatus: !state.error, error: action.payload }
+      return { ...state, errorStatus: !state.errorStatus, error: action.payload }
     default:
       return {...state}
   }

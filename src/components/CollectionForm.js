@@ -12,7 +12,6 @@ class CollectionForm extends Component {
 
   state = {
     fields: {
-      user: this.props.userId,
       cards:[{key:uuid(),name:"", number:"", set:"", condition:"", premium: false, wishlist: false}],
     },
     text: false,
@@ -23,10 +22,6 @@ class CollectionForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userId !== this.state.user) {
-      this.setState({fields: {...this.state.fields, user: nextProps.userId}})
-    }
-
     if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
       this.addCard(nextProps.selectedCard)
     }
@@ -67,10 +62,12 @@ class CollectionForm extends Component {
   handleCardChange = (event) => {
     const { name, value } = event.target
     const position = event.target.dataset.position
-    let copy = this.state.fields.cards.slice()
-    let found = copy.find((input, index)=> index === parseInt(position, 10))
-    found = {...found, [name]: value}
-    copy[position] = found
+    const copy = this.state.fields.cards.map((card, index) => {
+      if (index === parseInt(position, 10)) {
+        card[name] = value
+      }
+      return card
+    })
     this.setState({
       fields: {
         ...this.state.fields,
