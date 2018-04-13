@@ -12,7 +12,7 @@ class CollectionForm extends Component {
 
   state = {
     fields: {
-      cards:[{key:uuid(),name:"", number:"", set:"", condition:"", premium: false, wishlist: false}],
+      cards:[{key:uuid(),name:"", number:"", set:"", condition:"", premium: false, wishlist: false, error: false}],
     },
     text: false,
     validation: {
@@ -27,26 +27,60 @@ class CollectionForm extends Component {
     }
   }
 
-  addCard = (card) => {
-    const cards = [...this.state.fields.cards]
-    const foundCard = cards.find(stateCard => stateCard.name.toLowerCase() === card.attributes.name.toLowerCase())
-    if (!foundCard) {
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          cards: cards.length === 1 && (!cards[0].name && !cards[0].number) ? [{name: card.attributes.name, number: 1}] : [...cards, {name: card.attributes.name, number: 1, set:"", condition:"", premium: false, wishlist: false}]
-        }
-      })
-    } else {
-      ++cards[cards.indexOf(foundCard)].number
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          cards: cards
-        }
-      })
+  addCard = (addedCard) => {
+    let updated = false
+    const newCards = this.state.fields.cards.map((stateCard, index) => {
+      if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+        ++stateCard.number
+        updated = true
+      } else if (!index && !stateCard.name) {
+        updated = true
+        stateCard.name = addedCard.attributes.name
+        stateCard.set = addedCard.attributes.lastPrinting
+        stateCard.number = 1
+      } else if (!stateCard.name && this.state.fields.cards[index - 1].name !== addedCard.attributes.name) {
+        updated = true
+        stateCard.name = addedCard.attributes.name
+        stateCard.set = addedCard.attributes.lastPrinting
+        stateCard.number = 1
+      }
+      return stateCard
+    })
+
+    if (!updated) {
+      newCards.push({key:uuid(),name: addedCard.attributes.name, number: 1, set: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
     }
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        cards: newCards,
+      }
+    })
   }
+
+  // OLD
+
+  // addCard = (card) => {
+  //   const cards = [...this.state.fields.cards]
+  //
+  //   const foundCard = cards.find(stateCard => stateCard.name.toLowerCase() === card.attributes.name.toLowerCase())
+  //   if (!foundCard) {
+  //     this.setState({
+  //       fields: {
+  //         ...this.state.fields,
+  //         cards: cards.length === 1 && (!cards[0].name && !cards[0].number) ? [{name: card.attributes.name, number: 1}] : [...cards, {key: uuid(),name: card.attributes.name, number: 1, set:"", condition:"", premium: false, wishlist: false, error: false}]
+  //       }
+  //     })
+  //   } else {
+  //     ++cards[cards.indexOf(foundCard)].number
+  //     this.setState({
+  //       fields: {
+  //         ...this.state.fields,
+  //         cards: cards
+  //       }
+  //     })
+  //   }
+  // }
 
   appendInput = (event, { name }) => {
     event.preventDefault()

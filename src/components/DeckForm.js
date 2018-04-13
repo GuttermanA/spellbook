@@ -71,7 +71,7 @@ class DeckForm extends Component {
           ...this.state.fields,
           cards: {
             ...this.state.fields.cards,
-            [board]: cards.length === 1 && (!cards[0].name && !cards[0].number)? [{name: card.attributes.name, number: 1}] : [...cards, {name: card.attributes.name, number: 1}]
+            [board]: cards.length === 1 && (!cards[0].name && !cards[0].number)? [{name: card.attributes.name, number: 1}] : [...cards, {key: uuid(),name: card.attributes.name, number: 1, error: false}]
           }
         }
       })
