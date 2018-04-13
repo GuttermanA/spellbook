@@ -28,22 +28,21 @@ class CollectionForm extends Component {
   }
 
   addCard = (addedCard) => {
+
     let updated = false
     const newCards = this.state.fields.cards.map((stateCard, index) => {
+      const names = this.state.fields.cards.map(card => card.name)
       if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
         ++stateCard.number
         updated = true
-      } else if (!index && !stateCard.name) {
+        return stateCard
+      } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
         updated = true
         stateCard.name = addedCard.attributes.name
-        stateCard.set = addedCard.attributes.lastPrinting
         stateCard.number = 1
-      } else if (!stateCard.name && this.state.fields.cards[index - 1].name !== addedCard.attributes.name) {
-        updated = true
-        stateCard.name = addedCard.attributes.name
-        stateCard.set = addedCard.attributes.lastPrinting
-        stateCard.number = 1
+        return stateCard
       }
+
       return stateCard
     })
 

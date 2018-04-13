@@ -29,7 +29,6 @@ class DeckForm extends Component {
     if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
       this.addCard(nextProps.selectedCard)
     }
-    console.log(nextProps.deckError);
 
     if (nextProps.deckError) {
       const mainboardCopy = this.state.fields.cards.mainboard.map(card => {
@@ -61,32 +60,38 @@ class DeckForm extends Component {
     }
   }
 
-  addCard = (card) => {
-    const board = card.type
-    const cards = [...this.state.fields.cards[board]]
-    const foundCard = cards.find(stateCard => stateCard.name.toLowerCase() === card.attributes.name.toLowerCase())
-    if (!foundCard) {
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          cards: {
-            ...this.state.fields.cards,
-            [board]: cards.length === 1 && (!cards[0].name && !cards[0].number)? [{name: card.attributes.name, number: 1}] : [...cards, {key: uuid(),name: card.attributes.name, number: 1, error: false}]
-          }
-        }
-      })
-    } else {
-      ++cards[cards.indexOf(foundCard)].number
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          cards: {
-            ...this.state.fields.cards,
-            [board]: cards
-          }
-        }
-      })
+  addCard = (addedCard) => {
+    const board = this.state.fields.cards[addedCard.type]
+    let updated = false
+    const newCards = board.map((stateCard, index) => {
+      const names = board.map(card => card.name)
+      if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+        ++stateCard.number
+        updated = true
+        return stateCard
+      } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
+        updated = true
+        stateCard.name = addedCard.attributes.name
+        stateCard.number = 1
+        return stateCard
+      }
+
+      return stateCard
+    })
+
+    if (!updated) {
+      newCards.push({key:uuid(),name: addedCard.attributes.name, number: 1, error: false})
     }
+
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        cards: {
+          ...this.state.fields.cards,
+          [addedCard.type]: newCards
+        }
+      }
+    })
   }
 
   appendInput = (event, { name }) => {
