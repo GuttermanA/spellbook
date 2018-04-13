@@ -39,6 +39,7 @@ class CollectionForm extends Component {
       } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
         updated = true
         stateCard.name = addedCard.attributes.name
+        stateCard.set = addedCard.attributes.lastPrinting
         stateCard.number = 1
         return stateCard
       }
@@ -57,30 +58,6 @@ class CollectionForm extends Component {
     })
   }
 
-  // OLD
-
-  // addCard = (card) => {
-  //   const cards = [...this.state.fields.cards]
-  //
-  //   const foundCard = cards.find(stateCard => stateCard.name.toLowerCase() === card.attributes.name.toLowerCase())
-  //   if (!foundCard) {
-  //     this.setState({
-  //       fields: {
-  //         ...this.state.fields,
-  //         cards: cards.length === 1 && (!cards[0].name && !cards[0].number) ? [{name: card.attributes.name, number: 1}] : [...cards, {key: uuid(),name: card.attributes.name, number: 1, set:"", condition:"", premium: false, wishlist: false, error: false}]
-  //       }
-  //     })
-  //   } else {
-  //     ++cards[cards.indexOf(foundCard)].number
-  //     this.setState({
-  //       fields: {
-  //         ...this.state.fields,
-  //         cards: cards
-  //       }
-  //     })
-  //   }
-  // }
-
   appendInput = (event, { name }) => {
     event.preventDefault()
     let cards = this.state.fields.cards
@@ -89,7 +66,7 @@ class CollectionForm extends Component {
         ...this.state.fields,
         cards: [...cards, {key: uuid(), name:"", number:"", set:"", condition:"", premium: false, wishlist: false}]
       }
-    },()=> console.log(this.state.fields.cards))
+    })
   }
 
   handleCardChange = (event) => {
@@ -106,7 +83,7 @@ class CollectionForm extends Component {
         ...this.state.fields,
         cards: copy
       }
-    },()=> console.log(this.state.fields.cards))
+    })
   }
 
   handleFieldsChange = (event, { name, id, value, checked, searchQuery }) => {
@@ -192,6 +169,7 @@ class CollectionForm extends Component {
           </Form.Field>
           {cards}
           <Button onClick={this.appendInput} name='mainboard'>Add Card</Button>
+          <Form.Button>Submit</Form.Button>
         </Form>
       </Container>
     )

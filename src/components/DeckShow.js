@@ -17,9 +17,9 @@ class DeckShow extends Component {
   }
 
   render() {
-    console.log(this.props.history);
-    const mainboard = this.props.selectedDeck.mainboardCards.map(card => <CardSegment key={uuid()} card={card} />)
-    const sideboard = this.props.selectedDeck.sideboardCards.map(card => <CardSegment key={uuid()} card={card} />)
+    console.log(this.props.selectedDeck.mainboardCards.data)
+    const mainboard = this.props.selectedDeck.mainboardCards.data.map(card => <CardSegment key={uuid()} card={card.attributes} />)
+    const sideboard = this.props.selectedDeck.sideboardCards.data.map(card => <CardSegment key={uuid()} card={card.attributes} />)
     return (
       <Container>
         <Button onClick={this.goBack}>Return to Search Results</Button>

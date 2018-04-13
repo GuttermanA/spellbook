@@ -13,11 +13,11 @@ export const addToCollection = (collectionCards, history) => {
       body: JSON.stringify(collectionCards),
     }
     return (
-      fetch(`${API_ROOT}`, options)
+      fetch(`${API_ROOT}/collections`, options)
         .then(res => res.json())
         .then(collection => console.log(collection))
-        // .then(collection => dispatch({ type: 'UPDATE_CURRENT_USER_COLLECTION', payload: collection.data.attributes}))
-        // .then((action) => history.push(`/${action.payload.user.name}/collection`))
+        .then(collection => dispatch({ type: 'UPDATE_CURRENT_USER_COLLECTION', payload: collection}))
+        .then((action) => history.push(`/${action.payload.user.name}/collection`))
     )
   }
 }
