@@ -2,6 +2,8 @@ import uuid from 'uuid'
 
 export const API_ROOT = 'http://localhost:3000'
 
+export const types = ['Creature', 'Instant', 'Sorcery', 'Land', 'Artifact', 'Enchantment', 'Planeswalker']
+
 export const archtypeOptions = [
   {key: uuid(), text: 'Aggro', value: 'Aggro'},
   {key: uuid(), text: 'Control', value: 'Control'},

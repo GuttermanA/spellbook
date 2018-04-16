@@ -21,7 +21,6 @@ export default function (state = defaultState, action) {
     case 'LOGOUT_USER':
       return { ...state, currentUser: {}, currentUserDecks: [], currentUserCollection: [] };
     case 'LOGIN_ERROR':
-      console.log(action.payload);
       return { ...state, errorStatus: !state.errorStatus, error: action.payload }
     default:
       return {...state};

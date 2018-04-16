@@ -36,7 +36,6 @@ class DeckContainer extends Component {
     const { redirect } = this.state
     const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
     const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
-    console.log(currentUserDecks);
     return(
       <Container >
         { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
@@ -53,7 +52,6 @@ class DeckContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.auth);
   return {
     deckResults: state.decks.results,
     loading: state.decks.loading,
