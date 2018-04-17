@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
-import uuid from 'uuid'
-import CardSegment from './CardSegment'
+// import uuid from 'uuid'
+// import CardSegment from './CardSegment'
 import { types } from '../globalVars'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment } from 'semantic-ui-react'
 
-const reduceBy = (cards, cardType) => {
-  return (
-    cards.reduce((allCards, card) =>{
-      if (card.attributes.fullType.includes(cardType)) {
-        allCards.push(<CardSegment key={uuid()} card={card.attributes} />)
-      }
-      return allCards
-    }, [])
-  )
-}
+// const reduceBy = (cards, cardType) => {
+//   return (
+//     cards.reduce((allCards, card) =>{
+//       if (card.attributes.fullType.includes(cardType)) {
+//         allCards.push(<CardSegment key={uuid()} card={card.attributes} />)
+//       }
+//       return allCards
+//     }, [])
+//   )
+// }
 
 class DeckShow extends Component {
 
@@ -77,7 +77,16 @@ class DeckShow extends Component {
   }
 
   render() {
-    const { creatures, instants, sorceries, lands, artifacts, enchantments, planeswalkers, sideboard } = this.state
+    const {
+      // creatures,
+      // instants,
+      // sorceries,
+      // lands,
+      // artifacts,
+      // enchantments,
+      // planeswalkers,
+      sideboard
+    } = this.state
     // let mainboard = []
     // let sideboard = []
       // for(let key in this.state) {

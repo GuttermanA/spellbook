@@ -9,7 +9,6 @@ import DeckShow from './components/DeckShow'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import DeckForm from './components/DeckForm'
-import CollectionContainer from './containers/CollectionContainer'
 import CollectionForm from './components/CollectionForm'
 import withStats from './components/hocs/withStats'
 import { Route, Switch, withRouter } from 'react-router-dom'
@@ -41,7 +40,7 @@ class App extends Component {
           <Route exact path="/results/cards" component={CardContainer}/>
           <Route exact path="/results/decks" component={DeckContainer}/>
           <Route exact path="/search" component={AdvancedSearchContainer}/>
-          <Route exact path="/:username/collection" component={CollectionContainer} />
+          <Route exact path="/:username/collection" component={CardContainer} />
           <Route exact path="/:username/collection/edit" component={CollectionForm} />
           <Route exact path="/:username/decks" component={DeckContainer} />
           <Route exact path="/:username/decks/new" component={DeckFormWithStats} />

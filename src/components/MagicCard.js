@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectCard } from '../actions/cards'
-import { Card, List, Image } from 'semantic-ui-react'
+import { Card, List } from 'semantic-ui-react'
 
 class MagicCard extends Component {
 
@@ -15,7 +15,6 @@ class MagicCard extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.type);
     if (this.props.type === 'collection_card') {
       this.setState( { collectionView: true })
     }
@@ -59,17 +58,20 @@ class MagicCard extends Component {
       return (
 
       <Card onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={{ height:"310px", width:"223px"}}>
+        {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui grey ribbon label" onClick={this.handleAdd} name='mainboard'>Mainboard</a> : null}
+
+        {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui black bottom right ribbon label" onClick={this.handleAdd} name='sideboard'>Sideboard</a> : null}
+
+        {pusherVisible && pusherType === 'addToCollection' && mouseOver ? <a className="ui black ribbon label" onClick={this.handleAdd} name='collection'>Add</a> : null}
           {!mouseOver ? (
             <div className="ui image" >
               <img src={imgUrl} height="310" width="223" alt={name}/>
-              {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui grey ribbon label" onClick={this.handleAdd} name='mainboard'>Mainboard</a> : null}
-
-              {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui black right ribbon label" onClick={this.handleAdd} name='sideboard'>Sideboard</a> : null}
-
-              {pusherVisible && pusherType === 'addToCollection' && mouseOver ? <a className="ui black ribbon label" onClick={this.handleAdd} name='collection'>Add</a> : null}
             </div>
           ) : (
               <List>
+                <List.Item>
+                  <List.Header>{name}</List.Header>
+                </List.Item>
                 <List.Item>
                   <List.Header>Count</List.Header>
                   {count}
@@ -78,6 +80,12 @@ class MagicCard extends Component {
                   <List.Header>Condition</List.Header>
                   {condition}
                 </List.Item>
+                <List.Item>
+                  <List.Header>Set</List.Header>
+                  {setName}
+                </List.Item>
+                <List.Item icon={ premium ? 'checkmark' : 'remove'} content='Foil'/>
+                <List.Item icon={ wishlist ? 'checkmark' : 'remove'} content='Wishlist'/>
               </List>
           )}
         </Card>
@@ -102,33 +110,3 @@ class MagicCard extends Component {
 
 }
 export default connect(null, { selectCard })(MagicCard)
-// <Image
-//   src={img_url}
-//   alt={name}
-//   height="310"
-//   width="223"
-//   label={{ as:'a', content:'Mainboard', icon:'list', ribbon: true, onClick: this.handleAdd, name:'mainboard' }}
-// />
-
-// <Card>
-//   <List>
-//     <List.Item>
-//       <List.Header>Count</List.Header>
-//       {count}
-//     </List.Item>
-//     <List.Item>
-//       <List.Header>Condition</List.Header>
-//       {cond}
-//     </List.Item>
-//   </List>
-// </Card>
-
-//WORKING IMAGE
-// <div className="ui image" onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
-//     <img src={imgUrl} height="310" width="223" alt={name}/>
-//     {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui grey ribbon label" onClick={this.handleAdd} name='mainboard'>Mainboard</a> : null}
-//
-//     {pusherVisible && pusherType === 'createDeck' && mouseOver ? <a className="ui black right ribbon label" onClick={this.handleAdd} name='sideboard'>Sideboard</a> : null}
-//
-//     {pusherVisible && pusherType === 'addToCollection' && mouseOver ? <a className="ui black ribbon label" onClick={this.handleAdd} name='collection'>Add</a> : null}
-// </div>

@@ -8,9 +8,27 @@ import { Container, Card, Message } from 'semantic-ui-react'
 
 class CardContainer extends Component {
 
+  state = {
+    collection: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.state.collection) {
+      this.setState({ collection: true })
+    } else {
+      this.setState({ collection: false })
+    }
+  }
+
   render() {
     const { pusherVisible, pusherType } = this.props
-    const cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes} type={card.type} pusherVisible={pusherVisible} pusherType={pusherType}/>)
+    let cards
+    if (this.state.collection) {
+      cards = this.props.collection.map(card => <MagicCard key={uuid()} card={card.attributes} type={card.type} pusherVisible={pusherVisible} pusherType={pusherType}/>)
+    } else {
+      cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes} type={card.type} pusherVisible={pusherVisible} pusherType={pusherType}/>)
+    }
+
     return (
       <Container>
         { cards.length ? (
@@ -32,6 +50,7 @@ const mapStateToProps = (state) => {
   return {
     results: state.cards.results,
     loading: state.cards.loading,
+    collection: state.auth.currentUserCollection,
   }
 }
 
