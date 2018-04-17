@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { selectDeck } from '../actions/decks'
-import { Card, List, Icon } from 'semantic-ui-react'
+import { selectDeck, deleteDeck } from '../actions/decks'
+import { Card, List, Icon, Label } from 'semantic-ui-react'
 import { dateFormater } from '../globalFunctions'
 
 class DeckCard extends Component {
 
   handleClick = (event) => {
-    this.props.selectDeck(this.props.deck, this.props.history, this.props.user)
+    this.props.selectDeck(this.props.deck, this.props.history, this.props.currentUser)
+  }
+
+  handleDelete = (event) => {
+    this.props.deleteDeck(this.props.deck.id, this.props.history, this.props.currentUser)
   }
 
   shouldComponentUpdate(nextProps) {
@@ -58,7 +62,6 @@ class DeckCard extends Component {
     return (
       <Card>
         <Card.Content>
-
           <Card.Header as={Link} to={this.props.user ? `/${currentUser.name}/decks/${id}` : `/decks/${id}`} content={name} floated='left' onClick={this.handleClick}/>
           <Card.Meta content={creator}/>
           <List>
@@ -75,6 +78,7 @@ class DeckCard extends Component {
         <Card.Content extra>
           {tournament ? (<Icon name='trophy' corner/>) : null}
           {dateFormater(updatedAt)}
+          <Label as='a' name='delete' onClick={this.handleDelete} attached='top right' icon='delete'/>
         </Card.Content>
       </Card>
     )
@@ -87,4 +91,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { selectDeck })(withRouter(DeckCard))
+export default connect(mapStateToProps, { selectDeck, deleteDeck })(withRouter(DeckCard))

@@ -30,15 +30,18 @@ class CardContainer extends Component {
     }
 
     return (
-      <div className="flex-grow" >
+      <Container >
         { cards.length ? (
-            cards
+          <Card.Group>
+            {cards}
+          </Card.Group>
+
         ): (
           <Message>
             <Message.Header content='No cards found' />
           </Message>
         )}
-      </div>
+      </Container>
 
     )
   }

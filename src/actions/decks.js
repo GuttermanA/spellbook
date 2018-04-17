@@ -54,13 +54,6 @@ export const fetchDeck = (deckId) => {
     dispatch({
       type: 'LOADING_DECKS'
     })
-    const options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-      },
-    }
     return (
       fetch(`${API_ROOT}/decks/${deckId}`)
         .then(res => res.json())
@@ -75,7 +68,6 @@ export const fetchDeck = (deckId) => {
 }
 
 
-
 export const selectDeck = (deck, history, user) => {
   if (user) {
     history.push(`${deck.user.name}/decks/${deck.id}`)
@@ -86,5 +78,35 @@ export const selectDeck = (deck, history, user) => {
   return {
     type: 'SELECT_DECK',
     payload: deck
+  }
+}
+
+export const deleteDeck = (deckId, history, user) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING_DECKS'
+    })
+    const options = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+    }
+    return (
+      fetch(`${API_ROOT}/decks/${deckId}`, options)
+        .then(res => res.json())
+        .then(response => {
+          if (response.error) {
+            return dispatch({ type: 'DECK_ERROR', payload: response.error })
+          } else {
+            dispatch({
+              type: 'LOADING_DECKS'
+            })
+            history.push(`/${user.name}/decks`, {message: response.message })
+          }
+        })
+    )
   }
 }

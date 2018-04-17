@@ -11,33 +11,54 @@ class DeckContainer extends Component {
 
   state = {
     redirect: false,
+    message: "",
   }
 
   componentDidMount = () => {
     this.props.fetchUser()
     if (this.props.location.state) {
+      const { redirect, message } = this.props.location.state
       this.setState({
-        redirect: this.props.location.state.redirect
+        redirect: redirect,
+        message: message,
+      },() => console.log(this.state))
+    } else {
+      this.setState({
+        redirect: false,
+        message: "",
       })
     }
 
   }
 
   componentWillReceiveProps(nextProps) {
+
     if (nextProps.location.state) {
+      const { redirect, message } = nextProps.location.state
       this.setState({
-        redirect: nextProps.location.state.redirect
+        redirect: redirect,
+        message: message,
+      },() => console.log(this.state))
+    } else {
+      this.setState({
+        redirect: false,
+        message: "",
       })
     }
   }
 
   render() {
     const { deckResults, currentUserDecks } = this.props
-    const { redirect } = this.state
+    const { redirect, message } = this.state
     const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
     const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
     return(
       <Container >
+        { message && (
+          <Message attached>
+            <Message.Header content={message} />
+          </Message>
+        )}
         { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
           <Message attached>
             <Message.Header content={redirect ? 'No decks found' : 'No decks yet'} />

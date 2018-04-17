@@ -5,9 +5,9 @@ import SegmentList from './SegmentList'
 import withLoader from './hocs/withLoader'
 import { types } from '../globalVars'
 import { withRouter } from 'react-router-dom'
-import { fetchDeck } from  '../actions/decks'
+import { fetchDeck, deleteDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Segment, Label } from 'semantic-ui-react'
 
 // const reduceBy = (cards, cardType) => {
 //   return (
@@ -24,12 +24,18 @@ class DeckShow extends Component {
 
   state = {
     redirect: false,
+    userDeck: false,
+    editing: false,
     mainboard: {},
     sideboard: [],
   }
 
   goBack = (event) => {
     this.props.history.goBack()
+  }
+
+  handleDelete = (event) => {
+    this.props.deleteDeck(this.props.selectedDeck.id, this.props.history, this.props.currentUser)
   }
 
   componentDidMount = () => {
@@ -40,46 +46,34 @@ class DeckShow extends Component {
       const mainboard = this.props.selectedDeck.cards.mainboard
       const sideboard = this.props.selectedDeck.cards.sideboard
 
-      for (const type in mainboard) {
-        this.setState({
-          mainboard: {
-            ...this.state.mainboard,
-            [type]: mainboard[type],
-          }
-        })
+      // for (const type in mainboard) {
+      //   this.setState({
+      //     mainboard: {
+      //       ...this.state.mainboard,
+      //       [type]: [...this.state[type], mainboard[type]],
+      //     }
+      //   })
+      // }
+      if (this.props.match.params.username) {
+        this.setState({ sideboard, mainboard, userDeck: true })
+      } else {
+        this.setState({ sideboard, mainboard, userDeck: false })
       }
-      this.setState({ sideboard })
+
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (Object.keys(this.props.selectedDeck).length) {
-  //
-  //     const mainboard = nextProps.selectedDeck.cards.mainboard
-  //     const sideboard = nextProps.selectedDeck.cards.sideboard
-  //     console.log('nextSelectedDeck',nextProps.selectedDeck);
-  //     for (const type in mainboard) {
-  //       this.setState({
-  //         mainboard: {
-  //           ...this.state.mainboard,
-  //           [type]: mainboard[type],
-  //         }
-  //       })
-  //     }
-  //     this.setState({ sideboard })
-  //   }
-  // }
 
   render() {
     const {
       sideboard,
       mainboard,
+      userDeck,
     } = this.state
-
+    const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt } = this.props.selectedDeck
     const mainboardSegments = (() => {
       const segments = []
       for(const type in mainboard) {
-        segments.push(<SegmentList key={uuid()} cards={mainboard[type]} type={type}/>)
+        segments.push(<SegmentList key={uuid()} editing={this.state.editing} cards={mainboard[type]} type={type}/>)
       }
       return segments
     })()
@@ -87,18 +81,31 @@ class DeckShow extends Component {
     const sideboardSegments = sideboard.map(card => <CardSegment key={uuid()} card={card} />)
     return (
       <Container>
-        <Button onClick={this.goBack}>Return to Search Results</Button>
+        <Button.Group >
+          <Button name='goBack' onClick={this.goBack}>Return to Search Results</Button>
+          <Button name='edit'>{userDeck ? 'Edit' : 'Copy and Edit'}</Button>
+          { userDeck && <Button name='delete' onClick={this.handleDelete}>Delete</Button>}
+        </Button.Group>
+        <Segment.Group horizontal>
+          <Segment>
+            { tournament  && <Label icon='trophy'/>}
+            Name: {name}
+          </Segment>
+          <Segment>
+            Archtype: {archtype}
+          </Segment>
+        </Segment.Group>
         <Grid columns={2} divided>
           <Grid.Column width={12}>
             <Segment.Group>
-              <Segment as={Header} content='Mainboard' />
+              <Segment as={Header} content={`Mainboard (${totalMainboard})`} />
               {mainboardSegments}
             </Segment.Group>
 
           </Grid.Column>
           <Grid.Column width={4}>
             <Segment.Group>
-              <Segment as={Header} content='Sideboard' />
+              <Segment as={Header} content={`Sideboard (${totalSideboard})`} />
               <Segment.Group content={sideboardSegments} compact/>
             </Segment.Group>
           </Grid.Column>
@@ -114,7 +121,8 @@ const mapStateToProps = (state) => {
   return {
     selectedDeck: state.decks.selected,
     loading: state.decks.loading,
+    currentUser: state.auth.currentUser,
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchDeck })(withLoader(DeckShow)))
+export default withRouter(connect(mapStateToProps, { fetchDeck, deleteDeck })(withLoader(DeckShow)))
