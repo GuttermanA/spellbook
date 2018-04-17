@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-// import uuid from 'uuid'
-// import CardSegment from './CardSegment'
+import uuid from 'uuid'
+import CardSegment from './CardSegment'
+import SegmentList from './SegmentList'
+import withLoader from './hocs/withLoader'
 import { types } from '../globalVars'
 import { withRouter } from 'react-router-dom'
+import { fetchDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment } from 'semantic-ui-react'
 
@@ -30,77 +33,58 @@ class DeckShow extends Component {
   }
 
   componentDidMount = () => {
-    // this.props.selectedDeck.mainboardCards.data.reduce(all, card) => {
-    //   switch (card.attributes.fullType) {
-    //     case expression:
-    //
-    //       break;
-    //     default:
-    //
-    const { mainboardCards, sideboardCards } = this.props.selectedDeck
-    for (const type of mainboardCards.data) {
-      debugger
-      this.setState({
-        mainboard: {
-          ...this.state.mainboard,
-          [type]: mainboardCards.data[types],
-        }
-      },()=> console.log(this.state))
-      // switch (true) {
-      //   case card.attributes.fullType.includes('Creature'):
-      //     this.setState({creatures: [...this.state.creatures, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Instant'):
-      //     this.setState({instants: [...this.state.instants, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Sorcery'):
-      //     this.setState({sorceries: [...this.state.sorceries, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Land'):
-      //     this.setState({lands: [...this.state.lands, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Artifact'):
-      //     this.setState({artifacts: [...this.state.artifacts, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Enchantment'):
-      //     this.setState({enchantments: [...this.state.enchantments, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   case card.attributes.fullType.includes('Planeswalker'):
-      //     this.setState({planeswalkers: [...this.state.planeswalkers, <CardSegment key={uuid()} card={card.attributes} />]})
-      //     break;
-      //   default:
-      //     console.log('Cannot determine card type', card);
-      // }
+    if (!Object.keys(this.props.selectedDeck).length) {
+      this.props.fetchDeck(this.props.match.params.id)
+    } else {
+      console.log('mountingSelectedDeck',this.props.selectedDeck);
+      const mainboard = this.props.selectedDeck.cards.mainboard
+      const sideboard = this.props.selectedDeck.cards.sideboard
+
+      for (const type in mainboard) {
+        this.setState({
+          mainboard: {
+            ...this.state.mainboard,
+            [type]: mainboard[type],
+          }
+        })
+      }
+      this.setState({ sideboard })
     }
-    const sideboard  = sideboardCards.data.map(card => card.attributes)
-    this.setState({ sideboard })
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (Object.keys(this.props.selectedDeck).length) {
+  //
+  //     const mainboard = nextProps.selectedDeck.cards.mainboard
+  //     const sideboard = nextProps.selectedDeck.cards.sideboard
+  //     console.log('nextSelectedDeck',nextProps.selectedDeck);
+  //     for (const type in mainboard) {
+  //       this.setState({
+  //         mainboard: {
+  //           ...this.state.mainboard,
+  //           [type]: mainboard[type],
+  //         }
+  //       })
+  //     }
+  //     this.setState({ sideboard })
+  //   }
+  // }
 
   render() {
     const {
-      // creatures,
-      // instants,
-      // sorceries,
-      // lands,
-      // artifacts,
-      // enchantments,
-      // planeswalkers,
-      sideboard
+      sideboard,
+      mainboard,
     } = this.state
-    // let mainboard = []
-    // let sideboard = []
-      // for(let key in this.state) {
-      //   if (Array.isArray(this.state[key] && key !== 'sideboard' && this.state[key].length)) {
-      //     mainboard.push(
-      //       <Segment.Group>
-      //         <Segment as={Header} content={key}/>
-      //         {this.state[key]}
-      //       </Segment.Group>
-      //     )
-      //   }
-      // }
-    // const mainboard = this.props.selectedDeck.mainboardCards.data.map(card => <CardSegment key={uuid()} card={card.attributes} />)
-    // const sideboard = this.props.selectedDeck.sideboardCards.data.map(card => <CardSegment key={uuid()} card={card.attributes} />)
+
+    const mainboardSegments = (() => {
+      const segments = []
+      for(const type in mainboard) {
+        segments.push(<SegmentList key={uuid()} cards={mainboard[type]} type={type}/>)
+      }
+      return segments
+    })()
+
+    const sideboardSegments = sideboard.map(card => <CardSegment key={uuid()} card={card} />)
     return (
       <Container>
         <Button onClick={this.goBack}>Return to Search Results</Button>
@@ -108,14 +92,14 @@ class DeckShow extends Component {
           <Grid.Column width={12}>
             <Segment.Group>
               <Segment as={Header} content='Mainboard' />
-
+              {mainboardSegments}
             </Segment.Group>
 
           </Grid.Column>
           <Grid.Column width={4}>
             <Segment.Group>
               <Segment as={Header} content='Sideboard' />
-              <Segment.Group content={sideboard} compact/>
+              <Segment.Group content={sideboardSegments} compact/>
             </Segment.Group>
           </Grid.Column>
         </Grid>
@@ -132,12 +116,5 @@ const mapStateToProps = (state) => {
     loading: state.decks.loading,
   }
 }
-// { this.state.creatures.length && (
-//   <Segment.Group compact>
-//     <Segment as={Header} content='Creatures'/>
-//     {this.state.creatures}
-//   </Segment.Group>
-// )}
 
-
-export default withRouter(connect(mapStateToProps)(DeckShow))
+export default withRouter(connect(mapStateToProps, { fetchDeck })(withLoader(DeckShow)))

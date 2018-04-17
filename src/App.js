@@ -15,6 +15,7 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchMetaData } from './actions/init'
 import { fetchUser } from './actions/auth'
+import { fetchDeck } from  './actions/decks'
 
 const DeckFormWithStats = withStats(DeckForm)
 
@@ -29,7 +30,7 @@ class App extends Component {
   }
 
   render() {
-    const { selectedDeck } = this.props
+    const { selectedDeck, loggedIn, loading } = this.props
     return (
       <div className="App">
         <NavBar />
@@ -45,7 +46,7 @@ class App extends Component {
           <Route exact path="/:username/decks" component={DeckContainer} />
           <Route exact path="/:username/decks/new" component={DeckFormWithStats} />
           <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
-          <Route exact path="/:username/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
+          <Route exact path="/:username/decks/:id" render={(renderProps) => <DeckShow deck={selectedDeck}/>}/>
         </Switch>
       </div>
     );
@@ -54,9 +55,29 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    selectedDeck: state.selectedDeck,
+    selectedDeck: state.decks.selected,
     loggedIn: !!state.auth.currentUser.id,
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchMetaData, fetchUser })(App));
+export default withRouter(connect(mapStateToProps, { fetchMetaData, fetchUser, fetchDeck })(App));
+
+// <Route exact path="/decks/:id" render={(renderProps) =>{
+//   if (!Object.keys(selectedDeck).length) {
+//     return <DeckShow deck={selectedDeck}/>
+//   } else  {
+//     debugger
+//     this.props.fetchDeck(renderProps.match.params.id)
+//     return <DeckShow deck={selectedDeck}/>
+//   }
+//
+// }}/>
+// <Route exact path="/:username/decks/:id" render={(renderProps) =>{
+//   if (!Object.keys(selectedDeck).length) {
+//     return <DeckShow deck={selectedDeck}/>
+//   } else  {
+//     this.props.fetchDeck(renderProps.match.params.id)
+//     return <DeckShow deck={selectedDeck}/>
+//   }
+//
+// }}/>

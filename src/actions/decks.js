@@ -49,6 +49,31 @@ export const fetchDecks = (searchTerms) => {
   }
 }
 
+export const fetchDeck = (deckId) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING_DECKS'
+    })
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+      },
+    }
+    return (
+      fetch(`${API_ROOT}/decks/${deckId}`)
+        .then(res => res.json())
+        .then(deck => {
+          dispatch({
+            type: 'SELECT_DECK',
+            payload: deck.data.attributes
+          })
+        })
+    )
+  }
+}
+
 
 
 export const selectDeck = (deck, history, user) => {

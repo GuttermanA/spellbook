@@ -47,5 +47,14 @@
 
 
 .sidebar-pusher {
-  min-height: 500px;
+  min-height: 505px;
+}
+
+.flex-grow {
+  display: flex;
+  flex-flow: row wrap;
+  flex-grow: 1;
+  width: 100%;
+  margin: auto;
+  position: relative;
 }

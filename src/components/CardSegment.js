@@ -3,10 +3,10 @@ import { Segment } from 'semantic-ui-react'
 
 
 const CardSegment = (props) => {
-  const { cardCount, name } = props.card
+  const { card_count, name } = props.card
   return (
 
-    <Segment>{`${cardCount} ${name}`}</Segment>
+    <Segment>{`${card_count} ${name}`}</Segment>
   )
 }
 
