@@ -15,7 +15,6 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchMetaData } from './actions/init'
 import { fetchUser } from './actions/auth'
-import { fetchDeck } from  './actions/decks'
 
 const DeckFormWithStats = withStats(DeckForm)
 
@@ -60,24 +59,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchMetaData, fetchUser, fetchDeck })(App));
-
-// <Route exact path="/decks/:id" render={(renderProps) =>{
-//   if (!Object.keys(selectedDeck).length) {
-//     return <DeckShow deck={selectedDeck}/>
-//   } else  {
-//     debugger
-//     this.props.fetchDeck(renderProps.match.params.id)
-//     return <DeckShow deck={selectedDeck}/>
-//   }
-//
-// }}/>
-// <Route exact path="/:username/decks/:id" render={(renderProps) =>{
-//   if (!Object.keys(selectedDeck).length) {
-//     return <DeckShow deck={selectedDeck}/>
-//   } else  {
-//     this.props.fetchDeck(renderProps.match.params.id)
-//     return <DeckShow deck={selectedDeck}/>
-//   }
-//
-// }}/>
+export default withRouter(connect(mapStateToProps, { fetchMetaData, fetchUser })(App));

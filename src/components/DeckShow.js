@@ -4,7 +4,7 @@ import CardSegment from './CardSegment'
 import SegmentList from './SegmentList'
 import withLoader from './hocs/withLoader'
 import { types } from '../globalVars'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Label } from 'semantic-ui-react'
@@ -35,7 +35,7 @@ class DeckShow extends Component {
   }
 
   handleDelete = (event) => {
-    this.props.deleteDeck(this.props.selectedDeck.id, this.props.history, this.props.currentUser)
+    this.setState({ redirect: true }, () => this.props.deleteDeck(this.props.selectedDeck.id, this.props.history, this.props.currentUser))
   }
 
   componentDidMount = () => {
@@ -45,15 +45,6 @@ class DeckShow extends Component {
       console.log('mountingSelectedDeck',this.props.selectedDeck);
       const mainboard = this.props.selectedDeck.cards.mainboard
       const sideboard = this.props.selectedDeck.cards.sideboard
-
-      // for (const type in mainboard) {
-      //   this.setState({
-      //     mainboard: {
-      //       ...this.state.mainboard,
-      //       [type]: [...this.state[type], mainboard[type]],
-      //     }
-      //   })
-      // }
       if (this.props.match.params.username) {
         this.setState({ sideboard, mainboard, userDeck: true })
       } else {
@@ -68,6 +59,7 @@ class DeckShow extends Component {
       sideboard,
       mainboard,
       userDeck,
+      redirect,
     } = this.state
     const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt } = this.props.selectedDeck
     const mainboardSegments = (() => {
@@ -77,43 +69,46 @@ class DeckShow extends Component {
       }
       return segments
     })()
-
     const sideboardSegments = sideboard.map(card => <CardSegment key={uuid()} card={card} />)
-    return (
-      <Container>
-        <Button.Group >
-          <Button name='goBack' onClick={this.goBack}>Return to Search Results</Button>
-          <Button name='edit'>{userDeck ? 'Edit' : 'Copy and Edit'}</Button>
-          { userDeck && <Button name='delete' onClick={this.handleDelete}>Delete</Button>}
-        </Button.Group>
-        <Segment.Group horizontal>
-          <Segment>
-            { tournament  && <Label icon='trophy'/>}
-            Name: {name}
-          </Segment>
-          <Segment>
-            Archtype: {archtype}
-          </Segment>
-        </Segment.Group>
-        <Grid columns={2} divided>
-          <Grid.Column width={12}>
-            <Segment.Group>
-              <Segment as={Header} content={`Mainboard (${totalMainboard})`} />
-              {mainboardSegments}
-            </Segment.Group>
 
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <Segment.Group>
-              <Segment as={Header} content={`Sideboard (${totalSideboard})`} />
-              <Segment.Group content={sideboardSegments} compact/>
-            </Segment.Group>
-          </Grid.Column>
-        </Grid>
-      </Container>
+    if (redirect) {
+      return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
+    } else {
+      return (
+        <Container>
+          <Button.Group >
+            <Button name='goBack' onClick={this.goBack}>Return to Search Results</Button>
+            <Button name='edit'>{userDeck ? 'Edit' : 'Copy and Edit'}</Button>
+            { userDeck && <Button name='delete' onClick={this.handleDelete}>Delete</Button>}
+          </Button.Group>
+          <Segment.Group horizontal>
+            <Segment>
+              { tournament  && <Label icon='trophy'/>}
+              Name: {name}
+            </Segment>
+            <Segment>
+              Archtype: {archtype}
+            </Segment>
+          </Segment.Group>
+          <Grid columns={2} divided>
+            <Grid.Column width={12}>
+              <Segment.Group>
+                <Segment as={Header} content={`Mainboard (${totalMainboard})`} />
+                {mainboardSegments}
+              </Segment.Group>
 
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <Segment.Group>
+                <Segment as={Header} content={`Sideboard (${totalSideboard})`} />
+                <Segment.Group content={sideboardSegments} compact/>
+              </Segment.Group>
+            </Grid.Column>
+          </Grid>
+        </Container>
+      )
+    }
 
-    )
   }
 }
 

@@ -32,7 +32,6 @@ class DeckContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
     if (nextProps.location.state) {
       const { redirect, message } = nextProps.location.state
       this.setState({
@@ -81,13 +80,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { fetchUser })(withLoader(DeckContainer))
-
-// { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
-//   <Message attached>
-//     <Message.Header content={redirect ? 'No decks found' : 'No decks yet'} />
-//   </Message>
-// ): null }
-//
-// <Card.Group centered>
-//   {redirect ? deckResultsCards : currentUserDecks}
-// </Card.Group>
