@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import cardBack from '../assets/card_back_2.jpg'
+import cardBack from '../assets/card_back_2.jpeg'
 import uuid from 'uuid'
 import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
 import { selectCard } from '../actions/cards'
+import { updateCollection, deleteFromCollection } from '../actions/collection'
 import { Card, List, Label, Button, Icon, Modal, Form,Segment,Container } from 'semantic-ui-react'
 
 class MagicCard extends Component {
@@ -14,6 +15,7 @@ class MagicCard extends Component {
     infoView: false,
     editCollection: false,
     card: {},
+    key: uuid()
   }
 
   handleAdd = (event) => {
@@ -22,7 +24,7 @@ class MagicCard extends Component {
 
   componentDidMount() {
     if (this.props.type === 'collection_card') {
-      this.setState( { collectionView: true, card:this.props.card })
+      this.setState( { collectionView: true, card:this.props.card }, ()=> console.log(this.state.card))
     }
   }
 
@@ -52,10 +54,7 @@ class MagicCard extends Component {
     })
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
-    console.log(this.state.card);
-  }
+
 
   handleCardChange = (event) => {
     const { name, value } = event.target
@@ -64,16 +63,27 @@ class MagicCard extends Component {
         ...this.state.card,
         [name]: value,
       }
-    },()=> console.log(this.state.card))
+    })
   }
 
-  handleFieldsChange = (event, { name, value }) => {
+  handleFieldsChange = (event, { id, value, checked }) => {
     this.setState({
       card: {
         ...this.state.card,
-        [name]: value,
+        [id]: checked ? checked : value,
       }
-    },()=> console.log(this.state.card))
+    })
+  }
+
+  handleDelete = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    this.props.deleteFromCollection(this.state.card.id)
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.props.updateCollection(this.state.card)
   }
 
   render(){
@@ -96,14 +106,13 @@ class MagicCard extends Component {
         wishlist,
     } = this.props.card
 
-    const { mouseOver, collectionView, showInfo, editCollection } = this.state
+    const { mouseOver, collectionView, showInfo, editCollection, key } = this.state
     const { pusherVisible, pusherType } = this.props
     const style = {
        height:"310px",
        width:"223px",
-       // backgroundImage: ` linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${cardBack})`,
-       background: `center no-repeat linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${cardBack})`,
-       backgroundSize: 'auto'
+       background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
+       backgroundSize: '223px 310px '
     }
     if (collectionView) {
       return (
@@ -120,7 +129,7 @@ class MagicCard extends Component {
                 {mouseOver && <Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Info</Label>}
               </div>
             ) : (
-              <Card.Content>
+              <Card.Content >
                 <Card.Content extra>
                   {pusherVisible && pusherType === 'createDeck' && mouseOver && <Label as='a' onClick={this.handleAdd} name='mainboard' color='black' attached='top left' content='MB'/> }
 
@@ -128,24 +137,32 @@ class MagicCard extends Component {
 
                   {pusherVisible && pusherType === 'addToCollection' && mouseOver && <Label as='a' onClick={this.handleAdd} name='collection' color='black' attached='top left' content='Add' />}
                 </Card.Content>
-                <List>
-                  <List.Item>
-                    <List.Header>{name}</List.Header>
+                <List className='magic-card'>
+                  <List.Item >
+                    <List.Header style={{color: 'white'}}>{name}</List.Header>
                   </List.Item>
                   <List.Item>
-                    <List.Header>Count</List.Header>
+                    <List.Header style={{color: 'white'}}>Count:</List.Header>
                     {count}
                   </List.Item>
                   <List.Item>
-                    <List.Header>Condition</List.Header>
+                    <List.Header style={{color: 'white'}}>Condition:</List.Header>
                     {condition}
                   </List.Item>
                   <List.Item>
-                    <List.Header>Set</List.Header>
+                    <List.Header style={{color: 'white'}}>Set:</List.Header>
                     {setName}
                   </List.Item>
-                  <List.Item icon={ premium ? 'checkmark' : 'remove'} content='Foil'/>
-                  <List.Item icon={ wishlist ? 'checkmark' : 'remove'} content='Wishlist'/>
+                  <List.Item>
+                    <Label basic color='yellow' horizontal>
+                      <Icon name={ premium ? 'checkmark' : 'remove'} />
+                      Foil
+                    </Label>
+                    <Label basic color='yellow' horizontal>
+                      <Icon name={ wishlist ? 'checkmark' : 'remove'} />
+                      Wishlist
+                    </Label>
+                  </List.Item>
                 </List>
                 {mouseOver && <Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Info</Label>}
                 {mouseOver && <Label as='a' color='green' attached='bottom right' onClick={this.editCollection}>Edit</Label>}
@@ -163,8 +180,9 @@ class MagicCard extends Component {
               <Modal.Header>Edit Card</Modal.Header>
               <Modal.Content>
                 <Form onSubmit={this.handleSubmit}>
-                  <CollectionCardInput key={uuid()} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={this.state.card}/>
+                  <CollectionCardInput key={key} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={this.state.card} editCollection={this.editCollection}/>
                   <Button>Submit</Button>
+                  <Button onClick={this.handleDelete}>Remove from Collection</Button>
                 </Form>
               </Modal.Content>
             </Modal>
@@ -191,9 +209,4 @@ class MagicCard extends Component {
 
 
 }
-export default connect(null, { selectCard })(MagicCard)
-//
-// <Form onSubmit={this.handleSubmit}>
-//   <CollectionCardInput key={uuid()} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={this.state.card}/>
-//   <Button>Submit</Button>
-// </Form>
+export default connect(null, { selectCard, updateCollection, deleteFromCollection })(MagicCard)

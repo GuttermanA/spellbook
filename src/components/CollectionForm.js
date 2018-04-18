@@ -110,55 +110,7 @@ class CollectionForm extends Component {
 
     const cards = this.state.fields.cards.map((input, index) => {
       return (
-        <Segment key={input.key}>
-
-          <Form.Group>
-            <Form.Field className='name-input'  >
-              <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} onChange={this.handleCardChange}/>
-            </Form.Field>
-            <Form.Field className='number-input' >
-              <input type='number' placeholder='Num'  value={input.number} name='number' data-position={index} onChange={this.handleCardChange}/>
-            </Form.Field>
-          </Form.Group>
-
-          <Form.Group widths='equal'>
-            <Form.Field >
-              <Dropdown
-                onChange={this.handleFieldsChange}
-                options={sets}
-                placeholder='Set'
-                search
-                selection
-                value={input.setCode}
-                name={index}
-                id='set'
-                compact
-              />
-            </Form.Field>
-            <Form.Field >
-              <Dropdown
-                onChange={this.handleFieldsChange}
-                options={conditionOptions}
-                placeholder='Condition'
-                selection
-                value={input.condition}
-                name={index}
-                id='condition'
-                compact
-              />
-            </Form.Field>
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Field >
-              <Checkbox label='Premium' onChange={this.handleFieldsChange} name={`${index}`} checked={input.premium} id='premium'/>
-            </Form.Field>
-            <Form.Field>
-              <Checkbox label='Wishlist' onChange={this.handleFieldsChange} name={`${index}`} checked={input.wishlist} id='wishlist'/>
-            </Form.Field>
-          </Form.Group>
-
-        </Segment>
+        <p></p>
       )
     })
     return (
@@ -188,3 +140,53 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { addToCollection })(withRouter(CollectionForm))
+
+// <Segment key={input.key}>
+//
+//   <Form.Group>
+//     <Form.Field className='name-input'  >
+//       <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} onChange={this.handleCardChange}/>
+//     </Form.Field>
+//     <Form.Field className='number-input' >
+//       <input type='number' placeholder='Num'  value={input.number} name='number' data-position={index} onChange={this.handleCardChange}/>
+//     </Form.Field>
+//   </Form.Group>
+//
+//   <Form.Group widths='equal'>
+//     <Form.Field >
+//       <Dropdown
+//         onChange={this.handleFieldsChange}
+//         options={sets}
+//         placeholder='Set'
+//         search
+//         selection
+//         value={input.setCode}
+//         name={index}
+//         id='set'
+//         compact
+//       />
+//     </Form.Field>
+//     <Form.Field >
+//       <Dropdown
+//         onChange={this.handleFieldsChange}
+//         options={conditionOptions}
+//         placeholder='Condition'
+//         selection
+//         value={input.condition}
+//         name={index}
+//         id='condition'
+//         compact
+//       />
+//     </Form.Field>
+//   </Form.Group>
+//
+//   <Form.Group>
+//     <Form.Field >
+//       <Checkbox label='Premium' onChange={this.handleFieldsChange} name={`${index}`} checked={input.premium} id='premium'/>
+//     </Form.Field>
+//     <Form.Field>
+//       <Checkbox label='Wishlist' onChange={this.handleFieldsChange} name={`${index}`} checked={input.wishlist} id='wishlist'/>
+//     </Form.Field>
+//   </Form.Group>
+//
+// </Segment>

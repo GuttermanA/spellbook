@@ -48,7 +48,6 @@ class CardContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.auth.currentUserCollection);
   return {
     results: state.cards.results,
     loading: state.cards.loading,
