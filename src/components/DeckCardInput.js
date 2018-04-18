@@ -21,10 +21,11 @@ class DeckCardInput extends Component  {
   }
 
   handleRemove = (event) => {
-    this.setState({
-      removed: !this.state.removed,
-      mouseOver: true
-    })
+    // this.setState({
+    //   removed: !this.state.removed,
+    //   mouseOver: true
+    // })
+    this.props.handleRemove(event, this.props.card)
   }
 
 
@@ -33,7 +34,7 @@ class DeckCardInput extends Component  {
     const { name, count, key } = this.props.card
     const { error, handleCardChange, index, removeInput, board, editing, handleChange } = this.props
 
-    if (this.state.removed) {
+    if (this.state.removed && name.length) {
       return (
         <Segment tertiary size='small'>
           <Label color='green' size='small' as='a' onClick={this.handleRemove} id={board} name={index}>
@@ -53,7 +54,7 @@ class DeckCardInput extends Component  {
         )}
           <Form.Field width={12}  error={error} >
             { editing ? (
-              <input disabled type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
+              <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
             ):(
               <input type='text' placeholder='Card name' value={name} name='name' id={board} data-position={index} onChange={handleCardChange}/>
             )}

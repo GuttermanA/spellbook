@@ -5,7 +5,7 @@ import SegmentList from './SegmentList'
 import withLoader from './hocs/withLoader'
 import { types } from '../globalVars'
 import { withRouter, Redirect } from 'react-router-dom'
-import { fetchDeck, deleteDeck } from  '../actions/decks'
+import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Label, Form } from 'semantic-ui-react'
 
@@ -29,12 +29,13 @@ class DeckShow extends Component {
       editing: true,
       mainboard: {},
       sideboard: [],
-      cardsToUpdate: [],
-      cardsToDelete: [],
+      // cardsToUpdate: [],
+      // cardsToDelete: [],
     }
     this.cardsToUpdate = []
+    this.cardsToDelete = []
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleDelete = this.handleDelete.bind(this)
+    // this.handleRemoveEdit = this.handleRemoveEdit.bind(this)
   }
 
   // state = {
@@ -61,34 +62,38 @@ class DeckShow extends Component {
   }
 
   handleChange = (event, cardRef) => {
-    debugger
     const { value, name } = event.target
-    let found = this.cardsToUpdate.find(card => card.id === cardRef.id && card.sideboard === cardRef.sideboard)
+    let found = this.cardsToUpdate.find(card => card.key === cardRef.key)
     if (found) {
       found[name] = value
     } else {
       this.cardsToUpdate.push({...cardRef, [name]: value})
     }
-    console.log(this.cardsToUpdate);
-    // this.setState({
-    //   cardsToUpdate: [...this.state.cardsToUpdate, {...card, [name]: value}]
-    // }, ()=> console.log(this.state.cardsToUpdate))
+    console.log('cards to edit', this.cardsToUpdate);
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.updateDeck(this.cardsToUpdate, this.cardsToDelete)
-    this.setState({
-      editing: false
-    })
+    if (this.cardsToUpdate.length || this.cardsToDelete.length) {
+      this.props.updateDeck(this.props.selectedDeck.id, this.cardsToUpdate, this.cardsToDelete)
+      this.setState({
+        editing: false
+      })
+    } else {
+      alert('No changes made, submission canceled')
+    }
+
+
   }
 
-  handleDelete(event, cardRef) {
-    let found = this.cardsToUpdate.find(card => card.id === cardRef.id && card.sideboard === cardRef.sideboard)
-    if (!found) {
-      this.cardsToDelete.push(cardRef)
+  handleRemoveEdit = (event, cardRef) => {
+    if (cardRef.id) {
+      let found = this.cardsToUpdate.find(card => card.id === cardRef.id && card.sideboard === cardRef.sideboard)
+      if (!found) {
+        this.cardsToDelete.push(cardRef)
+      }
+      console.log('cards to delete', this.cardsToDelete);
     }
-    console.log(this.cardsToDelete);
   }
 
 
@@ -124,7 +129,7 @@ class DeckShow extends Component {
     const mainboardSegments = (() => {
       const segments = []
       for(const type in mainboard) {
-        segments.push(<SegmentList handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard[type]} type={type} board='mainboard'/>)
+        segments.push(<SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard[type]} type={type} board='mainboard'/>)
       }
       return segments
     })()
@@ -181,4 +186,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchDeck, deleteDeck })(withLoader(DeckShow)))
+export default withRouter(connect(mapStateToProps, { fetchDeck, deleteDeck, updateDeck, deleteFromDeck })(withLoader(DeckShow)))

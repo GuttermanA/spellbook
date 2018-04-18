@@ -110,3 +110,59 @@ export const deleteDeck = (deckId, history, user) => {
     )
   }
 }
+
+export const updateDeck = (deckId, cardsToUpdate, cardsToDelete) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING_DECKS'
+    })
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+      body: JSON.stringify({ cardsToUpdate, cardsToDelete })
+    }
+    return (
+      fetch(`${API_ROOT}/decks/${deckId}/deck_cards`, options)
+        .then(res => res.json())
+        .then(response => {
+          if (response.error) {
+            return dispatch({ type: 'DECK_ERROR', payload: response.error })
+          } else {
+            dispatch({ type: 'SELECT_DECK', payload: response.data.attributes })
+          }
+        })
+    )
+  }
+}
+
+export const deleteFromDeck = (cards, deckId) => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING_DECKS'
+    })
+    const options = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+      body: JSON.stringify({ cards })
+    }
+    return (
+      fetch(`${API_ROOT}/decks/${deckId}/deck_cards`, options)
+        .then(res => res.json())
+        .then(response => {
+          if (response.error) {
+            return dispatch({ type: 'DECK_ERROR', payload: response.error })
+          } else {
+            dispatch({ type: 'SELECT_DECK', payload: response.data })
+          }
+        })
+    )
+  }
+}

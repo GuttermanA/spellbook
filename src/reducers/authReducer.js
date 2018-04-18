@@ -18,6 +18,8 @@ export default function (state = defaultState, action) {
       return {...state, currentUserDecks: action.payload.decks, currentUserCollection: action.payload.collection, loading: false }
     case 'UPDATE_CURRENT_USER_COLLECTION':
       return {...state, currentUserCollection: action.payload, loading: false}
+    case 'UPDATE_CURRENT_USER_DECKS':
+      return {...state, currentUserDecks: action.payload, loading: false}
     case 'LOGOUT_USER':
       return { ...state, currentUser: {}, currentUserDecks: [], currentUserCollection: [] };
     case 'LOGIN_ERROR':
