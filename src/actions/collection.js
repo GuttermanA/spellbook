@@ -1,6 +1,6 @@
 import { API_ROOT } from '../globalVars'
 
-export const addToCollection = (collectionCards, history) => {
+export const addToCollection = (collectionCards, history, user) => {
   return (dispatch) => {
     dispatch({type:'LOADING_USER'})
     const options = {
@@ -15,9 +15,8 @@ export const addToCollection = (collectionCards, history) => {
     return (
       fetch(`${API_ROOT}/collections`, options)
         .then(res => res.json())
-        .then(collection => console.log(collection))
-        .then(collection => dispatch({ type: 'UPDATE_CURRENT_USER_COLLECTION', payload: collection}))
-        .then((action) => history.push(`/${action.payload.user.name}/collection`))
+        .then(collection => dispatch({ type: 'UPDATE_CURRENT_USER_COLLECTION', payload: collection.data}))
+        .then((action) => history.push(`/${user.name}/collection`, {collection: true}))
     )
   }
 }

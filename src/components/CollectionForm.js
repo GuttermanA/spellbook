@@ -55,7 +55,7 @@ class CollectionForm extends Component {
         ...this.state.fields,
         cards: newCards,
       }
-    })
+    },()=> console.log(this.state.fields.cards))
   }
 
   appendInput = (event, { name }) => {
@@ -102,7 +102,7 @@ class CollectionForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.addToCollection(this.state.fields, this.props.history)
+    this.props.addToCollection(this.state.fields, this.props.history, this.props.currentUser)
   }
 
   render() {
@@ -129,7 +129,7 @@ class CollectionForm extends Component {
                 placeholder='Set'
                 search
                 selection
-                value={input.set}
+                value={input.setCode}
                 name={index}
                 id='set'
                 compact
@@ -179,6 +179,7 @@ class CollectionForm extends Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.auth.currentUser.id,
+    currentUser: state.auth.currentUser,
     selectedCard: state.cards.selected,
     sets: state.cards.sets.map((set) => {
       return {key: set.code, text: set.name, value: set.code}

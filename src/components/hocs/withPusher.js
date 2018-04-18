@@ -1,7 +1,7 @@
 import React from 'react'
 import DeckForm from '../DeckForm'
 import CollectionForm from '../CollectionForm'
-import { Sidebar, Button, Container, Dimmer, Loader } from 'semantic-ui-react'
+import { Sidebar, Button, Container, Dimmer, Loader, Divider, Segment } from 'semantic-ui-react'
 
 
 export default function withPusher(Component) {
@@ -87,21 +87,24 @@ export default function withPusher(Component) {
         width: `${this.state.pusher.width}px`,
       }
       return (
-      <Container >
+      <div >
         {this.props.loading ? <Dimmer active><Loader content='Fetching Cards'/></Dimmer> : null}
-        <Button.Group floated='left'>
+        <Button.Group >
           <Button name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
           <Button name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>
-        <Sidebar.Pushable as={Container} className='sidebar-pusher'>
-          <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
-            { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
-          </Sidebar>
-          <Sidebar.Pusher style={style} id="pusher">
-            <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-      </Container>
+        <Divider/>
+        <Container>
+          <Sidebar.Pushable as={Segment} className='sidebar-pusher' basic>
+            <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
+              { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
+            </Sidebar>
+            <Sidebar.Pusher style={style} id="pusher">
+              <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </Container>
+      </div>
       )
     }
   })
