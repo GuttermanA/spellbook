@@ -66,14 +66,16 @@ export default function withPusher(Component) {
           activeItem: '',
           visible: false,
           pusher: {
+            ...this.state.pusher,
             width: this.state.pusher.initialWidth,
           }
-        })
+        }, ()=>console.log(this.state))
       } else {
         this.setState({
           activeItem: name,
           visible: true,
           pusher: {
+            ...this.state.pusher,
             width: this.state.pusher.initialWidth - this.state.sidebar.width,
           }
         })
@@ -99,7 +101,7 @@ export default function withPusher(Component) {
             <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
               { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
             </Sidebar>
-            <Sidebar.Pusher style={style} id="pusher">
+            <Sidebar.Pusher as={Segment} style={style} id="pusher" basic>
               <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
             </Sidebar.Pusher>
           </Sidebar.Pushable>

@@ -44,7 +44,9 @@
   width: 30%;
 }
 
-
+.magic-card {
+  background: url(/assets/card_back.jpg);
+}
 
 .sidebar-pusher {
   min-height: 505px;

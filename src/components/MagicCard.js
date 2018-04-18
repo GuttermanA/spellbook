@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import cardBack from '../assets/card_back.jpg'
+import cardBack from '../assets/card_back_2.jpg'
 import uuid from 'uuid'
 import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
@@ -101,13 +101,14 @@ class MagicCard extends Component {
     const style = {
        height:"310px",
        width:"223px",
-       background: `url(/assets/card_back.jpg)`
+       // backgroundImage: ` linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${cardBack})`,
+       background: `center no-repeat linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(${cardBack})`,
+       backgroundSize: 'auto'
     }
-    console.log(cardBack);
     if (collectionView) {
       return (
       <div>
-        <Card onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={{ height:"310px", width:"223px"}}>
+        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={style}>
             {!showInfo ? (
               <div className="ui image" >
                 <img src={imgUrl} alt={name}/>

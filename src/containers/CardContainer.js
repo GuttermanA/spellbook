@@ -30,9 +30,9 @@ class CardContainer extends Component {
     }
 
     return (
-      <Container >
+      <div >
         { cards.length ? (
-          <Card.Group>
+          <Card.Group centered>
             {cards}
           </Card.Group>
 
@@ -41,7 +41,7 @@ class CardContainer extends Component {
             <Message.Header content='No cards found' />
           </Message>
         )}
-      </Container>
+      </div>
 
     )
   }
