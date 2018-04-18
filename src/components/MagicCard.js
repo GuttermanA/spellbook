@@ -24,7 +24,7 @@ class MagicCard extends Component {
 
   componentDidMount() {
     if (this.props.type === 'collection_card') {
-      this.setState( { collectionView: true, card:this.props.card }, ()=> console.log(this.state.card))
+      this.setState( { collectionView: true, card:this.props.card })
     }
   }
 
@@ -57,20 +57,20 @@ class MagicCard extends Component {
 
 
   handleCardChange = (event) => {
-    const { name, value } = event.target
+    const { name, value, checked } = event.target
     this.setState({
       card: {
         ...this.state.card,
-        [name]: value,
+        [name]: checked ? checked : value,
       }
     })
   }
 
-  handleFieldsChange = (event, { id, value, checked }) => {
+  handleFieldsChange = (event, { id, value}) => {
     this.setState({
       card: {
         ...this.state.card,
-        [id]: checked ? checked : value,
+        [id]: value,
       }
     })
   }
@@ -116,7 +116,6 @@ class MagicCard extends Component {
     }
     if (collectionView) {
       return (
-      <div>
         <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={style}>
             {!showInfo ? (
               <div className="ui image" >
@@ -187,7 +186,6 @@ class MagicCard extends Component {
               </Modal.Content>
             </Modal>
           </Card>
-      </div>
 
       )
 

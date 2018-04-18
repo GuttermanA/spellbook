@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { conditionOptions } from '../globalVars'
@@ -12,7 +13,7 @@ class CollectionForm extends Component {
 
   state = {
     fields: {
-      cards:[{key:uuid(),name:"", number:"", set:"", condition:"", premium: false, wishlist: false, error: false}],
+      cards:[{key:uuid(),name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false, error: false}],
     },
     text: false,
     validation: {
@@ -33,14 +34,14 @@ class CollectionForm extends Component {
     const newCards = this.state.fields.cards.map((stateCard, index) => {
       const names = this.state.fields.cards.map(card => card.name)
       if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-        ++stateCard.number
+        ++stateCard.count
         updated = true
         return stateCard
       } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
         updated = true
         stateCard.name = addedCard.attributes.name
-        stateCard.set = addedCard.attributes.lastPrinting
-        stateCard.number = 1
+        stateCard.setCode = addedCard.attributes.setCode
+        stateCard.count = 1
         return stateCard
       }
 
@@ -48,7 +49,7 @@ class CollectionForm extends Component {
     })
 
     if (!updated) {
-      newCards.push({key:uuid(),name: addedCard.attributes.name, number: 1, set: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
+      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false})
     }
     this.setState({
       fields: {
@@ -64,17 +65,17 @@ class CollectionForm extends Component {
     this.setState({
       fields: {
         ...this.state.fields,
-        cards: [...cards, {key: uuid(), name:"", number:"", set:"", condition:"", premium: false, wishlist: false}]
+        cards: [...cards, {key: uuid(), name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false}]
       }
     })
   }
 
   handleCardChange = (event) => {
-    const { name, value } = event.target
+    const { name, value, checked } = event.target
     const position = event.target.dataset.position
     const copy = this.state.fields.cards.map((card, index) => {
       if (index === parseInt(position, 10)) {
-        card[name] = value
+        card[name] = checked ? checked : value
       }
       return card
     })
@@ -86,10 +87,10 @@ class CollectionForm extends Component {
     })
   }
 
-  handleFieldsChange = (event, { name, id, value, checked, searchQuery }) => {
+  handleFieldsChange = (event, { name, id, value, searchQuery }) => {
     let copy = this.state.fields.cards.slice()
     let found = copy.find((input, index)=> index === parseInt(name, 10))
-    found = {...found, [id]: checked ? checked : value}
+    found = {...found, [id]: value}
     copy[name] = found
     this.setState({
       searchQuery: searchQuery,
@@ -110,7 +111,7 @@ class CollectionForm extends Component {
 
     const cards = this.state.fields.cards.map((input, index) => {
       return (
-        <p></p>
+        <CollectionCardInput index={index} key={input.key} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={input} editCollection={this.editCollection}/>
       )
     })
     return (
@@ -147,7 +148,7 @@ export default connect(mapStateToProps, { addToCollection })(withRouter(Collecti
 //     <Form.Field className='name-input'  >
 //       <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} onChange={this.handleCardChange}/>
 //     </Form.Field>
-//     <Form.Field className='number-input' >
+//     <Form.Field className='count-input' >
 //       <input type='number' placeholder='Num'  value={input.number} name='number' data-position={index} onChange={this.handleCardChange}/>
 //     </Form.Field>
 //   </Form.Group>

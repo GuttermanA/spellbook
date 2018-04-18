@@ -6,10 +6,12 @@ import { conditionOptions } from '../globalVars'
 class CollectionCardInput extends Component {
 
   render() {
-    const { key, handleCardChange, handleFieldsChange, sets } = this.props
+    const { handleCardChange, handleFieldsChange, sets } = this.props
     const { name, count, setCode, condition, premium, wishlist } = this.props.card
     console.log(this.props.card);
-    const index = this.index ? this.props.index : 1
+    const index = this.props.index >= 0 ? this.props.index : 1
+    const key = this.props.key ? this.props.key : this.props.card.key
+
     return (
       <Segment key={key}>
 
@@ -52,10 +54,18 @@ class CollectionCardInput extends Component {
 
         <Form.Group>
           <Form.Field >
-            <Checkbox label='Premium' onChange={handleFieldsChange} name={`${index}`} checked={premium} id='premium' />
+            <div className="ui checkbox">
+              <input type="checkbox" name="premium" data-field='premium' onChange={handleCardChange}/>
+              <label>Foil</label>
+            </div>
+
           </Form.Field>
           <Form.Field>
-            <Checkbox label='Wishlist' onChange={handleFieldsChange} name={`${index}`} checked={wishlist} id='wishlist'/>
+            <div className="ui checkbox">
+              <input type="checkbox" name='wishlist' data-position={index} onChange={handleCardChange}/>
+              <label>Wishlist</label>
+            </div>
+
           </Form.Field>
         </Form.Group>
 
@@ -74,3 +84,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(CollectionCardInput)
+
+// <Checkbox label='Premium' onChange={handleFieldsChange} name={`${index}`} checked={premium} id={`premium-${key}`} data-field='premium'/>
+// <Checkbox label='Wishlist' onChange={handleFieldsChange} name={`${index}`} checked={wishlist} id={`wishlist-${key}`} data-field='wishlist'/>
