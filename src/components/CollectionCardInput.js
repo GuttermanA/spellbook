@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Segment, Form, Dropdown, Checkbox } from 'semantic-ui-react'
+import { Segment, Form, Dropdown } from 'semantic-ui-react'
 import { conditionOptions } from '../globalVars'
 
 const CollectionCardInput = (props) => {
@@ -55,14 +55,14 @@ const CollectionCardInput = (props) => {
         <Form.Group>
           <Form.Field >
             <div className="ui checkbox">
-              <input type="checkbox" name="premium" data-field='premium' onChange={handleCardChange}/>
+              <input type="checkbox" name="premium" data-position={index} value={premium} onChange={handleCardChange}/>
               <label>Foil</label>
             </div>
 
           </Form.Field>
           <Form.Field>
             <div className="ui checkbox">
-              <input type="checkbox" name='wishlist' data-position={index} onChange={handleCardChange}/>
+              <input type="checkbox" name='wishlist' data-position={index} value={wishlist} onChange={handleCardChange}/>
               <label>Wishlist</label>
             </div>
 

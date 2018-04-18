@@ -160,7 +160,7 @@ export const deleteFromDeck = (cards, deckId) => {
           if (response.error) {
             return dispatch({ type: 'DECK_ERROR', payload: response.error })
           } else {
-            dispatch({ type: 'SELECT_DECK', payload: response.data })
+            dispatch({ type: 'SELECT_DECK', payload: response.data.attributes })
           }
         })
     )

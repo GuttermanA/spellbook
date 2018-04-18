@@ -5,7 +5,7 @@ import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
 import { selectCard } from '../actions/cards'
 import { updateCollection, deleteFromCollection } from '../actions/collection'
-import { Card, List, Label, Button, Icon, Modal, Form,Segment,Container } from 'semantic-ui-react'
+import { Card, List, Label, Button, Icon, Modal, Form } from 'semantic-ui-react'
 
 class MagicCard extends Component {
 

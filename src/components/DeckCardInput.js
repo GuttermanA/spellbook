@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { conditionOptions } from '../globalVars'
 import { Form, Segment, Icon, Label } from 'semantic-ui-react'
 
 class DeckCardInput extends Component  {
@@ -21,18 +19,15 @@ class DeckCardInput extends Component  {
   }
 
   handleRemove = (event) => {
-    // this.setState({
-    //   removed: !this.state.removed,
-    //   mouseOver: true
-    // })
     this.props.handleRemove(event, this.props.card)
   }
 
 
 
   render() {
-    const { name, count, key } = this.props.card
-    const { error, handleCardChange, index, removeInput, board, editing, handleChange } = this.props
+    console.log('DeckCard info',this.props);
+    const { name, count } = this.props.card
+    const { error, handleCardChange, index, removeInput, board, editing } = this.props
 
     if (this.state.removed && name.length) {
       return (
@@ -78,7 +73,3 @@ class DeckCardInput extends Component  {
 }
 
 export default DeckCardInput
-//
-// <Label floating color='red' size='small' as='a' onClick={removeInput} id={board} name={index}>
-//   <Icon name='remove' size='large'/>
-// </Label>

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
-import CardSegment from './CardSegment'
 import SegmentList from './SegmentList'
 import withLoader from './hocs/withLoader'
-import { types } from '../globalVars'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
@@ -26,7 +24,7 @@ class DeckShow extends Component {
     this.state = {
       redirect: false,
       userDeck: false,
-      editing: true,
+      editing: false,
       mainboard: {},
       sideboard: [],
       // cardsToUpdate: [],
@@ -57,7 +55,6 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    debugger
     this.setState({ editing: !this.state.editing })
   }
 
@@ -105,9 +102,9 @@ class DeckShow extends Component {
       console.log('mountingSelectedDeck',this.props.selectedDeck);
       const mainboard = this.props.selectedDeck.cards.mainboard
       for(const type in mainboard) {
-        type: mainboard[type].map(card => card.key = uuid())
+        mainboard[type].map(card => card.key = uuid())
       }
-      const sideboard = this.props.selectedDeck.cards.sideboard.map(card => card.key = uuid())
+      const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
       if (this.props.match.params.username) {
         this.setState({ sideboard, mainboard, userDeck: true })
       } else {
@@ -133,7 +130,7 @@ class DeckShow extends Component {
       }
       return segments
     })()
-    const sideboardSegments = sideboard.map(card => <CardSegment key={card.key} card={card} board='sideboard'/>)
+    const sideboardSegment = <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={sideboard} board='sideboard'/>
 
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
@@ -154,20 +151,19 @@ class DeckShow extends Component {
             <Segment>
               Archtype: {archtype}
             </Segment>
-          </Segment.Group>
+          </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >
-            <Grid.Column width={12}>
+            <Grid.Column width={11}>
               <Segment.Group>
                 <Segment as={Header} content={`Mainboard (${totalMainboard})`} />
                 {mainboardSegments}
               </Segment.Group>
 
             </Grid.Column>
-            <Grid.Column width={4}>
-              <Segment.Group>
-                <Segment as={Header} content={`Sideboard (${totalSideboard})`} />
-                <Segment.Group content={sideboardSegments} compact/>
-              </Segment.Group>
+            <Grid.Column width={5}>
+
+                <Segment.Group content={sideboardSegment} totalsideboard={totalSideboard} compact/>
+
             </Grid.Column>
             { editing && <Button onClick={this.handleSubmit}>Update</Button>}
           </Grid>

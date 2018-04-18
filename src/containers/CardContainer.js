@@ -3,7 +3,7 @@ import MagicCard from '../components/MagicCard'
 import uuid from 'uuid'
 import { connect } from 'react-redux'
 import withPusher from '../components/hocs/withPusher'
-import { Container, Card, Message } from 'semantic-ui-react'
+import { Card, Message } from 'semantic-ui-react'
 
 
 class CardContainer extends Component {

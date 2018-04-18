@@ -3,7 +3,7 @@ import uuid from 'uuid'
 import CardSegment from './CardSegment'
 import DeckCardInput from './DeckCardInput'
 import { capitalizeFirstLetter } from '../globalFunctions'
-import { Segment, Header, Label, Icon } from 'semantic-ui-react'
+import { Segment, Header, Label } from 'semantic-ui-react'
 
 
 class SegmentList extends Component {
@@ -15,7 +15,7 @@ class SegmentList extends Component {
 
   addInput = () => {
     this.setState({
-      cards: [...this.state.cards, { key:uuid(), name:"", count:"", sideboard: this.props.type === 'sideboard' ? true : false}]
+      cards: [...this.state.cards, { key:uuid(), name:"", count:"", sideboard: this.props.board === 'sideboard' ? true : false}]
     })
   }
 
@@ -28,18 +28,26 @@ class SegmentList extends Component {
   // const cards = this.props.cards.map(card => <CardSegment key={uuid()} editing={this.props.editing} card={card} />)
 
   render() {
-    const cardSegments = this.state.cards.map(card => <DeckCardInput handleRemove={this.handleRemove} handleChange={this.props.handleChange} key={card.key} editing={this.props.editing} card={card} />)
+    const { type, board, editing, totalsideboard } = this.props
+    let cardSegments
+    if (editing) {
+      cardSegments = this.state.cards.map(card => <DeckCardInput handleRemove={this.handleRemove} handleChange={this.props.handleChange} key={uuid()} editing={this.props.editing} card={card} />)
+    } else {
+      cardSegments = this.props.cards.map(card => <CardSegment key={uuid()} card={card} board={board}/>)
+    }
+
     return (
 
-      <Segment.Group style={{width: '220px'}} compact>
-        <Segment as={Header}>
-          { this.props.editing && (
-            <Label as='a' onClick={this.addInput} floating>
-              Add
-            </Label>
-          )}
-          {capitalizeFirstLetter(this.props.type)}
-        </Segment>
+      <Segment.Group style={{width: '220px'}} compact >
+        { this.props.editing && (
+          <Label as='a' onClick={this.addInput} attached='top'>
+            Add
+          </Label>
+        )}
+          <Segment as={Header}>
+            {type ? capitalizeFirstLetter(this.props.type): `Sideboard (${!totalsideboard ? 0 : totalsideboard})`}
+          </Segment>
+
         {cardSegments}
       </Segment.Group>
     )
@@ -49,3 +57,9 @@ class SegmentList extends Component {
 }
 
 export default SegmentList
+
+// { type && (
+//   <Segment as={Header}>
+//     {capitalizeFirstLetter(this.props.type)}
+//   </Segment>
+// )}

@@ -27,12 +27,6 @@ class DeckForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.state.cards) {
-      this.setState({ cards: nextProps.location.state.cards })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
     if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
       this.addCard(nextProps.selectedCard)
     }
