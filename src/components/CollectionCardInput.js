@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Segment, Form, Dropdown, Checkbox } from 'semantic-ui-react'
 import { conditionOptions } from '../globalVars'
 
-class CollectionCardInput extends Component {
+const CollectionCardInput = (props) => {
 
-  render() {
-    const { handleCardChange, handleFieldsChange, sets } = this.props
-    const { name, count, setCode, condition, premium, wishlist } = this.props.card
-    console.log(this.props.card);
-    const index = this.props.index >= 0 ? this.props.index : 1
-    const key = this.props.key ? this.props.key : this.props.card.key
+
+    const { handleCardChange, handleFieldsChange, sets } = props
+    const { name, count, setCode, condition, premium, wishlist } = props.card
+    console.log(props.card);
+    const index = props.index >= 0 ? props.index : 1
+    const key = props.key ? props.key : props.card.key
 
     return (
       <Segment key={key}>
 
         <Form.Group>
-          <Form.Field className='name-input' disabled={ this.props.editCollection ? true : false}>
+          <Form.Field className='name-input' disabled={ props.editCollection ? true : false}>
             <input type='text' placeholder='Card name' value={name} name='name' data-position={index} onChange={handleCardChange}/>
           </Form.Field>
           <Form.Field className='number-input' >
@@ -71,7 +71,7 @@ class CollectionCardInput extends Component {
 
       </Segment>
     )
-  }
+
 
 }
 

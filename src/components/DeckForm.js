@@ -1,5 +1,6 @@
 import React, { Component} from 'react'
 import uuid from 'uuid'
+import DeckCardInput from './DeckCardInput'
 import { connect } from 'react-redux'
 import { Form, Button, Container, Segment, Dropdown, Message, Checkbox } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
@@ -14,14 +15,20 @@ class DeckForm extends Component {
       format: "",
       tournament: false,
       cards: {
-        mainboard: [{key:uuid(), name:"", number:"", error: false}],
-        sideboard: [{key:uuid(), name:"", number:"", error: false}],
+        mainboard: [{key:uuid(), name:"", count:"", error: false}],
+        sideboard: [{key:uuid(), name:"", count:"", error: false}],
       },
     },
     text: false,
     validation: {
       error: false,
       message: "",
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.state.cards) {
+      this.setState({ cards: nextProps.location.state.cards })
     }
   }
 
@@ -66,13 +73,13 @@ class DeckForm extends Component {
     const newCards = board.map((stateCard, index) => {
       const names = board.map(card => card.name)
       if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-        ++stateCard.number
+        ++stateCard.count
         updated = true
         return stateCard
       } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
         updated = true
         stateCard.name = addedCard.attributes.name
-        stateCard.number = 1
+        stateCard.count = 1
         return stateCard
       }
 
@@ -80,7 +87,7 @@ class DeckForm extends Component {
     })
 
     if (!updated) {
-      newCards.push({key:uuid(),name: addedCard.attributes.name, number: 1, error: false})
+      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, error: false})
     }
 
     this.setState({
@@ -103,13 +110,26 @@ class DeckForm extends Component {
           ...this.state.fields,
           cards: {
             ...this.state.fields.cards,
-            [name]: [...cards, {key: uuid(), name:'', number:'', error: false}],
+            [name]: [...cards, {key: uuid(), name:'', count:'', error: false}],
           }
         }
       })
     } else {
       alert("Max cards reached")
     }
+  }
+
+  removeInput = (event, { id, name }) => {
+    event.preventDefault()
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        cards: {
+          ...this.state.fields.cards,
+          [id]: this.state.fields.cards[id].filter((input, index) => index !== parseInt(name, 10))
+        }
+      }
+    })
   }
 
   handleChange = (event, { name, value, checked }) => {
@@ -156,26 +176,12 @@ class DeckForm extends Component {
   render() {
     const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
-        <Form.Group key={input.key}>
-          <Form.Field className='name-input'  error={input.error}>
-            <input type='text' placeholder='Card name' value={input.name} name='name' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
-          </Form.Field>
-          <Form.Field className='number-input' >
-            <input type='number' placeholder='Num'  value={input.number} name='number' id='mainboard' data-position={index} onChange={this.handleCardChange}/>
-          </Form.Field>
-        </Form.Group>
+        <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>
       )
     })
     const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
       return (
-        <Form.Group key={input.key}>
-          <Form.Field className='name-input' error={input.error}>
-            <input type='text' placeholder='Card name' value={input.name} name='name' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
-          </Form.Field>
-          <Form.Field className='number-input' >
-            <input type='number' placeholder='Num'  value={input.number} name='number' data-position={index} id='sideboard' onChange={this.handleCardChange}/>
-          </Form.Field>
-        </Form.Group>
+        <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>
       )
     })
     const { error, message } = this.state.validation

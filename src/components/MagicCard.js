@@ -34,12 +34,6 @@ class MagicCard extends Component {
     })
   }
 
-  handleMouseLeave = (event) => {
-    this.setState({
-      mouseOver: !this.state.mouseOver
-    })
-  }
-
   showInfo = (event) => {
     this.setState({
       showInfo: !this.state.showInfo
@@ -112,11 +106,11 @@ class MagicCard extends Component {
        height:"310px",
        width:"223px",
        background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
-       backgroundSize: '223px 310px '
+       backgroundSize: '223px 310px ',
     }
     if (collectionView) {
       return (
-        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={style}>
+        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={style}>
             {!showInfo ? (
               <div className="ui image" >
                 <img src={imgUrl} alt={name}/>
@@ -191,7 +185,7 @@ class MagicCard extends Component {
 
     } else {
       return (
-        <Card onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseLeave} style={{ height:"310px", width:"223px"}}>
+        <Card onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={{ height:"310px", width:"223px"}}>
             <div className="ui image" >
               <img src={imgUrl} alt={name}/>
               {pusherVisible && pusherType === 'createDeck' && mouseOver && <Label as='a' onClick={this.handleAdd} name='mainboard' color='black' attached='top left' content='MB'/> }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import DeckCardInput from './DeckCardInput'
 import { Segment, Popup, Image } from 'semantic-ui-react'
 
 
@@ -15,16 +16,16 @@ class CardSegment extends Component {
   }
 
   render() {
-    const { card_count, name, img_url } = this.props.card
+    const { count, name, img_url } = this.props.card
     const segment = (
       <Segment>
-        <a>{`${card_count} ${name}`}</a>
+        <a>{`${count} ${name}`}</a>
       </Segment>
     )
     if (this.props.editing) {
       return (
         <Segment>
-          <p>Editing</p>
+          <DeckCardInput />
         </Segment>
       )
     } else {
