@@ -68,7 +68,7 @@ const Home = (props) => {
           { Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
         </Grid.Column>
         <Grid.Column width={6} verticalAlign="middle">
-          <Header inverted as="h3" content="Deck of the Day"/>
+          <Header inverted as="h3" content="Deck of the Day" style={{ fontFamily: "Beleren Small Caps"}}/>
           { Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
         </Grid.Column>
 

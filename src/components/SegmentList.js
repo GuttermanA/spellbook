@@ -44,8 +44,8 @@ class SegmentList extends Component {
             Add
           </Label>
         )}
-          <Segment as={Header}>
-            {type ? capitalizeFirstLetter(this.props.type): `Sideboard (${!totalsideboard ? 0 : totalsideboard})`}
+          <Segment as={Header} style={{ fontFamily: "Beleren Small Caps"}}>
+            {type ? `${capitalizeFirstLetter(this.props.type)}`: `Sideboard (${!totalsideboard ? 0 : totalsideboard})`}
           </Segment>
 
         {cardSegments}

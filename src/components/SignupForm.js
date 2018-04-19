@@ -60,7 +60,7 @@ class SignupForm extends Component  {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider hidden />
-          <Header as='h2' textAlign='center'>
+          <Header as='h2' textAlign='center' style={{ fontFamily: "Beleren Small Caps"}}>
             {' '}Signup for your account
           </Header>
           <Message warning attached hidden={ error === false}>
@@ -100,7 +100,7 @@ class SignupForm extends Component  {
                 onChange={this.handleChange}
               />
 
-            <Button fluid size='large'>Signup</Button>
+            <Button fluid size='large' style={{ fontFamily: "Beleren Small Caps"}}>Signup</Button>
             </Segment>
           </Form>
           <Message>

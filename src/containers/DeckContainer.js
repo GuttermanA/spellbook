@@ -4,7 +4,7 @@ import withLoader from '../components/hocs/withLoader'
 import { connect } from 'react-redux'
 import { fetchUser } from '../actions/auth'
 import DeckCard from '../components/DeckCard'
-import { Container , Message, Card } from 'semantic-ui-react'
+import { Container , Message, Card, Dimmer, Loader, Divider } from 'semantic-ui-react'
 
 
 class DeckContainer extends Component {
@@ -51,23 +51,28 @@ class DeckContainer extends Component {
     const { redirect, message } = this.state
     const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
     const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
-    return(
-      <Container >
-        { message && (
-          <Message attached>
-            <Message.Header content={message} />
-          </Message>
-        )}
-        { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
-          <Message attached>
-            <Message.Header content={redirect ? 'No decks found' : 'No decks yet'} />
-          </Message>
-        ): null }
-        <Card.Group centered>
-          {redirect ? deckResultsCards : currentUserDecksCards}
-        </Card.Group>
-      </Container>
-    )
+    if (this.props.loading) {
+      return <Dimmer active><Loader /></Dimmer>
+    } else {
+      return(
+        <Container >
+          { message && (
+            <Message attached>
+              <Message.Header content={message} />
+            </Message>
+          )}
+          { message && <Divider/>}
+          { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
+            <Message attached>
+              <Message.Header content={redirect ? 'No decks found' : 'No decks yet'} />
+            </Message>
+          ): null }
+          <Card.Group centered>
+            {redirect ? deckResultsCards : currentUserDecksCards}
+          </Card.Group>
+        </Container>
+      )
+    }
   }
 }
 

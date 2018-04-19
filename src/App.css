@@ -68,3 +68,7 @@
   font-family: "Beleren Small Caps";
   src: local('Beleren Small Caps'), url(./assets/fonts/belerensmallcaps-bold.ttf) format('ttf');
 }
+
+.button {
+  font-family: "Beleren Small Caps";
+}

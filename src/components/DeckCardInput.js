@@ -26,8 +26,8 @@ class DeckCardInput extends Component  {
 
   render() {
     console.log('DeckCard info',this.props);
-    const { name, count } = this.props.card
-    const { error, handleCardChange, index, removeInput, board, editing } = this.props
+    const { name, count, error } = this.props.card
+    const { handleCardChange, index, removeInput, board, editing } = this.props
 
     if (this.state.removed && name.length) {
       return (
@@ -39,15 +39,16 @@ class DeckCardInput extends Component  {
         </Segment>)
     } else {
       return (
-        <Form.Group  onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} >
-          { this.state.mouseOver && (
+        <Form.Group as={editing ? null : Segment}  onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} >
+          {  !editing && (
 
-              <Label color='red' size='small' as='a' onClick={editing ? this.handleRemove : removeInput} id={board} name={index}>
+              <Label color='red' size='small' as='a' corner={editing ? false : true} onClick={editing ? this.handleRemove : removeInput} id={board} name={index}>
                 <Icon name='remove' size='large'/>
               </Label>
 
         )}
-          <Form.Field width={12}  error={error} >
+
+          <Form.Field width={editing ? 10 : 12}  error={error} >
             { editing ? (
               <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
             ):(
@@ -56,12 +57,19 @@ class DeckCardInput extends Component  {
           </Form.Field>
           <Form.Field width={4} >
             { editing ? (
-              <input type='number' placeholder='Num'  defaultValue={count} name='count' id={board} data-position={index} onChange={this.handleChange}/>
+              <input type='number' placeholder='N'  defaultValue={count} name='count' id={board} data-position={index} onChange={this.handleChange}/>
             ):(
-              <input type='number' placeholder='Num'  value={count} name='count' id={board} data-position={index} onChange={handleCardChange}/>
+              <input type='number' placeholder='N'  value={count} name='count' id={board} data-position={index} onChange={handleCardChange}/>
             )}
 
           </Form.Field>
+          { editing && (
+
+
+                <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : removeInput}/>
+
+
+            )}
         </Form.Group>
       )
     }

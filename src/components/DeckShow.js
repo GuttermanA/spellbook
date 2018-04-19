@@ -5,7 +5,7 @@ import withLoader from './hocs/withLoader'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Header, Segment, Label, Form } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Segment, Label, Form, Icon } from 'semantic-ui-react'
 
 class DeckShow extends Component {
   constructor(props) {
@@ -122,7 +122,7 @@ class DeckShow extends Component {
       }
       return segments
     })()
-    const sideboardSegment = <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={sideboard} board='sideboard'/>
+    const sideboardSegment = <SegmentList handleRemoveEdit={this.handleRemoveEdit} totalsideboard={totalSideboard} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={sideboard} board='sideboard'/>
 
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
@@ -130,14 +130,14 @@ class DeckShow extends Component {
       return (
         <Container>
           <Button.Group >
-            <Button name='goBack' onClick={this.goBack}>Return to Search Results</Button>
-            <Button name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
-            { userDeck && <Button name='delete' onClick={this.handleDelete}>Delete</Button>}
 
+            <Button style={{ fontFamily: "Beleren Small Caps"}} name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
+            { userDeck && <Button style={{ fontFamily: "Beleren Small Caps"}} name='delete' onClick={this.handleDelete}>Delete</Button>}
+            { editing && <Button style={{ fontFamily: "Beleren Small Caps"}} onClick={this.handleSubmit}>Update</Button>}
           </Button.Group>
           <Segment.Group  horizontal>
             <Segment>
-              { tournament  && <Label icon='trophy'/>}
+              { tournament  && <Icon name='trophy'/>}
               Name: {name}
             </Segment>
             <Segment>
@@ -147,17 +147,17 @@ class DeckShow extends Component {
           <Grid as={Form} columns={2} divided size='mini' >
             <Grid.Column width={11}>
               <Segment.Group>
-                <Segment as={Header} content={`Mainboard (${totalMainboard})`} />
+                <Segment style={{ fontFamily: "Beleren Small Caps"}} as={Header} content={`Mainboard (${totalMainboard})`} />
                 {mainboardSegments}
               </Segment.Group>
 
             </Grid.Column>
             <Grid.Column width={5}>
 
-                <Segment.Group content={sideboardSegment} totalsideboard={totalSideboard} compact/>
+                <Segment.Group content={sideboardSegment}  compact/>
 
             </Grid.Column>
-            { editing && <Button onClick={this.handleSubmit}>Update</Button>}
+
           </Grid>
         </Container>
       )

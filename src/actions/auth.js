@@ -24,8 +24,9 @@ export const loginUser = (username, password, history) => dispatch => {
       localStorage.setItem('token', res.jwt);
       const { id, name } = res.user.data.attributes
       const decks = res.user.data.attributes.decks.data
+      const collection = res.user.data.attributes.collection.data
       dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
+      dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: {decks, collection} })
       history.push('/');
     }
 

@@ -58,6 +58,7 @@ class NavBar extends Component {
         value:"decks"
       },
     ]
+    console.log(this.props.history.location);
     const { activeItem, search, dropdown, submit } = this.state
     const { currentUser, loggedIn } = this.props
       return (

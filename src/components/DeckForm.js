@@ -2,7 +2,7 @@ import React, { Component} from 'react'
 import uuid from 'uuid'
 import DeckCardInput from './DeckCardInput'
 import { connect } from 'react-redux'
-import { Form, Button, Container, Segment, Dropdown, Message, Checkbox } from 'semantic-ui-react'
+import { Form, Button, Container, Segment, Dropdown, Message, Checkbox, Divider } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
 import {  archtypeOptions } from '../globalVars'
@@ -160,6 +160,7 @@ class DeckForm extends Component {
     const { name, format } = this.state.fields
     if (name && format) {
       this.props.createDeck(this.state.fields, this.props.history)
+      this.setState({validation: { error: false, message:"" }})
     } else {
       const message = `Name and format required for submission `
       this.setState({validation: { error: true, message }})
@@ -168,6 +169,7 @@ class DeckForm extends Component {
   }
 
   render() {
+    const { error, message } = this.state.validation
     const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
       return (
         <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>
@@ -178,15 +180,15 @@ class DeckForm extends Component {
         <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>
       )
     })
-    const { error, message } = this.state.validation
+
     const { name, archtype, format} = this.state.fields
     const { formats } = this.props
     return (
       <Container as={Segment} textAlign='left'>
 
         <Form onSubmit={this.handleSubmit}>
-          <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleChange}/>
-          <Form.Field required inline>
+          <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleChange} width={9}/>
+          <Form.Field required inline width={8}>
             <label>Format</label>
             <Dropdown
               onChange={this.handleChange}
@@ -198,7 +200,7 @@ class DeckForm extends Component {
               name='format'
             />
           </Form.Field>
-          <Form.Field inline>
+          <Form.Field inline width={8}>
             <label>Archtype</label>
             <Dropdown
               onChange={this.handleChange}
@@ -216,16 +218,18 @@ class DeckForm extends Component {
             <label>Mainboard</label>
           </Form.Field>
           {mainboard}
-          <Button onClick={this.appendInput} name='mainboard'>Add Card</Button>
+          <Button style={{ fontFamily: "Beleren Small Caps"}} onClick={this.appendInput} name='mainboard'>Add Card</Button>
+          <Divider hidden/>
           <Form.Field>
             <label>Sideboard</label>
           </Form.Field>
           {sideboard}
-          <Button onClick={this.appendInput} name='sideboard'>Add Card</Button>
-          <Form.Button>Finalize</Form.Button>
+          <Button onClick={this.appendInput} name='sideboard' style={{ fontFamily: "Beleren Small Caps"}}>Add Card</Button>
+          <Divider />
+          <Form.Button style={{ fontFamily: "Beleren Small Caps"}}>Submit</Form.Button>
         </Form>
         <Message warning attached hidden={ error === false}>
-          <Message.Header>{message}</Message.Header>
+          <Message.Header style={{ fontFamily: "Beleren Small Caps"}}>{message}</Message.Header>
         </Message>
       </Container>
 
