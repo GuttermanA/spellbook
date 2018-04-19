@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
+import cardBack from '../assets/images/card_back_2.jpeg'
 import { connect } from 'react-redux'
 import { selectDeck, deleteDeck } from '../actions/decks'
 import { Card, List, Icon, Label } from 'semantic-ui-react'
@@ -13,32 +14,6 @@ class DeckCard extends Component {
 
   handleDelete = (event) => {
     this.props.deleteDeck(this.props.deck.id, this.props.history, this.props.currentUser)
-  }
-
-  shouldComponentUpdate(nextProps) {
-      // Create arrays of property names
-    var aProps = Object.getOwnPropertyNames(this.props);
-    var bProps = Object.getOwnPropertyNames(nextProps);
-
-    // If number of properties is different,
-    // objects are not equivalent
-    if (aProps.length !== bProps.length) {
-        return true;
-    }
-
-    for (var i = 0; i < aProps.length; i++) {
-        var propName = aProps[i];
-
-        // If values of same property are not equal,
-        // objects are not equivalent
-        if (this.props[propName] !== nextProps[propName]) {
-            return true;
-        }
-    }
-
-    // If we made it this far, objects
-    // are considered equivalent
-    return false;
   }
 
   render() {
@@ -55,30 +30,39 @@ class DeckCard extends Component {
       format,
       id,
     } = this.props.deck
-    // const mainboardCards = this.props.mainboardCards
-    // const sideboardCards = this.props.sideboardCards
-    // const user = this.props.user
     const { currentUser } = this.props
+    const style = {
+       height:"310px",
+       width:"223px",
+       background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
+       backgroundSize: '223px 310px ',
+    }
     return (
-      <Card>
+      <Card  className='magic-card' style={style}>
         <Card.Content>
-          <Card.Header as={Link} to={this.props.user ? `/${currentUser.name}/decks/${id}` : `/decks/${id}`} content={name} floated='left' onClick={this.handleClick}/>
-          <Card.Meta content={creator}/>
+          <Card.Header style={{color: 'white'}} as='a' content={name} floated='left' onClick={this.handleClick}/>
+          <Card.Meta content={creator} style={{color: 'white'}}/>
           <List>
             <List.Item>
-              <List.Header>Archtype</List.Header>
+              <List.Header style={{color: 'white'}}>Archtype</List.Header>
               {archtype}
             </List.Item>
             <List.Item>
-              <List.Header>Format</List.Header>
+              <List.Header style={{color: 'white'}}>Format</List.Header>
               {format}
             </List.Item>
           </List>
+          { tournament && (
+            <Label basic horizontal>
+              <Icon name={ tournament  ? 'trophy' : 'remove'} />
+              Tournament
+            </Label>
+          )}
+
         </Card.Content>
         <Card.Content extra>
-          {tournament ? (<Icon name='trophy' corner/>) : null}
           {dateFormater(updatedAt)}
-          <Label as='a' name='delete' onClick={this.handleDelete} attached='top right' icon='delete'/>
+          {this.props.history.location.pathname !== "/" && <Label as='a' name='delete' onClick={this.handleDelete} attached='top right' icon='delete'/>}
         </Card.Content>
       </Card>
     )

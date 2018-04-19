@@ -1,3 +1,5 @@
+
+
 .App {
   text-align: center;
 }
@@ -60,4 +62,9 @@
   width: 100%;
   margin: auto;
   position: relative;
+}
+
+@font-face {
+  font-family: "Beleren Small Caps";
+  src: local('Beleren Small Caps'), url(./assets/fonts/belerensmallcaps-bold.ttf) format('ttf');
 }

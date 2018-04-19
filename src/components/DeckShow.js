@@ -3,20 +3,9 @@ import uuid from 'uuid'
 import SegmentList from './SegmentList'
 import withLoader from './hocs/withLoader'
 import { withRouter, Redirect } from 'react-router-dom'
-import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck } from  '../actions/decks'
+import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Label, Form } from 'semantic-ui-react'
-
-// const reduceBy = (cards, cardType) => {
-//   return (
-//     cards.reduce((allCards, card) =>{
-//       if (card.attributes.fullType.includes(cardType)) {
-//         allCards.push(<CardSegment key={uuid()} card={card.attributes} />)
-//       }
-//       return allCards
-//     }, [])
-//   )
-// }
 
 class DeckShow extends Component {
   constructor(props) {
@@ -27,24 +16,12 @@ class DeckShow extends Component {
       editing: false,
       mainboard: {},
       sideboard: [],
-      // cardsToUpdate: [],
-      // cardsToDelete: [],
     }
     this.cardsToUpdate = []
     this.cardsToDelete = []
     this.handleSubmit = this.handleSubmit.bind(this)
-    // this.handleRemoveEdit = this.handleRemoveEdit.bind(this)
   }
 
-  // state = {
-  //   redirect: false,
-  //   userDeck: false,
-  //   editing: true,
-  //   mainboard: {},
-  //   sideboard: [],
-  //   cardsToUpdate: [],
-  //   cardsToDelete: [],
-  // }
 
   goBack = (event) => {
     this.props.history.goBack()
@@ -55,7 +32,22 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    this.setState({ editing: !this.state.editing })
+    if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
+      this.setState({ editing: !this.state.editing })
+    } else {
+      let mainboard = this.props.selectedDeck.cards.mainboard
+      let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
+
+      for(const type in mainboard) {
+        for(const card of mainboard[type]) {
+          deck.cards.mainboard.push(card)
+        }
+      }
+
+
+      this.props.createDeck(deck, this.props.history, this.props.currentUser)
+    }
+
   }
 
   handleChange = (event, cardRef) => {
@@ -139,7 +131,7 @@ class DeckShow extends Component {
         <Container>
           <Button.Group >
             <Button name='goBack' onClick={this.goBack}>Return to Search Results</Button>
-            <Button name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy and Edit'}</Button>
+            <Button name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
             { userDeck && <Button name='delete' onClick={this.handleDelete}>Delete</Button>}
 
           </Button.Group>
@@ -182,4 +174,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchDeck, deleteDeck, updateDeck, deleteFromDeck })(withLoader(DeckShow)))
+export default withRouter(connect(mapStateToProps, { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck })(withLoader(DeckShow)))

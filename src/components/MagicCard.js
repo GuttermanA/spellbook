@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import cardBack from '../assets/card_back_2.jpeg'
+import cardBack from '../assets/images/card_back_2.jpeg'
 import uuid from 'uuid'
 import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
@@ -147,11 +147,11 @@ class MagicCard extends Component {
                     {setName}
                   </List.Item>
                   <List.Item>
-                    <Label basic color='yellow' horizontal>
+                    <Label basic horizontal>
                       <Icon name={ premium ? 'checkmark' : 'remove'} />
                       Foil
                     </Label>
-                    <Label basic color='yellow' horizontal>
+                    <Label basic horizontal>
                       <Icon name={ wishlist ? 'checkmark' : 'remove'} />
                       Wishlist
                     </Label>

@@ -23,10 +23,10 @@ export const createDeck = (deck, history) => {
           if (res.error) {
             return dispatch({ type: 'DECK_ERROR', payload: res.error })
           } else {
+            history.push(`/${res.data.attributes.user.name}/decks/${res.data.attributes.id}`)
             return dispatch({ type: 'SELECT_DECK', payload: res.data.attributes })
           }
         })
-        .then((action) => action.type === 'SELECT_DECK' ? history.push(`/${action.payload.user.name}/decks/${action.payload.id}`) : null)
     )
   }
 }
@@ -68,9 +68,10 @@ export const fetchDeck = (deckId) => {
 }
 
 
-export const selectDeck = (deck, history, user) => {
-  if (user) {
-    history.push(`${deck.user.name}/decks/${deck.id}`)
+export const selectDeck = (deck, history, currentUser) => {
+
+  if (deck.user.id === currentUser.id) {
+    history.push(`/${currentUser.name}/decks/${deck.id}`)
   } else {
     history.push(`/decks/${deck.id}`)
   }

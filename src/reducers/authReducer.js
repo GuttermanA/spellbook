@@ -5,6 +5,8 @@ const defaultState = {
   loading: false,
   errorStatus: false,
   error:{},
+  cardOfTheDay: {},
+  deckOfTheDay:{},
 }
 
 export default function (state = defaultState, action) {
@@ -24,6 +26,10 @@ export default function (state = defaultState, action) {
       return { ...state, currentUser: {}, currentUserDecks: [], currentUserCollection: [] };
     case 'LOGIN_ERROR':
       return { ...state, errorStatus: !state.errorStatus, error: action.payload }
+    case 'LOAD_METADATA':
+    console.log("card of the day",action.payload.card_of_the_day.data);
+    console.log("deck of the day", action.payload.deck_of_the_day.data);
+      return { ...state, cardOfTheDay: action.payload.card_of_the_day.data, deckOfTheDay: action.payload.deck_of_the_day.data, loading: false, errorStatus: false, error:{} }
     default:
       return {...state};
   }
