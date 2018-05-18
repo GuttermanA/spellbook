@@ -1,0 +1,10 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@fontName          : 'MedievalSharp';
+
+/*
+@headerFont        : @fontName, Garamond, "Palatino Linotype", serif;
+@pageFont          : @fontName, Garamond, "Palatino Linotype", serif;
+*/
