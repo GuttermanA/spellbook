@@ -759,6 +759,21 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 /*******************************
          Site Overrides
 *******************************/
+
+/* .main-header {
+  font-size:  4em;
+  font-weight: normal;
+  margin-bottom: 0;
+  margin-top:  1em;
+  color: white;
+}
+
+.sub-header {
+  font-size: 1.7em;
+  font-weight: normal;
+  margin-top: 1.5em;
+}
+*/
 /*!
  * # Semantic UI 2.3.1 - Button
  * http://github.com/semantic-org/semantic-ui/

@@ -31,24 +31,24 @@ class DeckCard extends Component {
       id,
     } = this.props.deck
     const { currentUser } = this.props
-    const style = {
-       height:"310px",
-       width:"223px",
-       background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
-       backgroundSize: '223px 310px ',
-    }
+    // const style = {
+    //    height:"310px",
+    //    width:"223px",
+    //    background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
+    //    backgroundSize: '223px 310px ',
+    // }
     return (
-      <Card  className='magic-card' style={style}>
+      <Card  className='magic-card'>
         <Card.Content>
-          <Card.Header style={{color: 'white', fontFamily: "Beleren Small Caps"}} as='a' content={name} floated='left' onClick={this.handleClick}/>
-          <Card.Meta content={creator} style={{color: 'white'}}/>
+          <Card.Header as='a' content={name} floated='left' onClick={this.handleClick}/>
+          <Card.Meta content={creator} />
           <List>
             <List.Item>
-              <List.Header style={{color: 'white', fontFamily: "Beleren Small Caps"}}>Archtype</List.Header>
+              <List.Header >Archtype</List.Header>
               {archtype}
             </List.Item>
             <List.Item>
-              <List.Header style={{color: 'white', fontFamily: "Beleren Small Caps"}}>Format</List.Header>
+              <List.Header >Format</List.Header>
               {format}
             </List.Item>
           </List>

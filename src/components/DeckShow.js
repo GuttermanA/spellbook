@@ -131,9 +131,9 @@ class DeckShow extends Component {
         <Container>
           <Button.Group >
 
-            <Button style={{ fontFamily: "Beleren Small Caps"}} name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
-            { userDeck && <Button style={{ fontFamily: "Beleren Small Caps"}} name='delete' onClick={this.handleDelete}>Delete</Button>}
-            { editing && <Button style={{ fontFamily: "Beleren Small Caps"}} onClick={this.handleSubmit}>Update</Button>}
+            <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
+            { userDeck && <Button  name='delete' onClick={this.handleDelete}>Delete</Button>}
+            { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
           </Button.Group>
           <Segment.Group  horizontal>
             <Segment>
@@ -147,7 +147,7 @@ class DeckShow extends Component {
           <Grid as={Form} columns={2} divided size='mini' >
             <Grid.Column width={11}>
               <Segment.Group>
-                <Segment style={{ fontFamily: "Beleren Small Caps"}} as={Header} content={`Mainboard (${totalMainboard})`} />
+                <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
                 {mainboardSegments}
               </Segment.Group>
 

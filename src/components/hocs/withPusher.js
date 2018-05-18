@@ -92,8 +92,8 @@ export default function withPusher(Component) {
       <div >
         {this.props.loading ? <Dimmer active><Loader content='Fetching Cards'/></Dimmer> : null}
         <Button.Group >
-          <Button style={{ fontFamily: "Beleren Small Caps"}} name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
-          <Button style={{ fontFamily: "Beleren Small Caps"}} name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
+          <Button  name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
+          <Button  name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>
         <Divider/>
         <Container>

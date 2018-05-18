@@ -1,4 +1,7 @@
-
+body {
+  margin: 0;
+  padding: 0;
+}
 
 .App {
   text-align: center;
@@ -38,6 +41,14 @@
   height: 100%;
 }
 
+.auth-form-body {
+  max-width: 450px;
+}
+
+#collection-modal {
+  height: 325px;
+}
+
 .name-input {
   width: 70%;
 }
@@ -48,6 +59,10 @@
 
 .magic-card {
   color: white;
+  height: 310px;
+  width: 223px;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack});
+  backgroundSize: 223px 310px;
 }
 
 .sidebar-pusher {
@@ -55,20 +70,39 @@
   min-width: 410px;
 }
 
-.flex-grow {
+/* .flex-grow {
   display: flex;
   flex-flow: row wrap;
   flex-grow: 1;
   width: 100%;
   margin: auto;
   position: relative;
+} */
+
+#home {
+  padding: 1em 0em;
+  position:fixed !important;
+  position: absolute;
+  top: 64px;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
-@font-face {
-  font-family: "Beleren Small Caps";
-  src: local('Beleren Small Caps'), url(./assets/fonts/belerensmallcaps-bold.ttf) format('ttf');
+.main-header {
+  font-size:  4em !important;
+  font-weight: normal !important;
+  margin-bottom: 0 !important;
+  margin-top:  1em !important;
+  color: white !important;
 }
 
-.button {
-  font-family: "Beleren Small Caps";
+.sub-header {
+  font-size: 1.7em !important;
+  font-weight: normal !important;
+  margin-top: 1.5em !important;
+}
+
+.deck-list-group {
+  width: 220px;
 }

@@ -13,45 +13,31 @@ const Home = (props) => {
   }
 
   return (
-    <Segment color='grey' inverted textAlign='center' style={{ minHeight: 700, padding: '1em 0em' }} vertical>
+
+    <Segment id="home" color='grey' inverted textAlign='center' vertical>
+
       <Container text>
         <Header
+          className="main-header"
           as='h1'
           content='Spellbook'
           inverted
-          style={{
-            fontSize:  '4em',
-            fontWeight: 'normal',
-            marginBottom: 0,
-            marginTop:  '1em',
-            fontFamily: "Beleren Small Caps"
-          }}
         />
 
       {props.loggedIn && (
           <Header
+            className="sub-header"
             as='h2'
             content={`Welcome ${props.currentUser.name}`}
             inverted
-            style={{
-              fontSize: '1.7em',
-              fontWeight: 'normal',
-              marginTop: '1.5em',
-              fontFamily: "Beleren Small Caps"
-            }}
           />
         )}
 
         <Header
+          className="sub-header"
           as='h2'
           content='Create and manage your Magic: The Gathering decks and collection.'
           inverted
-          style={{
-            fontSize: '1.7em',
-            fontWeight: 'normal',
-            marginTop: '1.5em',
-            fontFamily: "Beleren Small Caps"
-          }}
         />
 
 
@@ -64,18 +50,19 @@ const Home = (props) => {
       <Divider/>
       <Grid centered>
         <Grid.Column width={6} verticalAlign="middle">
-          <Header inverted as="h3" content="Card of the Day" style={{ fontFamily: "Beleren Small Caps"}}/>
-          { Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
+          <Header inverted as="h3" content="Card of the Day" />
+          { props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
         </Grid.Column>
         <Grid.Column width={6} verticalAlign="middle">
-          <Header inverted as="h3" content="Deck of the Day" style={{ fontFamily: "Beleren Small Caps"}}/>
-          { Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
+          <Header inverted as="h3" content="Deck of the Day" />
+          { props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
         </Grid.Column>
 
 
       </Grid>
 
       </Container>
+
     </Segment>
   )
 }

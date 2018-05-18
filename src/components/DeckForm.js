@@ -218,18 +218,18 @@ class DeckForm extends Component {
             <label>Mainboard</label>
           </Form.Field>
           {mainboard}
-          <Button style={{ fontFamily: "Beleren Small Caps"}} onClick={this.appendInput} name='mainboard'>Add Card</Button>
+          <Button  onClick={this.appendInput} name='mainboard'>Add Card</Button>
           <Divider hidden/>
           <Form.Field>
             <label>Sideboard</label>
           </Form.Field>
           {sideboard}
-          <Button onClick={this.appendInput} name='sideboard' style={{ fontFamily: "Beleren Small Caps"}}>Add Card</Button>
+          <Button onClick={this.appendInput} name='sideboard' >Add Card</Button>
           <Divider />
-          <Form.Button style={{ fontFamily: "Beleren Small Caps"}}>Submit</Form.Button>
+          <Form.Button >Submit</Form.Button>
         </Form>
         <Message warning attached hidden={ error === false}>
-          <Message.Header style={{ fontFamily: "Beleren Small Caps"}}>{message}</Message.Header>
+          <Message.Header >{message}</Message.Header>
         </Message>
       </Container>
 

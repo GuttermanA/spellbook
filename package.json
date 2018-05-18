@@ -10,11 +10,12 @@
     "react-scripts": "1.1.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "semantic-ui": "^2.3.1",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.78.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

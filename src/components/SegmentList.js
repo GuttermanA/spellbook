@@ -38,13 +38,13 @@ class SegmentList extends Component {
 
     return (
 
-      <Segment.Group style={{width: '220px'}} compact >
+      <Segment.Group className="deck-list-group" compact >
         { this.props.editing && (
           <Label as='a' onClick={this.addInput} attached='top'>
             Add
           </Label>
         )}
-          <Segment as={Header} style={{ fontFamily: "Beleren Small Caps"}}>
+          <Segment as={Header} >
             {type ? `${capitalizeFirstLetter(this.props.type)}`: `Sideboard (${!totalsideboard ? 0 : totalsideboard})`}
           </Segment>
 

@@ -102,15 +102,15 @@ class MagicCard extends Component {
 
     const { mouseOver, collectionView, showInfo, editCollection, key } = this.state
     const { pusherVisible, pusherType } = this.props
-    const style = {
-       height:"310px",
-       width:"223px",
-       background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
-       backgroundSize: '223px 310px ',
-    }
+    // const style = {
+    //    height:"310px",
+    //    width:"223px",
+    //    background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
+    //    backgroundSize: '223px 310px ',
+    // }
     if (collectionView) {
       return (
-        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={style}>
+        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
             {!showInfo ? (
               <div className="ui image" >
                 <img src={imgUrl} alt={name}/>
@@ -132,18 +132,18 @@ class MagicCard extends Component {
                 </Card.Content>
                 <List className='magic-card'>
                   <List.Item >
-                    <List.Header style={{color: 'white'}}>{name}</List.Header>
+                    <List.Header>{name}</List.Header>
                   </List.Item>
                   <List.Item>
-                    <List.Header style={{color: 'white'}}>Count:</List.Header>
+                    <List.Header>Count:</List.Header>
                     {count}
                   </List.Item>
                   <List.Item>
-                    <List.Header style={{color: 'white'}}>Condition:</List.Header>
+                    <List.Header>Condition:</List.Header>
                     {condition}
                   </List.Item>
                   <List.Item>
-                    <List.Header style={{color: 'white'}}>Set:</List.Header>
+                    <List.Header>Set:</List.Header>
                     {setName}
                   </List.Item>
                   <List.Item>
@@ -163,11 +163,11 @@ class MagicCard extends Component {
 
             )}
             <Modal
+              id="collection-modal"
               size='mini'
               open={editCollection}
               closeIcon
               dimmer='inverted'
-              style={{height: '325px'}}
             >
               <Label as='a' color='red' attached='top right'  onClick={this.editCollection}>Close</Label>
               <Modal.Header>Edit Card</Modal.Header>
@@ -185,7 +185,7 @@ class MagicCard extends Component {
 
     } else {
       return (
-        <Card onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} style={{ height:"310px", width:"223px"}}>
+        <Card className='magic-card' onMouseEnter={this.handleMouseOver}>
             <div className="ui image" >
               <img src={imgUrl} alt={name}/>
               {pusherVisible && pusherType === 'createDeck' && mouseOver && <Label as='a' onClick={this.handleAdd} name='mainboard' color='black' attached='top left' content='MB'/> }

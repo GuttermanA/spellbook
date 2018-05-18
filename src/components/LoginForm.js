@@ -62,13 +62,12 @@ class LoginForm extends Component  {
       return (
           <Grid
             textAlign='center'
-            style={{ height: '100%' }}
             verticalAlign='top'
             className='login-form'
           >
-            <Grid.Column style={{ maxWidth: 450 }}>
+            <Grid.Column className="auth-form-body">
               <Divider hidden />
-              <Header as='h2' textAlign='center' style={{ fontFamily: "Beleren Small Caps"}}>
+              <Header as='h2' textAlign='center' >
                 {' '}Log-in to your account
               </Header>
               <Message warning attached hidden={ redirect === false}>
@@ -79,7 +78,7 @@ class LoginForm extends Component  {
                 <Message.Header>Something went wrong!</Message.Header>
                 <p>{this.props.authErrorMessage}</p>
               </Message>
-              <Form size='large' onSubmit={this.handleSubmit} style={{ fontFamily: "Beleren Small Caps"}}>
+              <Form size='large' onSubmit={this.handleSubmit} >
                 <Segment stacked>
                   <Form.Input
                     fluid
@@ -90,7 +89,7 @@ class LoginForm extends Component  {
                     type='text'
                     value={this.state.username}
                     onChange={this.handleChange}
-                    style={{ fontFamily: "Beleren Small Caps"}}
+
                   />
                   <Form.Input
                     fluid
@@ -103,7 +102,7 @@ class LoginForm extends Component  {
                     onChange={this.handleChange}
                   />
 
-                  <Button fluid size='large' style={{ fontFamily: "Beleren Small Caps"}}>Login</Button>
+                  <Button fluid size='large' >Login</Button>
                 </Segment>
               </Form>
               <Message>
@@ -118,7 +117,6 @@ class LoginForm extends Component  {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.auth);
   return {
     authError: state.auth.errorStatus,
     authErrorMessage: state.auth.error.message,
