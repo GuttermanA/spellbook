@@ -10,6 +10,7 @@ import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
 import DeckForm from './components/DeckForm'
 import CollectionForm from './components/CollectionForm'
+import NotFoundPage from './components/NotFoundPage'
 import withStats from './components/hocs/withStats'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -29,7 +30,8 @@ class App extends Component {
   }
 
   render() {
-    const { selectedDeck, loggedIn, loading } = this.props
+    const { selectedDeck, loggedIn, loading, cardResults } = this.props
+    console.log(cardResults);
     return (
       <div className="App">
         <NavBar />
@@ -37,15 +39,16 @@ class App extends Component {
           <Route exact path="/" component={Home}/>
           <Route exact path="/login" component={LoginForm}/>
           <Route exact path="/signup" component={SignupForm}/>
-          <Route exact path="/results/cards" component={CardContainer}/>
-          <Route exact path="/results/decks" component={DeckContainer}/>
+          <Route exact path="/cards/search" component={CardContainer}/>
+          <Route exact path="/decks/search" component={DeckContainer}/>
           <Route exact path="/search" component={AdvancedSearchContainer}/>
           <Route exact path="/:username/collection" component={CardContainer} />
           <Route exact path="/:username/collection/edit" component={CollectionForm} />
           <Route exact path="/:username/decks" component={DeckContainer} />
           <Route exact path="/:username/decks/new" component={DeckFormWithStats} />
           <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
-          <Route exact path="/:username/decks/:id" render={(renderProps) => <DeckShow deck={selectedDeck}/>}/>
+          <Route exact path="/:username/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
+          <Route component={NotFoundPage}/>
         </Switch>
       </div>
     );
@@ -55,6 +58,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedDeck: state.decks.selected,
+    cardResults: state.cards.results,
     loggedIn: !!state.auth.currentUser.id,
   }
 }

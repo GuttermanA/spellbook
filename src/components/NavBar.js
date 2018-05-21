@@ -33,10 +33,10 @@ class NavBar extends Component {
     event.preventDefault()
     switch (this.state.dropdown) {
       case 'cards':
-        this.props.fetchCards({name: this.state.search})
+        this.props.fetchCards({term: this.state.search}, this.props.history)
         break;
       case 'decks':
-        this.props.fetchDecks({term: this.state.search})
+        this.props.fetchDecks({term: this.state.search}, this.props.history)
         break;
       default:
         alert("Something went wrong in React Router")
@@ -58,7 +58,6 @@ class NavBar extends Component {
         value:"decks"
       },
     ]
-    console.log(this.props.history.location);
     const { activeItem, search, dropdown, submit } = this.state
     const { currentUser, loggedIn } = this.props
       return (
@@ -95,7 +94,9 @@ class NavBar extends Component {
             </Container>
           </Menu>
           {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
-          {submit ? <Redirect to={{pathname:`/results/${this.state.dropdown}`, state:{redirect: true}}}/>: null}
+          {
+            // submit ? <Redirect to={{pathname:`/results/${this.state.dropdown}`, state:{redirect: true}}}/>: null
+          }
         </div>
 
     )

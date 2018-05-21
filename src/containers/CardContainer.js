@@ -13,7 +13,7 @@ class CardContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.state.collection) {
+    if (nextProps.location.state && nextProps.location.state.collection) {
       this.setState({ collection: true })
     } else {
       this.setState({ collection: false })

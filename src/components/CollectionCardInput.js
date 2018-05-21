@@ -8,7 +8,6 @@ const CollectionCardInput = (props) => {
 
     const { handleCardChange, handleFieldsChange, sets } = props
     const { name, count, setCode, condition, premium, wishlist } = props.card
-    console.log(props.card);
     const index = props.index >= 0 ? props.index : 1
     const key = props.key ? props.key : props.card.key
 

@@ -40,7 +40,10 @@ class DeckCard extends Component {
     return (
       <Card  className='magic-card'>
         <Card.Content>
-          <Card.Header as='a' content={name} floated='left' onClick={this.handleClick}/>
+          <Card.Header as='a' floated='left' onClick={this.handleClick}>
+            { tournament  && <Icon name='trophy'/>}
+            { name }
+          </Card.Header>
           <Card.Meta content={creator} />
           <List>
             <List.Item>
@@ -52,13 +55,6 @@ class DeckCard extends Component {
               {format}
             </List.Item>
           </List>
-          { tournament && (
-            <Label basic horizontal>
-              <Icon name={ tournament  ? 'trophy' : 'remove'} />
-              Tournament
-            </Label>
-          )}
-
         </Card.Content>
         <Card.Content extra>
           {dateFormater(updatedAt)}

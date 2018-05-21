@@ -58,16 +58,20 @@ body {
 }
 
 .magic-card {
-  color: white;
-  height: 310px;
-  width: 223px;
-  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack});
-  backgroundSize: 223px 310px;
+  color: white !important;
+  height: 310px !important;
+  width: 223px !important;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url('assets/images/card_back_2.jpeg') !important;
+  background-size: 223px 310px !important;
 }
 
 .sidebar-pusher {
   min-height: 650px;
   min-width: 410px;
+}
+
+ui.card {
+  color: white;
 }
 
 /* .flex-grow {
