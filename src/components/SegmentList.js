@@ -44,9 +44,12 @@ class SegmentList extends Component {
             Add
           </Label>
         )}
-          <Segment as={Header} >
-            {type ? `${capitalizeFirstLetter(this.props.type)}`: `Sideboard (${!totalsideboard ? 0 : totalsideboard})`}
-          </Segment>
+          {type && <Segment as={Header} >
+            {
+               `${capitalizeFirstLetter(this.props.type)}`
+              // type ? `${capitalizeFirstLetter(this.props.type)}`: `Sideboard (${!totalsideboard ? 0 : totalsideboard})`
+            }
+          </Segment>}
 
         {cardSegments}
       </Segment.Group>

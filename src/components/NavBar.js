@@ -94,9 +94,6 @@ class NavBar extends Component {
             </Container>
           </Menu>
           {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
-          {
-            // submit ? <Redirect to={{pathname:`/results/${this.state.dropdown}`, state:{redirect: true}}}/>: null
-          }
         </div>
 
     )

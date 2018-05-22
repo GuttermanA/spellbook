@@ -114,13 +114,15 @@ class DeckShow extends Component {
       redirect,
       editing,
     } = this.state
-    const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt } = this.props.selectedDeck
+    const { loggedIn, history } = this.props
+    const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt, } = this.props.selectedDeck
+    const lands = mainboard.lands
     const mainboardSegments = (() => {
       const segments = []
       for(const type in mainboard) {
         segments.push(<SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard[type]} type={type} board='mainboard'/>)
       }
-      return segments
+      return segments.sort((a,b) => b.props.cards.length - a.props.cards.length )
     })()
     const sideboardSegment = <SegmentList handleRemoveEdit={this.handleRemoveEdit} totalsideboard={totalSideboard} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={sideboard} board='sideboard'/>
 
@@ -130,8 +132,8 @@ class DeckShow extends Component {
       return (
         <Container>
           <Button.Group >
-
-            <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>
+            <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
+            { loggedIn && <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>}
             { userDeck && <Button  name='delete' onClick={this.handleDelete}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
           </Button.Group>
@@ -146,16 +148,27 @@ class DeckShow extends Component {
           </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >
             <Grid.Column width={11}>
-              <Segment.Group>
-                <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
-                {mainboardSegments}
-              </Segment.Group>
+              <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
+              <div id="deck-container">
+                {
+                  // { mainboard.lands && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.lands} type="lands" board='mainboard'/>}
+                  //
+                  // { mainboard.instants && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.instants} type="instants" board='mainboard'/>}
+                  // { mainboard.sorceries && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.sorceries} type="sorceries" board='mainboard'/>}
+                  // { mainboard.artifacts && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.artifacts} type="artifacts" board='mainboard'/>}
+                  // { mainboard.enchantments && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.enchantments} type="enchantments" board='mainboard'/>}
+                  // { mainboard.planeswalkers && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.planeswalkers} type="planeswalkers" board='mainboard'/>}
+
+                }
+                {
+                  mainboardSegments
+                }
+              </div>
 
             </Grid.Column>
             <Grid.Column width={5}>
-
+              <Segment  as={Header} content={`Sideboard (${totalSideboard})`} />
                 <Segment.Group content={sideboardSegment}  compact/>
-
             </Grid.Column>
 
           </Grid>
@@ -171,6 +184,7 @@ const mapStateToProps = (state) => {
     selectedDeck: state.decks.selected,
     loading: state.decks.loading,
     currentUser: state.auth.currentUser,
+    loggedIn: !!state.auth.currentUser.id,
   }
 }
 

@@ -1,3 +1,7 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@headerColor: @cardPrimaryColor;
+@headerLinkColor: @cardPrimaryColor;
+@descriptionColor: @cardPrimaryColor;

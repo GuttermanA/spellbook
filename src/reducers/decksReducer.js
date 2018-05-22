@@ -19,6 +19,7 @@ export default function (state = defaultState, action) {
     console.log('SELECTING_DECK',action.payload);
       return {...state, loading: false, selected: action.payload, errorStatus: false, error: {} }
     case 'SEARCH_DECKS':
+      console.log('SEARCH_DECKS', action.payload);
       return {...state, loading: false, results: action.payload, errorStatus: false, error: {} }
     case 'DECK_ERROR':
       return { ...state, errorStatus: !state.errorStatus, error: action.payload, loading: false }

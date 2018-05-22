@@ -23,7 +23,8 @@ export const createDeck = (deck, history) => {
           if (res.error) {
             return dispatch({ type: 'DECK_ERROR', payload: res.error })
           } else {
-            history.push(`/${res.data.attributes.user.name}/decks/${res.data.attributes.id}`)
+            debugger
+            history.push(`/${res.data.attributes.userName}/decks/${res.data.attributes.id}`)
             return dispatch({ type: 'SELECT_DECK', payload: res.data.attributes })
           }
         })
@@ -31,14 +32,24 @@ export const createDeck = (deck, history) => {
   }
 }
 
-export const fetchDecks = (searchTerms) => {
-  let params = generateSearchParams(searchTerms, 'deck')
+export const fetchDecks = (searchTerms, history) => {
+  const params = generateSearchParams(searchTerms, 'deck')
+  const path = `/decks/search?${params}`
+  history.push(path)
   return (dispatch) => {
     dispatch({
       type: 'LOADING_DECKS'
     })
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        Authorization: localStorage.getItem('token')
+      },
+    }
     return (
-      fetch(`${API_ROOT}/decks/search?${params}`)
+      fetch(`${API_ROOT}${path}`)
         .then(res => res.json())
         .then(decks => dispatch({
           type: 'SEARCH_DECKS',
@@ -70,7 +81,7 @@ export const fetchDeck = (deckId) => {
 
 export const selectDeck = (deck, history, currentUser) => {
 
-  if (deck.user.id === currentUser.id) {
+  if (deck.userId === currentUser.id) {
     history.push(`/${currentUser.name}/decks/${deck.id}`)
   } else {
     history.push(`/decks/${deck.id}`)

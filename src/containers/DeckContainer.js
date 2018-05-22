@@ -10,45 +10,51 @@ import { Container , Message, Card, Dimmer, Loader, Divider } from 'semantic-ui-
 class DeckContainer extends Component {
 
   state = {
-    redirect: false,
+    userPage: false,
     message: "",
   }
 
   componentDidMount = () => {
-    this.props.fetchUser()
-    if (this.props.location.state) {
-      const { redirect, message } = this.props.location.state
-      this.setState({
-        redirect: redirect,
-        message: message,
-      },() => console.log(this.state))
-    } else {
-      this.setState({
-        redirect: false,
-        message: "",
-      })
+    if (this.props.loggedIn && this.props.location.pathname !== "/decks/search") {
+      this.props.fetchUser()
+      this.setState({ userPage: true })
     }
+    // if (this.props.location.state) {
+    //   // const { redirect, message } = this.props.location.state
+    //   this.setState({
+    //     userPage: redirect,
+    //     // message: message,
+    //   },() => console.log(this.state))
+    // } else {
+    //   this.setState({
+    //     redirect: false,
+    //     // message: "",
+    //   })
+    // }
 
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.state) {
-      const { redirect, message } = nextProps.location.state
-      this.setState({
-        redirect: redirect,
-        message: message,
-      },() => console.log(this.state))
-    } else {
-      this.setState({
-        redirect: false,
-        message: "",
-      })
+    if ( this.props.loggedIn && nextProps.location.pathname !== this.props.location.pathname) {
+      this.props.fetchUser()
+      this.setState({ userPage: true })
     }
+    //   const { redirect, message } = nextProps.location.state
+    //   this.setState({
+    //     redirect: redirect,
+    //     message: message,
+    //   },() => console.log(this.state))
+    // } else {
+    //   this.setState({
+    //     redirect: false,
+    //     message: "",
+    //   })
+    // }
   }
 
   render() {
     const { deckResults, currentUserDecks } = this.props
-    const { redirect, message } = this.state
+    const { userPage, message } = this.state
     const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
     const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
     if (this.props.loading) {
@@ -62,13 +68,13 @@ class DeckContainer extends Component {
             </Message>
           )}
           { message && <Divider/>}
-          { (redirect && !deckResults.length) || (!redirect && !currentUserDecks.length) ? (
+          { ((!userPage && !deckResults.length) || (userPage && !currentUserDecks.length)) && (
             <Message attached>
-              <Message.Header content={redirect ? 'No decks found' : 'No decks yet'} />
+              <Message.Header content={userPage ? 'No decks yet' :  'No decks found'} />
             </Message>
-          ): null }
+          )}
           <Card.Group centered>
-            {redirect ? deckResultsCards : currentUserDecksCards}
+            {userPage ? currentUserDecksCards : deckResultsCards}
           </Card.Group>
         </Container>
       )
@@ -81,6 +87,7 @@ const mapStateToProps = (state) => {
     deckResults: state.decks.results,
     loading: state.decks.loading,
     currentUserDecks: state.auth.currentUserDecks,
+    loggedIn: !!state.auth.currentUser.id,
   }
 }
 

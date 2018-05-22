@@ -17,8 +17,10 @@ class DeckCard extends Component {
   }
 
   render() {
+    console.log(this.props.deck);
     const {
       name,
+      userName,
       creator,
       archtype,
       // totalCards,
@@ -27,7 +29,7 @@ class DeckCard extends Component {
       tournament,
       // createdAt,
       updatedAt,
-      format,
+      formatName,
       id,
     } = this.props.deck
     const { currentUser } = this.props
@@ -40,23 +42,26 @@ class DeckCard extends Component {
     return (
       <Card  className='magic-card'>
         <Card.Content>
-          <Card.Header as='a' floated='left' onClick={this.handleClick}>
+          <Card.Header as='a' floated='left' onClick={this.handleClick} className="white-text">
             { tournament  && <Icon name='trophy'/>}
             { name }
           </Card.Header>
-          <Card.Meta content={creator} />
+          <Card.Meta className="white-text">
+            <i>{ userName === 'admin' ? creator : userName}</i>
+          </Card.Meta>
           <List>
             <List.Item>
-              <List.Header >Archtype</List.Header>
+              <List.Header className="white-text">Archtype</List.Header>
               {archtype}
             </List.Item>
+          <br/>
             <List.Item>
-              <List.Header >Format</List.Header>
-              {format}
+              <List.Header className="white-text">Format</List.Header>
+              {formatName}
             </List.Item>
           </List>
         </Card.Content>
-        <Card.Content extra>
+        <Card.Content extra className="white-text">
           {dateFormater(updatedAt)}
           {this.props.history.location.pathname !== "/" && <Label as='a' name='delete' onClick={this.handleDelete} attached='top right' icon='delete'/>}
         </Card.Content>

@@ -62,7 +62,6 @@ export const createUser = (username, password, history) => {
             const { id, name } = res.user.data.attributes
             const decks = res.user.data.attributes.decks.data
             dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
-            dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: decks })
             history.push('/');
           }
         })
