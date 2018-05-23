@@ -30,9 +30,22 @@ class CardContainer extends Component {
       cards = this.props.results.map(card => <MagicCard key={uuid()} card={card.attributes} type={card.type} pusherVisible={pusherVisible} pusherType={pusherType}/>)
     }
 
+    // return(
+    //   <Container fluid>
+    //     { !cards.length && (
+    //       <Message>
+    //         <Message.Header content='No cards found' />
+    //       </Message>
+    //     )}
+    //     <Card.Group centered>
+    //       {cards}
+    //     </Card.Group>
+    //   </Container>
+    // )
+
     if (cards.length) {
       return (
-        <Card.Group >
+        <Card.Group centered>
           {cards}
         </Card.Group>
 

@@ -66,7 +66,6 @@ class NavBar extends Component {
             inverted
             pointing
           >
-            <Container>
               <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
               {
                 // <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
@@ -91,7 +90,6 @@ class NavBar extends Component {
               ): (
                 <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
               )}
-            </Container>
           </Menu>
           {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
         </div>
