@@ -7,7 +7,6 @@ import uuid from 'uuid'
 import { Form, Button, Container, Segment, } from 'semantic-ui-react'
 
 const addCard = (addedCard, prevState) => {
-  debugger
   let updated = false
   const newCards = prevState.fields.cards.map((stateCard, index) => {
     const names = prevState.fields.cards.map(card => card.name)
@@ -47,7 +46,7 @@ class CollectionForm extends Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
+    if (!prevState.submitted && Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
       return {
         fields: {
           ...prevState.fields,
@@ -60,44 +59,6 @@ class CollectionForm extends Component {
 
 
   }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.submitted) {
-      return false
-    }
-    return true
-  }
-
-  // addCard = (addedCard) => {
-  //
-  //   let updated = false
-  //   const newCards = this.state.fields.cards.map((stateCard, index) => {
-  //     const names = this.state.fields.cards.map(card => card.name)
-  //     if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-  //       ++stateCard.count
-  //       updated = true
-  //       return stateCard
-  //     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
-  //       updated = true
-  //       stateCard.name = addedCard.attributes.name
-  //       stateCard.setCode = addedCard.attributes.lastPrinting
-  //       stateCard.count = 1
-  //       return stateCard
-  //     }
-  //
-  //     return stateCard
-  //   })
-  //
-  //   if (!updated) {
-  //     newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
-  //   }
-  //   this.setState({
-  //     fields: {
-  //       ...this.state.fields,
-  //       cards: newCards,
-  //     }
-  //   },()=> console.log(this.state.fields.cards))
-  // }
 
   appendInput = (event, { name }) => {
     event.preventDefault()
@@ -160,7 +121,7 @@ class CollectionForm extends Component {
     this.setState({
       fields: {
         ...this.state.fields,
-        cards:[],
+        cards:[{key:uuid(),name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false, error: false}],
       },
       text: false,
       submitted: true,
