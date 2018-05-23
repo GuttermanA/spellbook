@@ -71,7 +71,7 @@ body {
 }
 
 .sidebar-pusher {
-  min-height: 650px;
+  min-height: 680px;
   min-width: 410px;
 }
 
@@ -82,6 +82,10 @@ body {
 
 
 .white-text {
+  color: white !important;
+}
+
+.ui.list>.item .header {
   color: white !important;
 }
 

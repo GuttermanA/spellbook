@@ -6,8 +6,6 @@ import { addToCollection } from '../actions/collection'
 import uuid from 'uuid'
 import { Form, Button, Container, Segment, } from 'semantic-ui-react'
 
-
-
 class CollectionForm extends Component {
 
   state = {
@@ -15,16 +13,25 @@ class CollectionForm extends Component {
       cards:[{key:uuid(),name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false, error: false}],
     },
     text: false,
+    submitted: false,
     validation: {
       error: false,
       message: ""
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
+  getDerivedStateFromProps(nextProps, prevState) {
+    if (!this.state.submitted && Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
       this.addCard(nextProps.selectedCard)
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    debugger
+    if (nextState.submitted) {
+      return false
+    }
+    return true
   }
 
   addCard = (addedCard) => {
@@ -113,6 +120,17 @@ class CollectionForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     this.props.addToCollection(this.state.fields, this.props.history, this.props.currentUser)
+    this.setState({
+      fields: {
+        cards:[{key:uuid(),name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false, error: false}],
+      },
+      text: false,
+      submitted: true,
+      validation: {
+        error: false,
+        message: ``
+      }
+    })
   }
 
 

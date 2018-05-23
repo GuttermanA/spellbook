@@ -21,9 +21,9 @@ export const archtypeRenderLabel = (label) => ({
 })
 
 export const conditionOptions = [
+  {key: uuid(), text: 'Near Mint', value: 'NM'},
+  {key: uuid(), text: 'Lightly Played', value: 'LP'},
+  {key: uuid(), text: 'Moderately Played', value: 'MP'},
   {key: uuid(), text: 'Heavily Played', value: 'HP'},
   {key: uuid(), text: 'Damaged', value: 'D'},
-  {key: uuid(), text: 'Moderately Played', value: 'MP'},
-  {key: uuid(), text: 'Lightly Played', value: 'LP'},
-  {key: uuid(), text: 'Near Mint', value: 'NM'},
 ]

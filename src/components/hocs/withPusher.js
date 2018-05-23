@@ -1,7 +1,7 @@
 import React from 'react'
 import DeckForm from '../DeckForm'
 import CollectionForm from '../CollectionForm'
-import { Sidebar, Button, Container, Dimmer, Loader, Divider, Segment, Sticky } from 'semantic-ui-react'
+import { Sidebar, Button, Container, Dimmer, Loader, Divider, Sticky } from 'semantic-ui-react'
 
 
 export default function withPusher(Component) {
@@ -49,9 +49,25 @@ export default function withPusher(Component) {
       this.measure()
     }
 
-    // componentDidUpdate() {
-    //   this.measure()
-    // }
+    componentDidUpdate(prevProps, prevState) {
+      if (prevProps.location.pathname !== this.props.location.pathname) {
+        this.setState({
+          visible: false,
+          activeItem: '',
+          sidebar: {
+            width: null,
+            height: null,
+          },
+          pusher:{
+            width: null,
+            height: null,
+            initialWidth: null,
+            initialHeight: null,
+          }
+        })
+      }
+    }
+
     //
     // shouldComponentUpdate(nextProps, nextState) {
     //   return (

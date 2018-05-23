@@ -5,7 +5,7 @@ import { conditionOptions } from '../globalVars'
 
 const CollectionCardInput = (props) => {
 
-    const { handleCardChange, handleFieldsChange, removeInput, sets } = props
+    const { handleCardChange, handleFieldsChange, removeInput, sets, modal } = props
     const { name, count, setCode, condition, premium, wishlist } = props.card
     const index = props.index >= 0 ? props.index : 1
     const key = props.key ? props.key : props.card.key
@@ -13,9 +13,9 @@ const CollectionCardInput = (props) => {
     return (
       <Segment key={key}>
 
-        <Label color='red' size='small' as='a' corner onClick={removeInput} name={index}>
+        {!modal && (<Label color='red' size='small' as='a' corner onClick={removeInput} name={index}>
           <Icon name='remove' size='large'/>
-        </Label>
+        </Label>)}
 
         <Form.Group>
           <Form.Input placeholder='Card name' id='name' name={index} className='name-input' onChange={handleFieldsChange} value={name} disabled={ props.editCollection ? true : false}/>

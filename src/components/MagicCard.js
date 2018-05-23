@@ -102,12 +102,6 @@ class MagicCard extends Component {
 
     const { mouseOver, collectionView, showInfo, editCollection, key } = this.state
     const { pusherVisible, pusherType } = this.props
-    // const style = {
-    //    height:"310px",
-    //    width:"223px",
-    //    background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
-    //    backgroundSize: '223px 310px ',
-    // }
     if (collectionView) {
       return (
         <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
@@ -119,7 +113,7 @@ class MagicCard extends Component {
                 {pusherVisible && pusherType === 'createDeck' && mouseOver && <Label as='a' onClick={this.handleAdd} name='sideboard' color='grey' attached='top right' content='SB'/>}
 
                 {pusherVisible && pusherType === 'addToCollection' && mouseOver && <Label as='a' onClick={this.handleAdd} name='collection' color='black' attached='top left' content='Add' />}
-                {mouseOver && <Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Info</Label>}
+                <Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Info</Label>
               </div>
             ) : (
               <Card.Content >
@@ -130,8 +124,8 @@ class MagicCard extends Component {
 
                   {pusherVisible && pusherType === 'addToCollection' && mouseOver && <Label as='a' onClick={this.handleAdd} name='collection' color='black' attached='top left' content='Add' />}
                 </Card.Content>
-                <List className='magic-card'>
-                  <List.Item >
+                <List >
+                  <List.Item className="white-text">
                     <List.Header>{name}</List.Header>
                   </List.Item>
                   <List.Item>
@@ -157,8 +151,8 @@ class MagicCard extends Component {
                     </Label>
                   </List.Item>
                 </List>
-                {mouseOver && <Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Info</Label>}
-                {mouseOver && <Label as='a' color='green' attached='bottom right' onClick={this.editCollection}>Edit</Label>}
+                {<Label as='a' color='red' attached='bottom left' onClick={this.showInfo}>Card</Label>}
+                {<Label as='a' color='green' attached='bottom right' onClick={this.editCollection}>Edit</Label>}
               </Card.Content>
 
             )}
@@ -166,16 +160,18 @@ class MagicCard extends Component {
               id="collection-modal"
               size='mini'
               open={editCollection}
-              closeIcon
               dimmer='inverted'
             >
-              <Label as='a' color='red' attached='top right'  onClick={this.editCollection}>Close</Label>
-              <Modal.Header>Edit Card</Modal.Header>
+              <Modal.Header>
+                Edit Card
+                <Button color='red' basic onClick={this.handleDelete} onClick={this.editCollection} floated='right' size='small'>Close</Button>
+              </Modal.Header>
               <Modal.Content>
                 <Form onSubmit={this.handleSubmit}>
-                  <CollectionCardInput key={key} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={this.state.card} editCollection={this.editCollection}/>
+                  <CollectionCardInput key={key} modal={true} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={this.state.card} editCollection={this.editCollection}/>
                   <Button>Submit</Button>
                   <Button onClick={this.handleDelete}>Remove from Collection</Button>
+
                 </Form>
               </Modal.Content>
             </Modal>
