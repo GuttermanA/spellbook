@@ -39,7 +39,7 @@ class CollectionForm extends Component {
       } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
         updated = true
         stateCard.name = addedCard.attributes.name
-        stateCard.setCode = addedCard.attributes.setCode
+        stateCard.setCode = addedCard.attributes.lastPrinting
         stateCard.count = 1
         return stateCard
       }
@@ -48,7 +48,7 @@ class CollectionForm extends Component {
     })
 
     if (!updated) {
-      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false})
+      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
     }
     this.setState({
       fields: {
@@ -104,6 +104,8 @@ class CollectionForm extends Component {
     event.preventDefault()
     this.props.addToCollection(this.state.fields, this.props.history, this.props.currentUser)
   }
+
+
 
   render() {
 

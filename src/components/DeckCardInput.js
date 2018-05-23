@@ -25,7 +25,6 @@ class DeckCardInput extends Component  {
 
 
   render() {
-    console.log('DeckCard info',this.props);
     const { name, count, error } = this.props.card
     const { handleCardChange, index, removeInput, board, editing } = this.props
 

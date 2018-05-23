@@ -1,7 +1,7 @@
 import React from 'react'
 import DeckForm from '../DeckForm'
 import CollectionForm from '../CollectionForm'
-import { Sidebar, Button, Container, Dimmer, Loader, Divider, Segment } from 'semantic-ui-react'
+import { Sidebar, Button, Container, Dimmer, Loader, Divider, Segment, Sticky } from 'semantic-ui-react'
 
 
 export default function withPusher(Component) {
@@ -82,31 +82,34 @@ export default function withPusher(Component) {
       }
     }
 
+    handleContextRef = contextRef => this.setState({ contextRef })
+
     render() {
 
-      const { visible, activeItem } = this.state
+      const { visible, activeItem, contextRef } = this.state
+      const { loading, loggedIn } = this.props
       const style = {
         width: `${this.state.pusher.width}px`,
       }
       return (
-      <div >
-        {this.props.loading ? <Dimmer active><Loader content='Fetching Cards'/></Dimmer> : null}
-        <Button.Group >
+      <Container as={Segment} fluid={true} ref={this.handleContextRef}>
+        {loading ? <Dimmer active><Loader content='Fetching Cards'/></Dimmer> : null}
+        { loggedIn && (<Button.Group >
           <Button  name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
           <Button  name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
-        </Button.Group>
+        </Button.Group>)}
         <Divider/>
-        <Container>
+        <Container fluid={true} >
           <Sidebar.Pushable as={Segment} className='sidebar-pusher' basic>
-            <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
-              { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
-            </Sidebar>
+              <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
+                { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
+              </Sidebar>
             <Sidebar.Pusher as={Segment} style={style} id="pusher" basic>
               <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
             </Sidebar.Pusher>
           </Sidebar.Pushable>
         </Container>
-      </div>
+      </Container>
       )
     }
   })

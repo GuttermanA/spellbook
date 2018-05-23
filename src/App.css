@@ -78,14 +78,14 @@ a:hover.white-text {
   color: #4183c4 !important;
 }
 
-/* .flex-grow {
+ .flex-grow {
   display: flex;
   flex-flow: row wrap;
   flex-grow: 1;
   width: 100%;
   margin: auto;
   position: relative;
-} */
+}
 
 #home {
   padding: 1em 0em;
