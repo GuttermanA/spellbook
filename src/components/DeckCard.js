@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import cardBack from '../assets/images/card_back_2.jpeg'
+import DeleteModal from './DeleteModal'
 import { connect } from 'react-redux'
 import { selectDeck, deleteDeck } from '../actions/decks'
 import { Card, List, Icon, Label } from 'semantic-ui-react'
 import { dateFormater } from '../globalFunctions'
 
 class DeckCard extends Component {
+
+  state = {
+    destroy: false
+  }
+
+  toggleDestroyModal = () => {
+    this.setState({
+      destroy: !this.state.destroy
+    })
+  }
 
   handleClick = (event) => {
     this.props.selectDeck(this.props.deck, this.props.history, this.props.currentUser)
@@ -63,8 +74,9 @@ class DeckCard extends Component {
         </Card.Content>
         <Card.Content extra className="white-text">
           {dateFormater(updatedAt)}
-          {this.props.history.location.pathname !== "/" && <Label as='a' name='delete' onClick={this.handleDelete} attached='top right' icon='delete'/>}
+          {this.props.history.location.pathname !== "/" && <Label as='a' name='delete' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
         </Card.Content>
+        <DeleteModal open={this.state.destroy} handleDelete={this.handleDelete} toggle={this.toggleDestroyModal} type='deck'/>
       </Card>
     )
   }

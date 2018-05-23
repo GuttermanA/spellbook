@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
 import SegmentList from './SegmentList'
+import DeleteModal from './DeleteModal'
 import withLoader from './hocs/withLoader'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Header, Segment, Label, Form, Icon } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Segment, Label, Form, Icon, Modal } from 'semantic-ui-react'
 
 class DeckShow extends Component {
   constructor(props) {
@@ -16,15 +17,11 @@ class DeckShow extends Component {
       editing: false,
       mainboard: {},
       sideboard: [],
+      destroy: false,
     }
     this.cardsToUpdate = []
     this.cardsToDelete = []
     this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-
-  goBack = (event) => {
-    this.props.history.goBack()
   }
 
   handleDelete = (event) => {
@@ -47,7 +44,12 @@ class DeckShow extends Component {
 
       this.props.createDeck(deck, this.props.history, this.props.currentUser)
     }
+  }
 
+  toggleDestroyModal = () => {
+    this.setState({
+      destroy: !this.state.destroy
+    })
   }
 
   handleChange = (event, cardRef) => {
@@ -108,6 +110,7 @@ class DeckShow extends Component {
 
   render() {
     const {
+      destroy,
       sideboard,
       mainboard,
       userDeck,
@@ -132,8 +135,9 @@ class DeckShow extends Component {
         <Container>
           <Button.Group >
             <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
-            { loggedIn && <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>}
-            { userDeck && <Button  name='delete' onClick={this.handleDelete}>Delete</Button>}
+            { loggedIn && !editing && <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>}
+            { loggedIn && editing && <Button  name='cancel' onClick={this.handleEdit}>Cancel</Button>}
+            { userDeck && !editing && <Button  name='delete' onClick={this.toggleDestroyModal}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
           </Button.Group>
           <Segment.Group  horizontal>
@@ -171,7 +175,11 @@ class DeckShow extends Component {
             </Grid.Column>
 
           </Grid>
+
+          <DeleteModal open={destroy} handleDelete={this.handleDelete} toggle={this.toggleDestroyModal} type='deck'/>
+
         </Container>
+
       )
     }
 

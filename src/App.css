@@ -49,6 +49,11 @@ body {
   height: 325px;
 }
 
+.dimmed.dimmable > .ui.modals.dimmer.visible {
+  display: flex !important;
+}
+
+
 .name-input {
   width: 70%;
 }
