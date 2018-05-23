@@ -14,6 +14,8 @@ class DeckShow extends Component {
       redirect: false,
       userDeck: false,
       editing: false,
+      name: this.props.selectedDeck.name,
+      archtype:  this.props.selectedDeck.archtype === null ? "" : this.props.selectedDeck.archtype,
       mainboard: {},
       sideboard: [],
     }
@@ -21,7 +23,6 @@ class DeckShow extends Component {
     this.cardsToDelete = []
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
 
   goBack = (event) => {
     this.props.history.goBack()
@@ -113,9 +114,11 @@ class DeckShow extends Component {
       userDeck,
       redirect,
       editing,
+      name,
+      archtype,
     } = this.state
     const { loggedIn, history } = this.props
-    const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt, } = this.props.selectedDeck
+    const { totalMainboard, totalSideboard, tournament, updatedAt, } = this.props.selectedDeck
     const lands = mainboard.lands
     const mainboardSegments = (() => {
       const segments = []
@@ -138,12 +141,30 @@ class DeckShow extends Component {
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
           </Button.Group>
           <Segment.Group  horizontal>
+
+            { editing ? (
+              <Segment>
+                {tournament && <Icon name='trophy'/>}
+                Name: <Form.Input required inline type='text' value={name} name='name' onChange={this.handleChange} />
+              </Segment>
+            ) : (
+              <Segment>
+                {tournament && <Icon name='trophy'/>}
+                Name: {name}
+                {
+                  //   editing ? (
+                  //   'Name:' + <Form.Input required inline type='text' value={name} name='name' onChange={this.handleChange} width={9}/>
+                  // ) : (
+                  //     ('Name:' + (tournament && <Icon name='trophy'/>) + {name})
+                  // )
+                }
+
+              </Segment>
+            )}
+
+
             <Segment>
-              { tournament  && <Icon name='trophy'/>}
-              Name: {name}
-            </Segment>
-            <Segment>
-              Archtype: {archtype}
+              {!editing && `Archtype: ${archtype}`}
             </Segment>
           </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >
