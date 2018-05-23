@@ -116,7 +116,6 @@ class DeckShow extends Component {
     } = this.state
     const { loggedIn, history } = this.props
     const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt, } = this.props.selectedDeck
-    const lands = mainboard.lands
     const mainboardSegments = (() => {
       const segments = []
       for(const type in mainboard) {

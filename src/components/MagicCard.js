@@ -185,7 +185,7 @@ class MagicCard extends Component {
 
     } else {
       return (
-        <Card className='magic-card' onMouseEnter={this.handleMouseOver}>
+        <Card className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
             <div className="ui image" >
               <img src={imgUrl} alt={name}/>
               {pusherVisible && pusherType === 'createDeck' && mouseOver && <Label as='a' onClick={this.handleAdd} name='mainboard' color='black' attached='top left' content='MB'/> }
