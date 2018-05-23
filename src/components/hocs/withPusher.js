@@ -82,8 +82,6 @@ export default function withPusher(Component) {
       }
     }
 
-    handleContextRef = contextRef => this.setState({ contextRef })
-
     render() {
 
       const { visible, activeItem, contextRef } = this.state
@@ -92,18 +90,18 @@ export default function withPusher(Component) {
         width: `${this.state.pusher.width}px`,
       }
       return (
-      <Container as={Segment} fluid={true} ref={this.handleContextRef} basic>
+      <Container fluid={true}>
         {loading ? <Dimmer active><Loader content='Fetching Cards'/></Dimmer> : null}
         { loggedIn && (<Button.Group >
           <Button  name='createDeck' active={ activeItem === 'createDeck'} onClick={this.handleItemClick}>Build Deck</Button>
           <Button  name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>)}
         <Divider/>
-        <Sidebar.Pushable className='sidebar-pusher' basic>
+        <Sidebar.Pushable className='sidebar-pusher'>
             <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
               { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
             </Sidebar>
-          <Sidebar.Pusher as={Container} style={style} id="pusher" fluid basic>
+          <Sidebar.Pusher as={Container} style={style} id="pusher" fluid>
             <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
           </Sidebar.Pusher>
         </Sidebar.Pushable>

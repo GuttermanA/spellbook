@@ -69,6 +69,16 @@ class CollectionForm extends Component {
     })
   }
 
+  removeInput = (event, { name }) => {
+    event.preventDefault()
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        cards: this.state.fields.cards.filter((input, index) => index !== parseInt(name, 10))
+      }
+    })
+  }
+
   handleCardChange = (event) => {
     const { name, value, checked } = event.target
     const position = event.target.dataset.position
@@ -83,7 +93,7 @@ class CollectionForm extends Component {
         ...this.state.fields,
         cards: copy
       }
-    })
+    },()=> console.log(this.state.fields.cards[0]))
   }
 
   handleFieldsChange = (event, { name, id, value, searchQuery }) => {
@@ -111,7 +121,7 @@ class CollectionForm extends Component {
 
     const cards = this.state.fields.cards.map((input, index) => {
       return (
-        <CollectionCardInput index={index} key={input.key} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={input} editCollection={this.editCollection}/>
+        <CollectionCardInput index={index} key={input.key} removeInput={this.removeInput} handleFieldsChange={this.handleFieldsChange} handleCardChange={this.handleCardChange} card={input} editCollection={this.editCollection}/>
       )
     })
     return (
