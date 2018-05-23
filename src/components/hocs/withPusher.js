@@ -99,16 +99,14 @@ export default function withPusher(Component) {
           <Button  name='addToCollection' active={ activeItem === 'addToCollection'} onClick={this.handleItemClick}>Add to Collection</Button>
         </Button.Group>)}
         <Divider/>
-        <Container fluid={true} >
-          <Sidebar.Pushable as={Segment} className='sidebar-pusher' basic>
-              <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
-                { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
-              </Sidebar>
-            <Sidebar.Pusher as={Segment} style={style} id="pusher" basic>
-              <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
-            </Sidebar.Pusher>
-          </Sidebar.Pushable>
-        </Container>
+        <Sidebar.Pushable as={Container} className='sidebar-pusher' basic>
+            <Sidebar animation='slide along' width='wide' visible={visible} id="sidebar">
+              { activeItem === 'createDeck' ? <DeckForm /> : <CollectionForm />}
+            </Sidebar>
+          <Sidebar.Pusher as={Segment} style={style} id="pusher" basic>
+            <Component {...this.props} pusherVisible={this.state.visible} pusherType={this.state.activeItem} />
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
       </Container>
       )
     }

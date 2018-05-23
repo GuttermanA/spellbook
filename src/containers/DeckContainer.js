@@ -61,7 +61,7 @@ class DeckContainer extends Component {
       return <Dimmer active><Loader /></Dimmer>
     } else {
       return(
-        <Container >
+        <Container fluid>
           { message && (
             <Message attached>
               <Message.Header content={message} />

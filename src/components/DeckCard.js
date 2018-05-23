@@ -10,7 +10,14 @@ import { dateFormater } from '../globalFunctions'
 class DeckCard extends Component {
 
   state = {
-    destroy: false
+    destroy: false,
+    mouseOver: false,
+  }
+
+  handleMouseOver = (event) => {
+    this.setState({
+      mouseOver: !this.state.mouseOver
+    })
   }
 
   toggleDestroyModal = () => {
@@ -51,7 +58,7 @@ class DeckCard extends Component {
     //    backgroundSize: '223px 310px ',
     // }
     return (
-      <Card  className='magic-card'>
+      <Card  className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
         <Card.Content>
           <Card.Header as='a' floated='left' onClick={this.handleClick} className="white-text">
             { tournament  && <Icon name='trophy'/>}
@@ -74,7 +81,7 @@ class DeckCard extends Component {
         </Card.Content>
         <Card.Content extra className="white-text">
           {dateFormater(updatedAt)}
-          {this.props.history.location.pathname !== "/" && <Label as='a' name='delete' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
+          {this.props.history.location.pathname !== "/decks/search" && this.state.mouseOver && <Label as='a' name='delete' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
         </Card.Content>
         <DeleteModal open={this.state.destroy} handleDelete={this.handleDelete} toggle={this.toggleDestroyModal} type='deck'/>
       </Card>
