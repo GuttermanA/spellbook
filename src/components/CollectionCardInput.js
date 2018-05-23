@@ -13,7 +13,7 @@ const CollectionCardInput = (props) => {
     return (
       <Segment key={key}>
 
-        {!modal && (<Label color='red' size='small' as='a' corner onClick={removeInput} name={index}>
+        {!modal && (<Label color='red' size='small' as='a' corner='left' onClick={removeInput} name={index}>
           <Icon name='remove' size='large'/>
         </Label>)}
 

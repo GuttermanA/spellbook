@@ -6,6 +6,32 @@ import { addToCollection } from '../actions/collection'
 import uuid from 'uuid'
 import { Form, Button, Container, Segment, } from 'semantic-ui-react'
 
+const addCard = (addedCard, prevState) => {
+  debugger
+  let updated = false
+  const newCards = prevState.fields.cards.map((stateCard, index) => {
+    const names = prevState.fields.cards.map(card => card.name)
+    if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+      ++stateCard.count
+      updated = true
+      return stateCard
+    } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
+      updated = true
+      stateCard.name = addedCard.attributes.name
+      stateCard.setCode = addedCard.attributes.lastPrinting || addedCard.attributes.setCode
+      stateCard.count = 1
+      return stateCard
+    }
+
+    return stateCard
+  })
+
+  if (!updated) {
+    newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting || addedCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false})
+  }
+  return newCards
+}
+
 class CollectionForm extends Component {
 
   state = {
@@ -20,50 +46,58 @@ class CollectionForm extends Component {
     }
   }
 
-  getDerivedStateFromProps(nextProps, prevState) {
-    if (!this.state.submitted && Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
-      this.addCard(nextProps.selectedCard)
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type === 'collection') {
+      return {
+        fields: {
+          ...prevState.fields,
+          cards: addCard(nextProps.selectedCard, prevState)
+        }
+      }
     }
+
+    return null
+
+
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    debugger
     if (nextState.submitted) {
       return false
     }
     return true
   }
 
-  addCard = (addedCard) => {
-
-    let updated = false
-    const newCards = this.state.fields.cards.map((stateCard, index) => {
-      const names = this.state.fields.cards.map(card => card.name)
-      if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-        ++stateCard.count
-        updated = true
-        return stateCard
-      } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
-        updated = true
-        stateCard.name = addedCard.attributes.name
-        stateCard.setCode = addedCard.attributes.lastPrinting
-        stateCard.count = 1
-        return stateCard
-      }
-
-      return stateCard
-    })
-
-    if (!updated) {
-      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
-    }
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        cards: newCards,
-      }
-    },()=> console.log(this.state.fields.cards))
-  }
+  // addCard = (addedCard) => {
+  //
+  //   let updated = false
+  //   const newCards = this.state.fields.cards.map((stateCard, index) => {
+  //     const names = this.state.fields.cards.map(card => card.name)
+  //     if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+  //       ++stateCard.count
+  //       updated = true
+  //       return stateCard
+  //     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
+  //       updated = true
+  //       stateCard.name = addedCard.attributes.name
+  //       stateCard.setCode = addedCard.attributes.lastPrinting
+  //       stateCard.count = 1
+  //       return stateCard
+  //     }
+  //
+  //     return stateCard
+  //   })
+  //
+  //   if (!updated) {
+  //     newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting, condition:"", premium: false, wishlist: false, error: false})
+  //   }
+  //   this.setState({
+  //     fields: {
+  //       ...this.state.fields,
+  //       cards: newCards,
+  //     }
+  //   },()=> console.log(this.state.fields.cards))
+  // }
 
   appendInput = (event, { name }) => {
     event.preventDefault()
@@ -78,12 +112,15 @@ class CollectionForm extends Component {
 
   removeInput = (event, { name }) => {
     event.preventDefault()
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        cards: this.state.fields.cards.filter((input, index) => index !== parseInt(name, 10))
-      }
-    })
+    if (event.target === event.currentTarget) {
+      this.setState({
+        fields: {
+          ...this.state.fields,
+          cards: this.state.fields.cards.filter((input, index) => index !== parseInt(name, 10))
+        }
+      })
+    }
+
   }
 
   handleCardChange = (event) => {
@@ -122,7 +159,8 @@ class CollectionForm extends Component {
     this.props.addToCollection(this.state.fields, this.props.history, this.props.currentUser)
     this.setState({
       fields: {
-        cards:[{key:uuid(),name:"", count:"", setCode:"", condition:"", premium: false, wishlist: false, error: false}],
+        ...this.state.fields,
+        cards:[],
       },
       text: false,
       submitted: true,

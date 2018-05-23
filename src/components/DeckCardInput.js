@@ -41,7 +41,7 @@ class DeckCardInput extends Component  {
         <Form.Group as={editing ? null : Segment}  onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} >
           {  !editing && (
 
-              <Label color='red' size='small' as='a' corner={editing ? false : true} onClick={editing ? this.handleRemove : removeInput} id={board} name={index}>
+              <Label color='red' size='small' as='a' corner={editing ? false : 'left'} onClick={editing ? this.handleRemove : removeInput} id={board} name={index}>
                 <Icon name='remove' size='large'/>
               </Label>
 
