@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { fetchCards } from '../actions/cards'
 import { fetchDecks } from '../actions/decks'
 import { logoutUser } from '../actions/auth'
 import {
-  Container,
   Menu,
   Form,
   Dropdown,
@@ -16,7 +15,6 @@ class NavBar extends Component {
   state = {
     activeItem: 'home',
     search: "",
-    submit: false,
     dropdown: 'cards',
    }
 
@@ -31,12 +29,13 @@ class NavBar extends Component {
 
   handleSearch = (event, { name }) => {
     event.preventDefault()
+    const searchTerm = this.state.search.length ? this.state.search : 'default'
     switch (this.state.dropdown) {
       case 'cards':
-        this.props.fetchCards({term: this.state.search}, this.props.history)
+        this.props.fetchCards({term: searchTerm}, this.props.history)
         break;
       case 'decks':
-        this.props.fetchDecks({term: this.state.search}, this.props.history)
+        this.props.fetchDecks({term: searchTerm}, this.props.history)
         break;
       default:
         alert("Something went wrong in React Router")
@@ -58,7 +57,7 @@ class NavBar extends Component {
         value:"decks"
       },
     ]
-    const { activeItem, search, dropdown, submit } = this.state
+    const { activeItem, search, dropdown } = this.state
     const { currentUser, loggedIn } = this.props
       return (
         <div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import cardBack from '../assets/images/card_back_2.jpeg'
 import uuid from 'uuid'
 import CollectionCardInput from './CollectionCardInput'
 import { connect } from 'react-redux'
@@ -19,7 +18,8 @@ class MagicCard extends Component {
   }
 
   handleAdd = (event) => {
-    this.props.selectCard(this.props.card, event.target.name)
+    const sideboard = event.target.name === 'sideboard'
+    this.props.selectCard(this.props.card, sideboard)
   }
 
   componentDidMount() {
@@ -164,7 +164,7 @@ class MagicCard extends Component {
             >
               <Modal.Header>
                 Edit Card
-                <Button color='red' basic onClick={this.handleDelete} onClick={this.editCollection} floated='right' size='small'>Close</Button>
+                <Button color='red' basic onClick={this.editCollection} floated='right' size='small'>Close</Button>
               </Modal.Header>
               <Modal.Content>
                 <Form onSubmit={this.handleSubmit}>

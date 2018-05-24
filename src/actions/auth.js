@@ -60,7 +60,6 @@ export const createUser = (username, password, history) => {
           } else {
             localStorage.setItem('token', res.jwt);
             const { id, name } = res.user.data.attributes
-            const decks = res.user.data.attributes.decks.data
             dispatch({ type: 'SET_CURRENT_USER', user: { id, name } });
             history.push('/');
           }

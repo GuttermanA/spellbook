@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import cardBack from '../assets/images/card_back_2.jpeg'
+import { withRouter } from 'react-router-dom'
 import DeleteModal from './DeleteModal'
 import { connect } from 'react-redux'
 import { selectDeck, deleteDeck } from '../actions/decks'
@@ -48,15 +47,9 @@ class DeckCard extends Component {
       // createdAt,
       updatedAt,
       formatName,
-      id,
+      // id,
     } = this.props.deck
-    const { currentUser } = this.props
-    // const style = {
-    //    height:"310px",
-    //    width:"223px",
-    //    background: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), center no-repeat url(${cardBack})`,
-    //    backgroundSize: '223px 310px ',
-    // }
+    // const { currentUser } = this.props
     return (
       <Card  className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
         <Card.Content>
@@ -91,7 +84,7 @@ class DeckCard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.auth.currentUser
+    // currentUser: state.auth.currentUser
   }
 }
 

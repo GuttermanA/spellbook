@@ -4,13 +4,19 @@ import uuid from 'uuid'
 import { connect } from 'react-redux'
 import withPusher from '../components/hocs/withPusher'
 import { fetchCards } from '../actions/cards'
-import { Card, Message, Container, Segment } from 'semantic-ui-react'
+import { Card, Message, } from 'semantic-ui-react'
 
 
 class CardContainer extends Component {
 
   state = {
     collection: false,
+  }
+
+  componentDidMount() {
+    if (!this.props.results.length && !this.props.loading) {
+      this.props.fetchCards({term: "default"}, this.props.history)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,6 +28,7 @@ class CardContainer extends Component {
   }
 
   render() {
+    console.log(this.props.results);
     const { pusherVisible, pusherType } = this.props
     let cards
     if (this.state.collection) {

@@ -23,10 +23,14 @@ class DeckCardInput extends Component  {
   }
 
 
-
   render() {
-    const { name, count, error } = this.props.card
-    const { handleCardChange, index, removeInput, board, editing } = this.props
+    const { index, removeInput, board, editing, id } = this.props
+    const { error, key } = this.props.card
+    const { name, count} = this.props.card.info
+
+
+
+
 
     if (this.state.removed && name.length) {
       return (
@@ -38,37 +42,35 @@ class DeckCardInput extends Component  {
         </Segment>)
     } else {
       return (
-        <Form.Group as={editing ? null : Segment}  onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver} >
-          {  !editing && (
+        <Form.Group as={editing ? null : Segment} >
+          {!editing && (
+            <Label color='red' size='small' as='a' corner={editing ? false : 'left'} onClick={editing ? this.handleRemove : this.props.removeInput} id={key} name='remove'>
+              <Icon name='remove' size='large'/>
+            </Label>
+          )}
 
-              <Label color='red' size='small' as='a' corner={editing ? false : 'left'} onClick={editing ? this.handleRemove : removeInput} id={board} name={index}>
-                <Icon name='remove' size='large'/>
-              </Label>
 
-        )}
-
-          <Form.Field width={editing ? 10 : 12}  error={error} >
             { editing ? (
-              <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
+              <Form.Field width={editing ? 10 : 12}  error={error} >
+                <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
+              </Form.Field>
             ):(
-              <input type='text' placeholder='Card name' value={name} name='name' id={board} data-position={index} onChange={handleCardChange}/>
-            )}
-          </Form.Field>
-          <Form.Field width={4} >
-            { editing ? (
-              <input type='number' placeholder='N'  defaultValue={count} name='count' id={board} data-position={index} onChange={this.handleChange}/>
-            ):(
-              <input type='number' placeholder='N'  value={count} name='count' id={board} data-position={index} onChange={handleCardChange}/>
+              <Form.Input type='text' placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
             )}
 
-          </Form.Field>
+
+            { editing ? (
+              <Form.Field width={4} >
+                <input type='number' placeholder='N'  defaultValue={count} name='count' id={board} data-position={index} onChange={this.handleChange}/>
+              </Form.Field>
+            ):(
+              <Form.Input type='number' placeholder='N' value={count} name='count' id={key} className='number-input' onChange={this.props.handleCardChange}/>
+            )}
+
+
           { editing && (
-
-
-                <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : removeInput}/>
-
-
-            )}
+            <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : removeInput}/>
+          )}
         </Form.Group>
       )
     }

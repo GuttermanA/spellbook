@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Segment, Form, Dropdown, Label, Icon, Button } from 'semantic-ui-react'
+import { Segment, Form, Dropdown, Label, Icon } from 'semantic-ui-react'
 import { conditionOptions } from '../globalVars'
 
 const CollectionCardInput = (props) => {

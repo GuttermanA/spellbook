@@ -1,7 +1,7 @@
 import React from 'react'
 import DeckForm from '../DeckForm'
 import CollectionForm from '../CollectionForm'
-import { Sidebar, Button, Container, Dimmer, Loader, Divider, Sticky } from 'semantic-ui-react'
+import { Sidebar, Button, Container, Dimmer, Loader, Divider } from 'semantic-ui-react'
 
 
 export default function withPusher(Component) {
@@ -100,7 +100,7 @@ export default function withPusher(Component) {
 
     render() {
 
-      const { visible, activeItem, contextRef } = this.state
+      const { visible, activeItem } = this.state
       const { loading, loggedIn } = this.props
       const style = {
         width: `${this.state.pusher.width}px`,

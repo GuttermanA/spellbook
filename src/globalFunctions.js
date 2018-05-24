@@ -7,7 +7,7 @@ export const generateSearchParams = (searchTerms, model) => {
   //   }
   // }
   let query = Object.keys(searchTerms)
-      .map(k => `${model}[${encodeURIComponent(k)}]`  + '=' + encodeURIComponent(searchTerms[k]))
+      .map(k => `${model}[${encodeURIComponent(k)}]=${encodeURIComponent(searchTerms[k])}`)
       .join('&');
   return query
 }

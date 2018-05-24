@@ -7,6 +7,40 @@ import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
 import {  archtypeOptions } from '../globalVars'
 
+
+const addCard = (newCard, prevState) => {
+  const cards = prevState.fields.cards
+  let updated = false
+  // let nextCardsState = []
+  for(let i = 0; i < cards.length; i++) {
+    let card = cards[i]
+    if ((card.info.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.sideboard)) {
+      ++card.info.count
+      updated = true
+      break
+    }
+  }
+  // const newCards = cards.forEach((card, index) => {
+  //   // const names = cards.map(card => card.info.name)
+  //   if ((card.info.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.info.sideboard === newCard.attributes.sideboard)) {
+  //     ++card.info.count
+  //     updated = true
+  //     break
+  //   }
+  //   // else if (!card.name && !names.includes(newCard.attributes.name)) {
+  //   //   updated = true
+  //   //   card.info = {...newCard.attributes, count: 1}
+  //   //   break
+  //   // }
+  // })
+
+  if (!updated) {
+    cards.push({key:uuid(), error: false, sideboard: newCard.sideboard, info:{...newCard.attributes, count: 1}})
+  }
+
+  return cards
+}
+
 class DeckForm extends Component {
   state = {
     fields: {
@@ -14,98 +48,129 @@ class DeckForm extends Component {
       archtype: "",
       format: "",
       tournament: false,
-      cards: {
-        mainboard: [{key:uuid(), name:"", count:"", error: false}],
-        sideboard: [{key:uuid(), name:"", count:"", error: false}],
-      },
+      cards: []
     },
-    text: false,
     validation: {
       error: false,
       message: "",
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
-      this.addCard(nextProps.selectedCard)
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (Object.keys(nextProps.selectedCard).length) {
+      return {
+        fields: {
+          ...prevState.fields,
+          cards: addCard(nextProps.selectedCard, prevState)
+        }
+      }
     }
 
     if (nextProps.deckError) {
-      const mainboardCopy = this.state.fields.cards.mainboard.map(card => {
+      const cards = prevState.fields.cards
+      const cardsCopy = cards.map(card => {
         if (nextProps.deckErrorRes.keys.mainboard.includes(card.key) ) {
           card.error = true
         }
         return card
       })
-      const sideboardCopy = this.state.fields.cards.sideboard.map(card => {
-        if (nextProps.deckErrorRes.keys.sideboard.includes(card.key) ) {
-          card.error = true
-        }
-        return card
-      })
 
-      this.setState({
+      return {
         validation: {
           error: true,
           message: nextProps.deckErrorRes.message
         },
         fields: {
-          ...this.state.fields,
-          cards: {
-            mainboard: mainboardCopy,
-            sideboard: sideboardCopy
-          }
-        }
-      },()=> console.log(this.state.fields.cards))
-    }
-  }
-
-  addCard = (addedCard) => {
-    const board = this.state.fields.cards[addedCard.type]
-    let updated = false
-    const newCards = board.map((stateCard, index) => {
-      const names = board.map(card => card.name)
-      if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-        ++stateCard.count
-        updated = true
-        return stateCard
-      } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
-        updated = true
-        stateCard.name = addedCard.attributes.name
-        stateCard.count = 1
-        return stateCard
-      }
-
-      return stateCard
-    })
-
-    if (!updated) {
-      newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, error: false})
-    }
-
-    this.setState({
-      fields: {
-        ...this.state.fields,
-        cards: {
-          ...this.state.fields.cards,
-          [addedCard.type]: newCards
+          ...prevState.fields,
+          cards: cardsCopy
         }
       }
-    })
+    }
+
+    return null
+
+
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
+  //     this.addCard(nextProps.selectedCard)
+  //   }
+  //
+  //   if (nextProps.deckError) {
+  //     const mainboardCopy = this.state.fields.cards.mainboard.map(card => {
+  //       if (nextProps.deckErrorRes.keys.mainboard.includes(card.key) ) {
+  //         card.error = true
+  //       }
+  //       return card
+  //     })
+  //     const sideboardCopy = this.state.fields.cards.sideboard.map(card => {
+  //       if (nextProps.deckErrorRes.keys.sideboard.includes(card.key) ) {
+  //         card.error = true
+  //       }
+  //       return card
+  //     })
+  //
+  //     this.setState({
+  //       validation: {
+  //         error: true,
+  //         message: nextProps.deckErrorRes.message
+  //       },
+  //       fields: {
+  //         ...this.state.fields,
+  //         cards: {
+  //           mainboard: mainboardCopy,
+  //           sideboard: sideboardCopy
+  //         }
+  //       }
+  //     },()=> console.log(this.state.fields.cards))
+  //   }
+  // }
+
+  // addCard = (addedCard) => {
+  //   const board = this.state.fields.cards[addedCard.type]
+  //   let updated = false
+  //   const newCards = board.map((stateCard, index) => {
+  //     const names = board.map(card => card.info.name)
+  //     if (stateCard.info.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+  //       ++stateCard.info.count
+  //       updated = true
+  //       return stateCard
+  //     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
+  //       updated = true
+  //       stateCard.info = {...addedCard.attributes, count: 1}
+  //       return stateCard
+  //     }
+  //
+  //     return stateCard
+  //   })
+  //
+  //   if (!updated) {
+  //     newCards.push({key:uuid(), error: false, info:{...addedCard.attributes, count: 1}})
+  //   }
+  //
+  //   return newCards
+  //
+  //   this.setState({
+  //     fields: {
+  //       ...this.state.fields,
+  //       cards: {
+  //         ...this.state.fields.cards,
+  //         [addedCard.type]: newCards
+  //       }
+  //     }
+  //   })
+  // }
 
   appendInput = (event, { name }) => {
     event.preventDefault()
-    let cards = this.state.fields.cards[name]
+    const sideboard = name === 'sideboard'
+    const cards = this.state.fields.cards
     if (cards.length <= 100) {
       this.setState({
         fields: {
           ...this.state.fields,
-          cards: {
-            ...this.state.fields.cards,
-            [name]: [...cards, {key: uuid(), name:'', count:'', error: false}],
-          }
+          cards: [...cards, {key:uuid(), error: false, sideboard, info:{name:"", count: "" }}],
         }
       })
     } else {
@@ -115,18 +180,29 @@ class DeckForm extends Component {
 
   removeInput = (event, { id, name }) => {
     event.preventDefault()
+    const updatedCards = this.state.fields.cards.filter(card => card.key !== id)
     this.setState({
       fields: {
         ...this.state.fields,
-        cards: {
-          ...this.state.fields.cards,
-          [id]: this.state.fields.cards[id].filter((input, index) => index !== parseInt(name, 10))
-        }
+        cards: updatedCards
       }
     })
   }
 
-  handleChange = (event, { name, value, checked }) => {
+  // removeInput = (event, { id, name }) => {
+  //   event.preventDefault()
+  //   this.setState({
+  //     fields: {
+  //       ...this.state.fields,
+  //       cards: {
+  //         ...this.state.fields.cards,
+  //         [id]: this.state.fields.cards[id].filter((input, index) => index !== parseInt(name, 10))
+  //       }
+  //     }
+  //   })
+  // }
+
+  handleFieldChange = (event, { name, value, checked }) => {
     this.setState({
       fields: {
         ...this.state.fields,
@@ -135,63 +211,104 @@ class DeckForm extends Component {
     })
   }
 
-  handleCardChange = (event) => {
-    const { name, id, value } = event.target
-    const position = event.target.dataset.position
-    const copy = this.state.fields.cards[id].map((card, index) => {
-      if (index === parseInt(position, 10)) {
-        card[name] = value
+  handleCardChange = (event, { name, id, value }) => {
+    // const { name, id, value } = event.target
+    // const position = event.target.dataset.position
+    const updatedCards = this.state.fields.cards.map((card) => {
+      if (card.key === id) {
+        card.info[name] = value
       }
       return card
     })
     this.setState({
       fields: {
         ...this.state.fields,
-        cards: {
-          ...this.state.fields.cards,
-          [id]: copy
-        }
+        cards: updatedCards
       }
     },()=> console.log(this.state.fields.cards))
   }
+
+  // handleCardChange = (event) => {
+  //   const { name, id, value } = event.target
+  //   const position = event.target.dataset.position
+  //   const copy = this.state.fields.cards[id].map((card, index) => {
+  //     if (index === parseInt(position, 10)) {
+  //       card[name] = value
+  //     }
+  //     return card
+  //   })
+  //   this.setState({
+  //     fields: {
+  //       ...this.state.fields,
+  //       cards: {
+  //         ...this.state.fields.cards,
+  //         [id]: copy
+  //       }
+  //     }
+  //   },()=> console.log(this.state.fields.cards))
+  // }
 
   handleSubmit = (event) => {
     event.preventDefault()
     const { name, format } = this.state.fields
     if (name && format) {
       this.props.createDeck(this.state.fields, this.props.history)
-      this.setState({validation: { error: false, message:"" }})
+      this.setState({
+        fields: {
+          name: "",
+          archtype: "",
+          format: "",
+          tournament: false,
+          cards: []
+        },
+        validation: {
+          error: false,
+          message: "",
+        }
+      })
     } else {
-      const message = `Name and format required for submission `
+      const message = `Name and format required for submission`
       this.setState({validation: { error: true, message }})
     }
 
   }
 
   render() {
-    const { error, message } = this.state.validation
-    const mainboard = this.state.fields.cards.mainboard.map((input, index) => {
-      return (
-        <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>
-      )
-    })
-    const sideboard = this.state.fields.cards.sideboard.map((input, index) => {
-      return (
-        <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>
-      )
-    })
-
-    const { name, archtype, format} = this.state.fields
     const { formats } = this.props
+    const { error, message } = this.state.validation
+    const { name, archtype, tournament, format, cards } = this.state.fields
+    const mainboard = cards.reduce((mainboard, card, index) => {
+      if (!card.sideboard) {
+        mainboard.push(<DeckCardInput index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>)
+      }
+      return mainboard
+    }, [])
+    // const mainboard = this.state.fields.cards.map((input, index) => {
+    //   return (
+    //     <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>
+    //   )
+    // })
+    const sideboard = cards.reduce((sideboard, card, index) => {
+      if (card.sideboard) {
+        sideboard.push(<DeckCardInput index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>)
+      }
+      return sideboard
+    }, [])
+    // const sideboard = this.state.fields.cards[1].map((input, index) => {
+    //   return (
+    //     <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>
+    //   )
+    // })
+
     return (
       <Container as={Segment} textAlign='left'>
 
         <Form onSubmit={this.handleSubmit}>
-          <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleChange} width={9}/>
+          <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleFieldChange} width={9}/>
           <Form.Field required inline width={8}>
             <label>Format</label>
             <Dropdown
-              onChange={this.handleChange}
+              onChange={this.handleFieldChange}
               options={formats}
               placeholder='Search format'
               search
@@ -203,7 +320,7 @@ class DeckForm extends Component {
           <Form.Field inline width={8}>
             <label>Archtype</label>
             <Dropdown
-              onChange={this.handleChange}
+              onChange={this.handleFieldChange}
               options={archtypeOptions}
               placeholder='Choose archtype'
               selection
@@ -212,7 +329,7 @@ class DeckForm extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <Checkbox label='Tournament' onChange={this.handleChange} name='tournament'/>
+            <Checkbox label='Tournament' onChange={this.handleFieldChange} name='tournament' checked={tournament}/>
           </Form.Field>
           <Form.Field>
             <label>Mainboard</label>

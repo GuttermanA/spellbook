@@ -6,7 +6,7 @@ import withLoader from './hocs/withLoader'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
-import { Button, Container, Grid, Header, Segment, Label, Form, Icon, Modal } from 'semantic-ui-react'
+import { Button, Container, Grid, Header, Segment, Form, Icon } from 'semantic-ui-react'
 
 class DeckShow extends Component {
   constructor(props) {
@@ -118,7 +118,14 @@ class DeckShow extends Component {
       editing,
     } = this.state
     const { loggedIn, history } = this.props
-    const { name, archtype, totalMainboard, totalSideboard, tournament, updatedAt, } = this.props.selectedDeck
+    const {
+      name,
+      archtype,
+      totalMainboard,
+      totalSideboard,
+      tournament,
+      // updatedAt, 
+    } = this.props.selectedDeck
     const mainboardSegments = (() => {
       const segments = []
       for(const type in mainboard) {

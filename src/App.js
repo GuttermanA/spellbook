@@ -30,8 +30,11 @@ class App extends Component {
   }
 
   render() {
-    const { selectedDeck, loggedIn, loading, cardResults } = this.props
-    console.log(cardResults);
+    const {
+      selectedDeck,
+      // loggedIn, 
+      // loading,
+    } = this.props
     return (
       <div className="App">
         <NavBar />
@@ -58,7 +61,6 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     selectedDeck: state.decks.selected,
-    cardResults: state.cards.results,
     loggedIn: !!state.auth.currentUser.id,
   }
 }
