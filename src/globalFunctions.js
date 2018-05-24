@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const generateSearchParams = (searchTerms, model) => {
   // let params = {}
   // for(let input in searchTerms) {
@@ -27,6 +29,26 @@ export const sortByName = (a, b) => {
     return 1
   }
   return 0
+}
+
+export const sortCardsIntoBoards = (cardsArr, Component, sideboard = false) => {
+  return cardsArr.reduce((board, card, index) => {
+    if (card.sideboard === sideboard) {
+      board.push(<Component index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput}/>)
+    }
+    return board
+  }, [])
+}
+
+export const sortCardsByType = (cardsArr) => {
+  return cardsArr.reduce((obj, card)=>{
+    if (!Object.keys(obj).includes(card.primary_type)) {
+      obj[card.primary_type] = [card]
+    } else {
+      obj[card.primary_type].push(card)
+    }
+    return obj
+  },{})
 }
 
 // export const updateCardFormat = (card, index) => {

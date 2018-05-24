@@ -3,10 +3,13 @@ import uuid from 'uuid'
 import SegmentList from './SegmentList'
 import DeleteModal from './DeleteModal'
 import withLoader from './hocs/withLoader'
+import { sortCardsByType, dateFormater } from '../globalFunctions'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Form, Icon } from 'semantic-ui-react'
+
+
 
 class DeckShow extends Component {
   constructor(props) {
@@ -15,9 +18,13 @@ class DeckShow extends Component {
       redirect: false,
       userDeck: false,
       editing: false,
-      mainboard: {},
-      sideboard: [],
       destroy: false,
+      deck: props.selectedDeck,
+      validation: {
+        error: false,
+        message: "",
+      },
+
     }
     this.cardsToUpdate = []
     this.cardsToDelete = []
@@ -92,48 +99,80 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
-    } else {
-      console.log('mountingSelectedDeck',this.props.selectedDeck);
-      const mainboard = this.props.selectedDeck.cards.mainboard
-      for(const type in mainboard) {
-        mainboard[type].map(card => card.key = uuid())
-      }
-      const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
-      if (this.props.match.params.username) {
-        this.setState({ sideboard, mainboard, userDeck: true })
-      } else {
-        this.setState({ sideboard, mainboard, userDeck: false })
-      }
-
     }
+    // else {
+    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
+    //   const mainboard = this.props.selectedDeck.cards.mainboard
+    //   for(const type in mainboard) {
+    //     mainboard[type].map(card => card.key = uuid())
+    //   }
+    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
+    //   if (this.props.match.params.username) {
+    //     this.setState({ sideboard, mainboard, userDeck: true })
+    //   } else {
+    //     this.setState({ sideboard, mainboard, userDeck: false })
+    //   }
+    //
+    // }
   }
 
   render() {
+    const { loggedIn, history } = this.props
     const {
       destroy,
-      sideboard,
-      mainboard,
       userDeck,
       redirect,
       editing,
     } = this.state
-    const { loggedIn, history } = this.props
+
     const {
       name,
       archtype,
       totalMainboard,
       totalSideboard,
       tournament,
-      // updatedAt, 
-    } = this.props.selectedDeck
+      cards,
+      creator,
+      userName,
+      formatName,
+      updatedAt,
+    } = this.state.deck
     const mainboardSegments = (() => {
-      const segments = []
-      for(const type in mainboard) {
-        segments.push(<SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard[type]} type={type} board='mainboard'/>)
+      if (cards) {
+        const segments = []
+        const mainboard = cards.filter(card => !card.sideboard)
+        const sortedCards = sortCardsByType(mainboard)
+        for(const cardType in sortedCards) {
+          segments.push(
+            <SegmentList
+              handleRemoveEdit={this.handleRemoveEdit}
+              handleChange={this.handleChange}
+              key={uuid()}
+              editing={this.state.editing}
+              cards={sortedCards[cardType]}
+              type={cardType}
+              board='mainboard'
+            />
+          )
+        }
+        return segments.sort((a,b) => b.props.cards.length - a.props.cards.length )
       }
-      return segments.sort((a,b) => b.props.cards.length - a.props.cards.length )
     })()
-    const sideboardSegment = <SegmentList handleRemoveEdit={this.handleRemoveEdit} totalsideboard={totalSideboard} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={sideboard} board='sideboard'/>
+    const sideboardSegment =  (() =>{
+      if (cards) {
+        const sideboard = cards.filter(card => card.sideboard)
+        return (
+          <SegmentList
+            handleRemoveEdit={this.handleRemoveEdit}
+            totalsideboard={totalSideboard}
+            handleChange={this.handleChange}
+            key={uuid()} editing={this.state.editing}
+            cards={sideboard}
+            board='sideboard'
+          />
+        )
+      }
+    })()
 
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
@@ -153,7 +192,16 @@ class DeckShow extends Component {
               Name: {name}
             </Segment>
             <Segment>
+              Creator: {userName !== 'admin' ? userName : creator}
+            </Segment>
+            <Segment>
+              Format: {formatName}
+            </Segment>
+            <Segment>
               Archtype: {archtype}
+            </Segment>
+            <Segment>
+              Last Updated: {dateFormater(updatedAt)}
             </Segment>
           </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >

@@ -84,7 +84,7 @@ class DeckCard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    // currentUser: state.auth.currentUser
+    currentUser: state.auth.currentUser
   }
 }
 

@@ -2,6 +2,7 @@ import React, { Component} from 'react'
 import uuid from 'uuid'
 import DeckCardInput from './DeckCardInput'
 import { connect } from 'react-redux'
+import { sortCardsIntoBoards } from '../globalFunctions'
 import { Form, Button, Container, Segment, Dropdown, Message, Checkbox, Divider } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
 import { withRouter } from 'react-router-dom'
@@ -278,29 +279,8 @@ class DeckForm extends Component {
     const { error, message } = this.state.validation
     console.log(error);
     const { name, archtype, tournament, format, cards } = this.state.fields
-    const mainboard = cards.reduce((mainboard, card, index) => {
-      if (!card.sideboard) {
-        mainboard.push(<DeckCardInput index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>)
-      }
-      return mainboard
-    }, [])
-    // const mainboard = this.state.fields.cards.map((input, index) => {
-    //   return (
-    //     <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='mainboard'/>
-    //   )
-    // })
-    const sideboard = cards.reduce((sideboard, card, index) => {
-      if (card.sideboard) {
-        sideboard.push(<DeckCardInput index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>)
-      }
-      return sideboard
-    }, [])
-    // const sideboard = this.state.fields.cards[1].map((input, index) => {
-    //   return (
-    //     <DeckCardInput index={index} card={input} key={input.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput} board='sideboard'/>
-    //   )
-    // })
-
+    const mainboard = sortCardsIntoBoards(cards, DeckCardInput, false)
+    const sideboard = sortCardsIntoBoards(cards, DeckCardInput, true)
     return (
       <Container as={Segment} textAlign='left'>
 
