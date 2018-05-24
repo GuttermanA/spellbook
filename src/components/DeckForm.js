@@ -69,7 +69,7 @@ class DeckForm extends Component {
     if (nextProps.deckError) {
       const cards = prevState.fields.cards
       const cardsCopy = cards.map(card => {
-        if (nextProps.deckErrorRes.keys.mainboard.includes(card.key) ) {
+        if (nextProps.deckErrorRes.keys.includes(card.key) ) {
           card.error = true
         }
         return card
@@ -253,19 +253,19 @@ class DeckForm extends Component {
     const { name, format } = this.state.fields
     if (name && format) {
       this.props.createDeck(this.state.fields, this.props.history)
-      this.setState({
-        fields: {
-          name: "",
-          archtype: "",
-          format: "",
-          tournament: false,
-          cards: []
-        },
-        validation: {
-          error: false,
-          message: "",
-        }
-      })
+      // this.setState({
+      //   fields: {
+      //     name: "",
+      //     archtype: "",
+      //     format: "",
+      //     tournament: false,
+      //     cards: []
+      //   },
+      //   validation: {
+      //     error: false,
+      //     message: "",
+      //   }
+      // })
     } else {
       const message = `Name and format required for submission`
       this.setState({validation: { error: true, message }})
@@ -276,6 +276,7 @@ class DeckForm extends Component {
   render() {
     const { formats } = this.props
     const { error, message } = this.state.validation
+    console.log(error);
     const { name, archtype, tournament, format, cards } = this.state.fields
     const mainboard = cards.reduce((mainboard, card, index) => {
       if (!card.sideboard) {
@@ -303,7 +304,7 @@ class DeckForm extends Component {
     return (
       <Container as={Segment} textAlign='left'>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} error={error}>
           <Form.Input required inline type='text' label='Deck Name' value={name} name='name' onChange={this.handleFieldChange} width={9}/>
           <Form.Field required inline width={8}>
             <label>Format</label>
@@ -343,11 +344,10 @@ class DeckForm extends Component {
           {sideboard}
           <Button onClick={this.appendInput} name='sideboard' >Add Card</Button>
           <Divider />
+          <Message hidden={!error} error header='Invalid Submission' content={message}/>
           <Form.Button >Submit</Form.Button>
         </Form>
-        <Message warning attached hidden={ error === false}>
-          <Message.Header >{message}</Message.Header>
-        </Message>
+
       </Container>
 
     )

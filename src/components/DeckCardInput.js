@@ -55,7 +55,7 @@ class DeckCardInput extends Component  {
                 <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
               </Form.Field>
             ):(
-              <Form.Input type='text' placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
+              <Form.Input type='text' error={error} placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
             )}
 
 

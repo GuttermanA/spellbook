@@ -18,14 +18,13 @@ export const createDeck = (deck, history) => {
     return (
       fetch(`${API_ROOT}/decks`, options)
         .then(res => res.json())
-        .then(res => {
-          console.log(res);
-          if (res.error) {
-            return dispatch({ type: 'DECK_ERROR', payload: res.error })
+        .then(json => {
+          console.log(json);
+          if (json.error) {
+            return dispatch({ type: 'DECK_ERROR', payload: json.error })
           } else {
-            debugger
-            history.push(`/${res.data.attributes.userName}/decks/${res.data.attributes.id}`)
-            return dispatch({ type: 'SELECT_DECK', payload: res.data.attributes })
+            history.push(`/${json.data.attributes.userName}/decks/${json.data.attributes.id}`)
+            return dispatch({ type: 'SELECT_DECK', payload: json.data.attributes })
           }
         })
     )
