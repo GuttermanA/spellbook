@@ -24,6 +24,7 @@ export const createDeck = (deck, history) => {
             return dispatch({ type: 'DECK_ERROR', payload: json.error })
           } else {
             history.push(`/${json.data.attributes.userName}/decks/${json.data.attributes.id}`)
+            dispatch({ type: 'UPDATE_CURRENT_USER_DECKS', payload: json.data})
             return dispatch({ type: 'SELECT_DECK', payload: json.data.attributes })
           }
         })

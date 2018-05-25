@@ -36,21 +36,11 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
-      this.setState({ editing: !this.state.editing })
-    } else {
-      let mainboard = this.props.selectedDeck.cards.mainboard
-      let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
+    this.setState({ editing: !this.state.editing })
+  }
 
-      for(const type in mainboard) {
-        for(const card of mainboard[type]) {
-          deck.cards.mainboard.push(card)
-        }
-      }
-
-
-      this.props.createDeck(deck, this.props.history, this.props.currentUser)
-    }
+  handleCopy = (event) => {
+    this.props.createDeck({...this.state.deck, copy: true}, this.props.history, this.props.currentUser)
   }
 
   toggleDestroyModal = () => {
@@ -99,21 +89,13 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
+      if (this.props.match.path === '/:username/decks/:id') {
+        this.setState({userDeck: true})
+      }
     }
-    // else {
-    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
-    //   const mainboard = this.props.selectedDeck.cards.mainboard
-    //   for(const type in mainboard) {
-    //     mainboard[type].map(card => card.key = uuid())
-    //   }
-    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
-    //   if (this.props.match.params.username) {
-    //     this.setState({ sideboard, mainboard, userDeck: true })
-    //   } else {
-    //     this.setState({ sideboard, mainboard, userDeck: false })
-    //   }
-    //
-    // }
+    if (this.props.match.path === '/:username/decks/:id') {
+      this.setState({userDeck: true})
+    }
   }
 
   render() {
@@ -174,6 +156,8 @@ class DeckShow extends Component {
       }
     })()
 
+    console.log(userDeck);
+
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
     } else {
@@ -181,7 +165,8 @@ class DeckShow extends Component {
         <Container>
           <Button.Group >
             <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
-            { loggedIn && !editing && <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>}
+            { loggedIn && !editing && userDeck && <Button  name='edit' onClick={this.handleEdit}>Edit</Button>}
+            { loggedIn && !editing && !userDeck && <Button  name='edit' onClick={this.handleCopy}>Copy</Button>}
             { loggedIn && editing && <Button  name='cancel' onClick={this.handleEdit}>Cancel</Button>}
             { userDeck && !editing && <Button  name='delete' onClick={this.toggleDestroyModal}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}

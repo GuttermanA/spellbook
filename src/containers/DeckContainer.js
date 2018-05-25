@@ -15,41 +15,11 @@ class DeckContainer extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.loggedIn && this.props.location.pathname !== "/decks/search") {
+    if (this.props.loggedIn && this.props.match.params.username) {
       this.props.fetchUser()
       this.setState({ userPage: true })
     }
-    // if (this.props.location.state) {
-    //   // const { redirect, message } = this.props.location.state
-    //   this.setState({
-    //     userPage: redirect,
-    //     // message: message,
-    //   },() => console.log(this.state))
-    // } else {
-    //   this.setState({
-    //     redirect: false,
-    //     // message: "",
-    //   })
-    // }
 
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ( this.props.loggedIn && nextProps.location.pathname !== this.props.location.pathname) {
-      this.props.fetchUser()
-      this.setState({ userPage: true })
-    }
-    //   const { redirect, message } = nextProps.location.state
-    //   this.setState({
-    //     redirect: redirect,
-    //     message: message,
-    //   },() => console.log(this.state))
-    // } else {
-    //   this.setState({
-    //     redirect: false,
-    //     message: "",
-    //   })
-    // }
   }
 
   render() {

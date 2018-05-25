@@ -34,7 +34,6 @@ class DeckCard extends Component {
   }
 
   render() {
-    console.log(this.props.deck);
     const {
       name,
       userName,
@@ -74,7 +73,7 @@ class DeckCard extends Component {
         </Card.Content>
         <Card.Content extra className="white-text">
           {dateFormater(updatedAt)}
-          {this.props.history.location.pathname !== "/decks/search" && this.state.mouseOver && <Label as='a' name='delete' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
+          {this.props.match.params.username && this.state.mouseOver && <Label as='a' name='delete' color='red' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
         </Card.Content>
         <DeleteModal open={this.state.destroy} handleDelete={this.handleDelete} toggle={this.toggleDestroyModal} type='deck'/>
       </Card>

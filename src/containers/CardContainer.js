@@ -14,7 +14,7 @@ class CardContainer extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.results.length && !this.props.loading) {
+    if (!this.props.location.state.collection && !this.props.results.length && !this.props.loading) {
       this.props.fetchCards({term: "default"}, this.props.history)
     }
   }
@@ -28,7 +28,6 @@ class CardContainer extends Component {
   }
 
   render() {
-    console.log(this.props.results);
     const { pusherVisible, pusherType } = this.props
     let cards
     if (this.state.collection) {
