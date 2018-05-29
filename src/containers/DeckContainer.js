@@ -9,24 +9,35 @@ import { Container , Message, Card, Dimmer, Loader, Divider } from 'semantic-ui-
 
 class DeckContainer extends Component {
 
-  state = {
-    userPage: false,
-    message: "",
+  constructor(props) {
+    super(props)
+    this.state = {
+      userPage: false,
+      message: "",
+      decks: props.location.state.userPage ? props.currentUserDecks : props.deckResults
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // debugger
+    if (nextProps.loggedIn && !prevState.decks.length) {
+
+      nextProps.fetchUser()
+    }
   }
 
   componentDidMount = () => {
-    if (this.props.loggedIn && this.props.match.params.username) {
-      this.props.fetchUser()
-      this.setState({ userPage: true })
+    if (this.props.loggedIn && this.props.match.params.username === this.props.currentUser.name) {
+      this.setState({ userPage: true }, () => this.props.fetchUser())
     }
 
   }
 
   render() {
-    const { deckResults, currentUserDecks } = this.props
-    const { userPage, message } = this.state
-    const deckResultsCards = deckResults.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
-    const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
+    const { userPage, message, decks } = this.state
+    console.log('LOADED DECKS', this.props.currentUser);
+    const deckCards = decks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
+    // const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
     if (this.props.loading) {
       return <Dimmer active><Loader /></Dimmer>
     } else {
@@ -38,13 +49,16 @@ class DeckContainer extends Component {
             </Message>
           )}
           { message && <Divider/>}
-          { ((!userPage && !deckResults.length) || (userPage && !currentUserDecks.length)) && (
+          { ((!userPage && !decks.length) || (userPage && !decks.length)) && (
             <Message attached>
               <Message.Header content={userPage ? 'No decks yet' :  'No decks found'} />
             </Message>
           )}
           <Card.Group centered>
-            {userPage ? currentUserDecksCards : deckResultsCards}
+            {
+              deckCards
+              // userPage ? currentUserDecksCards : deckResultsCards
+            }
           </Card.Group>
         </Container>
       )
@@ -58,6 +72,7 @@ const mapStateToProps = (state) => {
     loading: state.decks.loading,
     currentUserDecks: state.auth.currentUserDecks,
     loggedIn: !!state.auth.currentUser.id,
+    currentUser: state.auth.currentUser
   }
 }
 
