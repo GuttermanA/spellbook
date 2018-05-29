@@ -19,6 +19,7 @@ class NavBar extends Component {
    }
 
    static getDerivedStateFromProps(nextProps, prevState) {
+     console.log('Next navbar props',nextProps);
      if (nextProps.history.location.pathname === '/') {
        return {
          activeItem: 'home'
@@ -36,7 +37,6 @@ class NavBar extends Component {
          activeItem: ''
        }
      }
-     return null
    }
 
   handleItemClick = (event, { name }) => this.setState({ activeItem: name, submit: false })
@@ -45,23 +45,6 @@ class NavBar extends Component {
     this.setState({
       [name]: value,
     })
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.location.pathname === "/:username/decks") {
-      return {
-        activeItem: 'decks'
-      }
-    } else if (nextProps.location.pathname === "/:username/collection") {
-      return {
-        activeItem: 'collection'
-      }
-    } else if (nextProps.location.pathname === "/") {
-      return {
-        activeItem: 'home'
-      }
-    }
-    return null
   }
 
   handleSearch = (event, { name }) => {
@@ -126,7 +109,7 @@ class NavBar extends Component {
                 <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
               )}
           </Menu>
-          {this.props.match.path !== "/" && <Divider hidden fitted/>}
+          {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
         </div>
 
     )
@@ -137,6 +120,7 @@ const mapStateToProps = (state) => {
   return {
     loggedIn: !!state.auth.currentUser.id,
     currentUser: state.auth.currentUser,
+    request: state.cards.loading || state.decks.loading,
   }
 }
 

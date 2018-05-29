@@ -9,33 +9,77 @@ import { Container , Message, Card, Dimmer, Loader, Divider } from 'semantic-ui-
 
 class DeckContainer extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      userPage: false,
-      message: "",
-      decks: props.location.state.userPage ? props.currentUserDecks : props.deckResults
-    }
+  state = {
+    userPage: false,
+    message: "",
+    decks: [],
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    // debugger
-    if (nextProps.loggedIn && !prevState.decks.length) {
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if ( nextProps.loggedIn && nextProps.match.path === '/:username/decks' && prevState.userPage === false) {
       nextProps.fetchUser()
+      return {
+        userPage: true,
+        decks: nextProps.currentUserDecks,
+      }
+    } else if (nextProps.match.path === '/decks/search') {
+      return {
+        userPage: false,
+        decks: nextProps.deckResults
+      }
     }
+    return null
   }
 
   componentDidMount = () => {
-    if (this.props.loggedIn && this.props.match.params.username === this.props.currentUser.name) {
-      this.setState({ userPage: true }, () => this.props.fetchUser())
+    if (this.props.loggedIn && this.props.match.path !== '/:username/decks') {
+      this.props.fetchUser()
+      this.setState({
+        userPage: true,
+        decks: this.props.currentUserDecks,
+      })
+    } else if (this.props.match.path === '/decks/search') {
+      this.setState({
+        userPage: false,
+        decks: this.props.deckResults,
+      })
     }
+    // if (this.props.location.state) {
+    //   // const { redirect, message } = this.props.location.state
+    //   this.setState({
+    //     userPage: redirect,
+    //     // message: message,
+    //   },() => console.log(this.state))
+    // } else {
+    //   this.setState({
+    //     redirect: false,
+    //     // message: "",
+    //   })
+    // }
 
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if ( this.props.loggedIn && nextProps.location.pathname !== this.props.location.pathname) {
+  //     this.props.fetchUser()
+  //     this.setState({ userPage: true })
+  //   }
+  //   //   const { redirect, message } = nextProps.location.state
+  //   //   this.setState({
+  //   //     redirect: redirect,
+  //   //     message: message,
+  //   //   },() => console.log(this.state))
+  //   // } else {
+  //   //   this.setState({
+  //   //     redirect: false,
+  //   //     message: "",
+  //   //   })
+  //   // }
+  // }
+
   render() {
     const { userPage, message, decks } = this.state
-    console.log('LOADED DECKS', this.props.currentUser);
     const deckCards = decks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
     // const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
     if (this.props.loading) {

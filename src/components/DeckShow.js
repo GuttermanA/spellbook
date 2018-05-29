@@ -105,15 +105,12 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
-<<<<<<< HEAD
       if (this.props.match.path === '/:username/decks/:id') {
         this.setState({userDeck: true})
       }
     }
     if (this.props.match.path === '/:username/decks/:id') {
       this.setState({userDeck: true})
-    }
-=======
     } else {
       this.setState({
         segmentCount: this.props.selectedDeck.cards.length
@@ -137,7 +134,6 @@ class DeckShow extends Component {
     //   }
     //
     // }
->>>>>>> 2308649020ad4d41a5003bff6cdf6cfaa6dea72d
   }
 
   render() {
@@ -209,11 +205,7 @@ class DeckShow extends Component {
           <Button.Group >
             <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
             { loggedIn && !editing && userDeck && <Button  name='edit' onClick={this.handleEdit}>Edit</Button>}
-<<<<<<< HEAD
-            { loggedIn && !editing && !userDeck && <Button  name='edit' onClick={this.handleCopy}>Copy</Button>}
-=======
             { loggedIn && !editing && !userDeck && <Button  name='copy' onClick={this.handleCopy}>Copy</Button>}
->>>>>>> 2308649020ad4d41a5003bff6cdf6cfaa6dea72d
             { loggedIn && editing && <Button  name='cancel' onClick={this.handleEdit}>Cancel</Button>}
             { userDeck && !editing && <Button  name='delete' onClick={this.toggleDestroyModal}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
