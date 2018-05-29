@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { sortCardsIntoBoards } from '../globalFunctions'
 import { Form, Button, Container, Segment, Dropdown, Message, Checkbox, Divider } from 'semantic-ui-react'
 import { createDeck } from '../actions/decks'
+import { clearCard } from '../actions/cards'
 import { withRouter } from 'react-router-dom'
 import {  archtypeOptions } from '../globalVars'
 
@@ -12,31 +13,45 @@ import {  archtypeOptions } from '../globalVars'
 const addCard = (newCard, prevState) => {
   const cards = prevState.fields.cards
   let updated = false
+
   // let nextCardsState = []
   for(let i = 0; i < cards.length; i++) {
     let card = cards[i]
-    if ((card.info.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.sideboard)) {
-      ++card.info.count
+
+    if ((card.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.sideboard)) {
+      ++card.count
       updated = true
       break
     }
   }
   // const newCards = cards.forEach((card, index) => {
-  //   // const names = cards.map(card => card.info.name)
-  //   if ((card.info.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.info.sideboard === newCard.attributes.sideboard)) {
-  //     ++card.info.count
+  //   // const names = cards.map(card => card.name)
+  //   if ((card.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.attributes.sideboard)) {
+  //     ++card.count
   //     updated = true
   //     break
   //   }
   //   // else if (!card.name && !names.includes(newCard.attributes.name)) {
   //   //   updated = true
-  //   //   card.info = {...newCard.attributes, count: 1}
+  //   //   card = {...newCard.attributes, count: 1}
   //   //   break
   //   // }
   // })
 
   if (!updated) {
-    cards.push({key:uuid(), error: false, sideboard: newCard.sideboard, info:{...newCard.attributes, count: 1}})
+    for(let i = 0; i < cards.length; i++) {
+      let card = cards[i]
+
+      if (!card.name) {
+        cards[i] = {key:uuid(), error: false, sideboard: newCard.sideboard, ...newCard.attributes, count: 1}
+        updated = true
+        break
+      }
+    }
+    if (!updated) {
+      cards.push({key:uuid(), error: false, sideboard: newCard.sideboard, ...newCard.attributes, count: 1})
+    }
+
   }
 
   return cards
@@ -47,7 +62,7 @@ class DeckForm extends Component {
     fields: {
       name: "",
       archtype: "",
-      format: "",
+      formatName: "",
       tournament: false,
       cards: []
     },
@@ -58,7 +73,8 @@ class DeckForm extends Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (Object.keys(nextProps.selectedCard).length) {
+
+    if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type !== 'collection') {
       return {
         fields: {
           ...prevState.fields,
@@ -132,14 +148,14 @@ class DeckForm extends Component {
   //   const board = this.state.fields.cards[addedCard.type]
   //   let updated = false
   //   const newCards = board.map((stateCard, index) => {
-  //     const names = board.map(card => card.info.name)
-  //     if (stateCard.info.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-  //       ++stateCard.info.count
+  //     const names = board.map(card => card.name)
+  //     if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
+  //       ++stateCard.count
   //       updated = true
   //       return stateCard
   //     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
   //       updated = true
-  //       stateCard.info = {...addedCard.attributes, count: 1}
+  //       stateCard = {...addedCard.attributes, count: 1}
   //       return stateCard
   //     }
   //
@@ -171,7 +187,7 @@ class DeckForm extends Component {
       this.setState({
         fields: {
           ...this.state.fields,
-          cards: [...cards, {key:uuid(), error: false, sideboard, info:{name:"", count: "" }}],
+          cards: [...cards, {key:uuid(), error: false, sideboard, name:"", count: "" }],
         }
       })
     } else {
@@ -181,6 +197,10 @@ class DeckForm extends Component {
 
   removeInput = (event, { id, name }) => {
     event.preventDefault()
+    if (Object.keys(this.props.selectedCard).length) {
+        this.props.clearCard()
+    }
+
     const updatedCards = this.state.fields.cards.filter(card => card.key !== id)
     this.setState({
       fields: {
@@ -204,6 +224,9 @@ class DeckForm extends Component {
   // }
 
   handleFieldChange = (event, { name, value, checked }) => {
+    if (Object.keys(this.props.selectedCard).length) {
+        this.props.clearCard()
+    }
     this.setState({
       fields: {
         ...this.state.fields,
@@ -213,11 +236,17 @@ class DeckForm extends Component {
   }
 
   handleCardChange = (event, { name, id, value }) => {
+    if (Object.keys(this.props.selectedCard).length) {
+        this.props.clearCard()
+    }
+
+
     // const { name, id, value } = event.target
     // const position = event.target.dataset.position
+
     const updatedCards = this.state.fields.cards.map((card) => {
       if (card.key === id) {
-        card.info[name] = value
+        card[name] = value
       }
       return card
     })
@@ -251,8 +280,9 @@ class DeckForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    const { name, format } = this.state.fields
-    if (name && format) {
+    const { name, formatName } = this.state.fields
+    debugger
+    if (name && formatName) {
       this.props.createDeck(this.state.fields, this.props.history)
       // this.setState({
       //   fields: {
@@ -275,12 +305,12 @@ class DeckForm extends Component {
   }
 
   render() {
+    const { handleCardChange, removeInput } = this
     const { formats } = this.props
     const { error, message } = this.state.validation
-    console.log(error);
-    const { name, archtype, tournament, format, cards } = this.state.fields
-    const mainboard = sortCardsIntoBoards(cards, DeckCardInput, false)
-    const sideboard = sortCardsIntoBoards(cards, DeckCardInput, true)
+    const { name, archtype, tournament, formatName, cards } = this.state.fields
+    const mainboard = sortCardsIntoBoards(cards, DeckCardInput, false, {handleCardChange, removeInput})
+    const sideboard = sortCardsIntoBoards(cards, DeckCardInput, true, {handleCardChange, removeInput})
     return (
       <Container as={Segment} textAlign='left'>
 
@@ -294,8 +324,8 @@ class DeckForm extends Component {
               placeholder='Search format'
               search
               selection
-              value={format}
-              name='format'
+              value={formatName}
+              name='formatName'
             />
           </Form.Field>
           <Form.Field inline width={8}>
@@ -347,4 +377,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { createDeck })(withRouter(DeckForm))
+export default connect(mapStateToProps, { createDeck, clearCard })(withRouter(DeckForm))

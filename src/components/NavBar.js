@@ -18,7 +18,28 @@ class NavBar extends Component {
     dropdown: 'cards',
    }
 
-  handleItemClick = (event, { name }) => this.setState({ activeItem: name })
+   static getDerivedStateFromProps(nextProps, prevState) {
+     if (nextProps.history.location.pathname === '/') {
+       return {
+         activeItem: 'home'
+       }
+     } else if (nextProps.history.location.pathname === `/${nextProps.currentUser.name}/decks`) {
+       return {
+         activeItem: 'decks'
+       }
+     } else if (nextProps.history.location.pathname === `/${nextProps.currentUser.name}/collection`) {
+       return {
+         activeItem: 'collection'
+       }
+     } else {
+       return {
+         activeItem: ''
+       }
+     }
+     return null
+   }
+
+  handleItemClick = (event, { name }) => this.setState({ activeItem: name, submit: false })
 
   handleChange = (event, { value, name }) => {
     this.setState({
@@ -105,10 +126,7 @@ class NavBar extends Component {
                 <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
               )}
           </Menu>
-          <Divider hidden fitted/>
-          {
-            // this.props.history.location.pathname !== "/" && <Divider hidden fitted/>
-          }
+          {this.props.match.path !== "/" && <Divider hidden fitted/>}
         </div>
 
     )

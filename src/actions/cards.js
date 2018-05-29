@@ -25,12 +25,18 @@ export const fetchCards = (searchTerms, history) => {
   }
 }
 
-export const selectCard = (card, sideboard, history) => {
+export const selectCard = (card, sideboard, type, history) => {
   if (history) {
     history.push(`/cards/${card.id}`)
   }
   return {
     type: 'SELECT_CARD',
-    payload: {attributes: card, sideboard}
+    payload: {attributes: card, sideboard, type}
+  }
+}
+
+export const clearCard = () => {
+  return {
+    type: 'CLEAR_CARD',
   }
 }

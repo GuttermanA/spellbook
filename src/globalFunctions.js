@@ -31,10 +31,10 @@ export const sortByName = (a, b) => {
   return 0
 }
 
-export const sortCardsIntoBoards = (cardsArr, Component, sideboard = false) => {
+export const sortCardsIntoBoards = (cardsArr, Component, sideboard = false, funcs) => {
   return cardsArr.reduce((board, card, index) => {
     if (card.sideboard === sideboard) {
-      board.push(<Component index={index} card={card} key={card.key} handleCardChange={this.handleCardChange} removeInput={this.removeInput}/>)
+      board.push(<Component index={index} card={card} key={card.key} {...funcs}/>)
     }
     return board
   }, [])

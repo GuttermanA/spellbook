@@ -73,7 +73,7 @@ class DeckCard extends Component {
         </Card.Content>
         <Card.Content extra className="white-text">
           {dateFormater(updatedAt)}
-          {this.props.match.params.username && this.state.mouseOver && <Label as='a' name='delete' color='red' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
+          {this.props.match.path === "/:username/decks" && this.state.mouseOver && <Label as='a' name='delete' onClick={this.toggleDestroyModal} attached='top right' icon='delete'/>}
         </Card.Content>
         <DeleteModal open={this.state.destroy} handleDelete={this.handleDelete} toggle={this.toggleDestroyModal} type='deck'/>
       </Card>

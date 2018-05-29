@@ -19,12 +19,12 @@ class MagicCard extends Component {
 
   handleAdd = (event) => {
     const sideboard = event.target.name === 'sideboard'
-    this.props.selectCard(this.props.card, sideboard)
+    this.props.selectCard(this.props.card, sideboard, event.target.name,)
   }
 
   componentDidMount() {
     if (this.props.type === 'collection_card') {
-      this.setState( { collectionView: true, card:this.props.card })
+      this.setState( { collectionView: true, card: this.props.card })
     }
   }
 

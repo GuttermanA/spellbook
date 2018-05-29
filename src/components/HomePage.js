@@ -13,57 +13,57 @@ const Home = (props) => {
   }
 
   return (
+      <Segment id="home" color='grey' inverted textAlign='center' vertical>
 
-    <Segment id="home" color='grey' inverted textAlign='center' vertical>
+        <Container text>
+          <Header
+            className="main-header"
+            as='h1'
+            content='Spellbook'
+            inverted
+          />
 
-      <Container text>
-        <Header
-          className="main-header"
-          as='h1'
-          content='Spellbook'
-          inverted
-        />
+        {props.loggedIn && (
+            <Header
+              className="sub-header"
+              as='h2'
+              content={`Welcome ${props.currentUser.name}`}
+              inverted
+            />
+          )}
 
-      {props.loggedIn && (
           <Header
             className="sub-header"
             as='h2'
-            content={`Welcome ${props.currentUser.name}`}
+            content='Create and manage your Magic: The Gathering decks and collection.'
             inverted
           />
+
+
+        { !props.loggedIn && (
+          <Button primary size='huge' onClick={handleClick}>
+            Get Started
+            <Icon name='right arrow' />
+          </Button>
         )}
-
-        <Header
-          className="sub-header"
-          as='h2'
-          content='Create and manage your Magic: The Gathering decks and collection.'
-          inverted
-        />
-
-
-      { !props.loggedIn && (
-        <Button primary size='huge' onClick={handleClick}>
-          Get Started
-          <Icon name='right arrow' />
-        </Button>
-      )}
-      <Divider/>
-      <Grid centered>
-        <Grid.Column width={6} verticalAlign="middle">
-          <Header inverted as="h3" content="Card of the Day" />
-          { props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
-        </Grid.Column>
-        <Grid.Column width={6} verticalAlign="middle">
-          <Header inverted as="h3" content="Deck of the Day" />
-          { props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
-        </Grid.Column>
+        <Divider/>
+        <Grid centered>
+          <Grid.Column width={6} verticalAlign="middle">
+            <Header inverted as="h3" content="Card of the Day" />
+            { props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
+          </Grid.Column>
+          <Grid.Column width={6} verticalAlign="middle">
+            <Header inverted as="h3" content="Deck of the Day" />
+            { props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
+          </Grid.Column>
 
 
-      </Grid>
+        </Grid>
 
-      </Container>
+        </Container>
 
-    </Segment>
+      </Segment>
+
   )
 }
 

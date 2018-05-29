@@ -20,11 +20,11 @@ class DeckShow extends Component {
       editing: false,
       destroy: false,
       deck: props.selectedDeck,
+      segmentCount: 0,
       validation: {
         error: false,
         message: "",
       },
-
     }
     this.cardsToUpdate = []
     this.cardsToDelete = []
@@ -36,11 +36,27 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    this.setState({ editing: !this.state.editing })
+    if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
+      this.setState({ editing: !this.state.editing })
+    }
+    // else {
+    //   let mainboard = this.props.selectedDeck.cards.mainboard
+    //   let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
+    //
+    //   for(const type in mainboard) {
+    //     for(const card of mainboard[type]) {
+    //       deck.cards.mainboard.push(card)
+    //     }
+    //   }
+    //
+    //
+    //   this.props.createDeck(deck, this.props.history, this.props.currentUser)
+    // }
   }
 
   handleCopy = (event) => {
-    this.props.createDeck({...this.state.deck, copy: true}, this.props.history, this.props.currentUser)
+    const copy = true
+    this.props.createDeck(this.state.deck, this.props.history, copy)
   }
 
   toggleDestroyModal = () => {
@@ -89,6 +105,7 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
+<<<<<<< HEAD
       if (this.props.match.path === '/:username/decks/:id') {
         this.setState({userDeck: true})
       }
@@ -96,6 +113,31 @@ class DeckShow extends Component {
     if (this.props.match.path === '/:username/decks/:id') {
       this.setState({userDeck: true})
     }
+=======
+    } else {
+      this.setState({
+        segmentCount: this.props.selectedDeck.cards.length
+      })
+    }
+    if (this.props.match.params.username) {
+      this.setState({userDeck: true })
+    }
+
+    // else {
+    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
+    //   const mainboard = this.props.selectedDeck.cards.mainboard
+    //   for(const type in mainboard) {
+    //     mainboard[type].map(card => card.key = uuid())
+    //   }
+    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
+    //   if (this.props.match.params.username) {
+    //     this.setState({ sideboard, mainboard, userDeck: true })
+    //   } else {
+    //     this.setState({ sideboard, mainboard, userDeck: false })
+    //   }
+    //
+    // }
+>>>>>>> 2308649020ad4d41a5003bff6cdf6cfaa6dea72d
   }
 
   render() {
@@ -148,7 +190,8 @@ class DeckShow extends Component {
             handleRemoveEdit={this.handleRemoveEdit}
             totalsideboard={totalSideboard}
             handleChange={this.handleChange}
-            key={uuid()} editing={this.state.editing}
+            key={uuid()}
+            editing={this.state.editing}
             cards={sideboard}
             board='sideboard'
           />
@@ -166,7 +209,11 @@ class DeckShow extends Component {
           <Button.Group >
             <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
             { loggedIn && !editing && userDeck && <Button  name='edit' onClick={this.handleEdit}>Edit</Button>}
+<<<<<<< HEAD
             { loggedIn && !editing && !userDeck && <Button  name='edit' onClick={this.handleCopy}>Copy</Button>}
+=======
+            { loggedIn && !editing && !userDeck && <Button  name='copy' onClick={this.handleCopy}>Copy</Button>}
+>>>>>>> 2308649020ad4d41a5003bff6cdf6cfaa6dea72d
             { loggedIn && editing && <Button  name='cancel' onClick={this.handleEdit}>Cancel</Button>}
             { userDeck && !editing && <Button  name='delete' onClick={this.toggleDestroyModal}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
@@ -174,25 +221,30 @@ class DeckShow extends Component {
           <Segment.Group  horizontal>
             <Segment>
               { tournament  && <Icon name='trophy'/>}
-              Name: {name}
+              <b>Name:</b> {name}
             </Segment>
             <Segment>
-              Creator: {userName !== 'admin' ? userName : creator}
+              <b>Creator:</b> {userName !== 'admin' ? userName : creator}
             </Segment>
             <Segment>
-              Format: {formatName}
+              <b>Format:</b> {formatName}
             </Segment>
             <Segment>
-              Archtype: {archtype}
+              <b>Archtype:</b> {archtype}
             </Segment>
             <Segment>
-              Last Updated: {dateFormater(updatedAt)}
+              <b>Last Updated:</b> {dateFormater(updatedAt)}
             </Segment>
           </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >
             <Grid.Column width={11}>
               <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
-              <div id="deck-container">
+              <div id={
+                  (this.state.segmentCount <= 22 && 'deck-container-small') ||
+                  ((this.state.segmentCount >= 23 || this.state.segmentCount <= 34) && 'deck-container-mid') ||
+                  (this.state.segmentCount > 34 && 'deck-container-large')
+                }
+              >
                 {
                   // { mainboard.lands && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.lands} type="lands" board='mainboard'/>}
                   //
@@ -211,7 +263,7 @@ class DeckShow extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <Segment  as={Header} content={`Sideboard (${totalSideboard})`} />
-                <Segment.Group content={sideboardSegment}  compact/>
+                {sideboardSegment}
             </Grid.Column>
 
           </Grid>

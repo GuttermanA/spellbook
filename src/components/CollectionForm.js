@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { addToCollection } from '../actions/collection'
 import uuid from 'uuid'
-import { Form, Button, Container, Segment, } from 'semantic-ui-react'
+import { Form, Button, Container, Segment, Divider } from 'semantic-ui-react'
 
 const addCard = (addedCard, prevState) => {
   let updated = false
@@ -54,10 +54,7 @@ class CollectionForm extends Component {
         }
       }
     }
-
     return null
-
-
   }
 
   appendInput = (event, { name }) => {
@@ -149,6 +146,7 @@ class CollectionForm extends Component {
           </Form.Field>
           {cards}
           <Button onClick={this.appendInput} name='mainboard'>Add Card</Button>
+          <Divider />
           <Form.Button>Submit</Form.Button>
         </Form>
       </Container>

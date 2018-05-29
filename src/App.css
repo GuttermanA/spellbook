@@ -103,20 +103,23 @@ a:hover.white-text {
 }
 
 #home {
-  padding: 1em 0em;
-  position:fixed !important;
-  position: absolute;
-  top: 64px;
+  /* padding: 1em 0em; */
+  /* position:fixed !important; */
+  /* position: absolute; */
+  /* top: 64px; */
+  margin-top: -.1em !important;
   right: 0;
   bottom: 0;
   left: 0;
+  height: 100% !important;
+  min-height: 100% !important;
 }
 
 .main-header {
   font-size:  4em !important;
   font-weight: normal !important;
   margin-bottom: 0 !important;
-  margin-top:  1em !important;
+  /* margin-top:  1em !important; */
   color: white !important;
 }
 
@@ -130,7 +133,33 @@ a:hover.white-text {
   width: 220px;
 }
 
-#deck-container {
+#deck-container-small {
+  /* align-items: flex-start; */
+  width: 100%;
+  height: 80%;
+  -moz-column-count:3;
+  -moz-column-gap: 3%;
+  -moz-column-width: 30%;
+  -webkit-column-count:3;
+  -webkit-column-gap: 3%;
+  -webkit-column-width: 30%;
+  column-count: 3;
+}
+
+#deck-container-mid {
+  /* align-items: flex-start; */
+  width: 100%;
+  height: 85%;
+  -moz-column-count:3;
+  -moz-column-gap: 3%;
+  -moz-column-width: 30%;
+  -webkit-column-count:3;
+  -webkit-column-gap: 3%;
+  -webkit-column-width: 30%;
+  column-count: 3;
+}
+
+#deck-container-large {
   /* align-items: flex-start; */
   width: 100%;
   height: 90%;
