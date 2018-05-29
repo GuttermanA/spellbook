@@ -74,7 +74,7 @@ class DeckForm extends Component {
 
   static getDerivedStateFromProps (nextProps, prevState) {
 
-    if (Object.keys(nextProps.selectedCard).length ) {
+    if (Object.keys(nextProps.selectedCard).length && nextProps.selectedCard.type !== 'collection') {
       return {
         fields: {
           ...prevState.fields,

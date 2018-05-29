@@ -54,10 +54,7 @@ class CollectionForm extends Component {
         }
       }
     }
-
     return null
-
-
   }
 
   appendInput = (event, { name }) => {

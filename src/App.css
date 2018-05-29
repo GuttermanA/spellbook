@@ -111,6 +111,8 @@ a:hover.white-text {
   right: 0;
   bottom: 0;
   left: 0;
+  height: 100% !important;
+  min-height: 100% !important;
 }
 
 .main-header {
