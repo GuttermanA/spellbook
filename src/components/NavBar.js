@@ -111,7 +111,7 @@ class NavBar extends Component {
                 <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
               )}
           </Menu>
-          {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
+          {this.props.match.path !== "/" && <Divider hidden fitted/>}
         </div>
 
     )
