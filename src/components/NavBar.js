@@ -13,9 +13,30 @@ import {
 
 class NavBar extends Component {
   state = {
-    activeItem: 'home',
+    activeItem: '',
     search: "",
     dropdown: 'cards',
+   }
+
+   static getDerivedStateFromProps(nextProps, prevState) {
+     if (nextProps.history.location.pathname === '/') {
+       return {
+         activeItem: 'home'
+       }
+     } else if (nextProps.history.location.pathname === `/${nextProps.currentUser.name}/decks`) {
+       return {
+         activeItem: 'decks'
+       }
+     } else if (nextProps.history.location.pathname === `/${nextProps.currentUser.name}/collection`) {
+       return {
+         activeItem: 'collection'
+       }
+     } else {
+       return {
+         activeItem: ''
+       }
+     }
+     return null
    }
 
   handleItemClick = (event, { name }) => this.setState({ activeItem: name, submit: false })

@@ -14,16 +14,22 @@ class CardContainer extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.results.length && !this.props.loading) {
+    if (this.props.match.path === '/:username/collection') {
+      this.setState({ collection: true })
+    } else if (!this.props.results.length && !this.props.loading) {
       this.props.fetchCards({term: "default"}, this.props.history)
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location.state && nextProps.location.state.collection) {
-      this.setState({ collection: true })
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.match.path === '/:username/collection') {
+      return {
+        collection: true
+      }
     } else {
-      this.setState({ collection: false })
+      return {
+        collection: false
+      }
     }
   }
 
