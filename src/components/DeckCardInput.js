@@ -24,9 +24,9 @@ class DeckCardInput extends Component  {
 
 
   render() {
+
     const { index, board, editing, id } = this.props
     const { error, key, name, count } = this.props.card
-
     if (this.state.removed && name.length) {
       return (
         <Segment tertiary size='small'>
@@ -39,7 +39,7 @@ class DeckCardInput extends Component  {
       return (
         <Form.Group as={editing ? null : Segment} >
           {!editing && (
-            <Label color='red' size='small' as='a' corner={editing ? false : 'left'} onClick={editing ? this.handleRemove : this.props.removeInput} id={key} name='remove'>
+            <Label color='red' size='small' as='a' corner='left' onClick={this.props.removeInput} id={key} name='remove'>
               <Icon name='remove' size='large'/>
             </Label>
           )}
@@ -69,7 +69,7 @@ class DeckCardInput extends Component  {
 
 
           { editing && (
-            <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : this.props.removeInput}/>
+            <Icon name='remove' id={key} corner fitted onClick={this.props.removeInput} name='remove'/>
           )}
         </Form.Group>
       )

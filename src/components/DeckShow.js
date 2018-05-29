@@ -17,7 +17,7 @@ class DeckShow extends Component {
       userDeck: false,
       editing: false,
       destroy: false,
-      deck: props.selectedDeck,
+      deck: {},
       segmentCount: 0,
       validation: {
         error: false,
@@ -60,9 +60,14 @@ class DeckShow extends Component {
     if (!prevState.segmentCount && Object.keys(nextProps.selectedDeck).length) {
       const mainboardSegments = nextProps.selectedDeck.cards.filter(card => !card.sideboard).length
       const uniqCardTypes = [...new Set(nextProps.selectedDeck.cards.map(card => card.primary_type))].length
+      const cardsWithKeys = nextProps.selectedDeck.cards.map(card => {
+        card.key = uuid()
+        return card
+      })
       console.log(uniqCardTypes);
       return {
-        segmentCount: mainboardSegments + uniqCardTypes
+        segmentCount: mainboardSegments + uniqCardTypes,
+        deck: {...nextProps.selectedDeck, cards: cardsWithKeys},
       }
     }
     return null
@@ -128,22 +133,14 @@ class DeckShow extends Component {
 
   }
 
-  removeInput = (event, { id, name }) => {
+  removeInput = (event) => {
     event.preventDefault()
-    if (Object.keys(this.props.selectedCard).length) {
-        this.props.clearCard()
-    }
-
-    const updatedCards = this.state.fields.cards.filter(card => card.key !== id)
+    const { id } = event.target
+    const cards = this.state.deck.cards.filter(card => card.key !== id)
     this.setState({
-      fields: {
-        ...this.state.fields,
-        cards: updatedCards
-      }
+      deck: {...this.state.deck, cards}
     })
   }
-
-  handleRemove = (event, { })
 
 
 

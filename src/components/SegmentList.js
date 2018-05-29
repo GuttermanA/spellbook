@@ -38,9 +38,10 @@ class SegmentList extends Component {
       cardSegments = this.state.cards.map(card => {
         return (
           <DeckCardInput
+            removeInput={this.props.removeInput}
             handleRemove={this.handleRemove}
             handleChange={this.props.handleChange}
-            key={uuid()}
+            key={card.key}
             editing={editing}
             card={card}
           />
