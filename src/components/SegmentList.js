@@ -35,7 +35,17 @@ class SegmentList extends Component {
     } = this.props
     let cardSegments
     if (editing) {
-      cardSegments = this.state.cards.map(card => <DeckCardInput handleRemove={this.handleRemove} handleChange={this.props.handleChange} key={uuid()} editing={this.props.editing} card={card} />)
+      cardSegments = this.state.cards.map(card => {
+        return (
+          <DeckCardInput
+            handleRemove={this.handleRemove}
+            handleChange={this.props.handleChange}
+            key={uuid()}
+            editing={editing}
+            card={card}
+          />
+        )
+      })
     } else {
       cardSegments = this.props.cards.map(card => <CardSegment key={uuid()} card={card} board={board}/>)
     }

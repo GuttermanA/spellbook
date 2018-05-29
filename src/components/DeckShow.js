@@ -9,8 +9,6 @@ import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '
 import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Form, Icon } from 'semantic-ui-react'
 
-
-
 class DeckShow extends Component {
   constructor(props) {
     super(props)
@@ -75,9 +73,10 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
-      this.setState({ editing: !this.state.editing })
-    }
+    // if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
+    //   this.setState({ editing: !this.state.editing })
+    // }
+    this.setState({ editing: !this.state.editing })
     // else {
     //   let mainboard = this.props.selectedDeck.cards.mainboard
     //   let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
@@ -129,15 +128,22 @@ class DeckShow extends Component {
 
   }
 
-  handleRemoveEdit = (event, cardRef) => {
-    if (cardRef.id) {
-      let found = this.cardsToUpdate.find(card => card.id === cardRef.id && card.sideboard === cardRef.sideboard)
-      if (!found) {
-        this.cardsToDelete.push(cardRef)
-      }
-      console.log('cards to delete', this.cardsToDelete);
+  removeInput = (event, { id, name }) => {
+    event.preventDefault()
+    if (Object.keys(this.props.selectedCard).length) {
+        this.props.clearCard()
     }
+
+    const updatedCards = this.state.fields.cards.filter(card => card.key !== id)
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        cards: updatedCards
+      }
+    })
   }
+
+  handleRemove = (event, { })
 
 
 
@@ -172,6 +178,7 @@ class DeckShow extends Component {
         for(const cardType in sortedCards) {
           segments.push(
             <SegmentList
+              removeInput={this.removeInput}
               handleRemoveEdit={this.handleRemoveEdit}
               handleChange={this.handleChange}
               key={uuid()}
