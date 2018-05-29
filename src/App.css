@@ -111,8 +111,8 @@ a:hover.white-text {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 100% !important;
-  min-height: 100% !important;
+  height: 95vh !important;
+  /* min-height: 100vh !important; */
 }
 
 .main-header {
@@ -131,6 +131,12 @@ a:hover.white-text {
 
 .deck-list-group {
   width: 220px;
+}
+
+.username {
+  font-weight: bold;
+  color: #f9c761;
+
 }
 
 #deck-container-small {

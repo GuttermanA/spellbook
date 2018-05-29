@@ -13,7 +13,7 @@ const Home = (props) => {
   }
 
   return (
-      <Segment id="home" color='grey' inverted textAlign='center' vertical>
+      <Segment id="home" color='grey' inverted textAlign='center' vertical style={{height: '100vh'}}>
 
         <Container text>
           <Header
@@ -27,9 +27,10 @@ const Home = (props) => {
             <Header
               className="sub-header"
               as='h2'
-              content={`Welcome ${props.currentUser.name}`}
               inverted
-            />
+            >
+              Welcome <span className="username">{props.currentUser.name}</span>
+            </Header>
           )}
 
           <Header

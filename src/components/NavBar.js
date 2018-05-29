@@ -19,7 +19,6 @@ class NavBar extends Component {
    }
 
    static getDerivedStateFromProps(nextProps, prevState) {
-     console.log('Next navbar props',nextProps);
      if (nextProps.history.location.pathname === '/') {
        return {
          activeItem: 'home'
@@ -45,6 +44,11 @@ class NavBar extends Component {
     this.setState({
       [name]: value,
     })
+  }
+
+  handleLogout = () => {
+    this.props.history.push("/")
+    this.props.logoutUser()
   }
 
   handleSearch = (event, { name }) => {
@@ -106,10 +110,10 @@ class NavBar extends Component {
               {!loggedIn ? (
                 <Menu.Item as={Link} to="/login" name="login" active={activeItem === 'login'} onClick={this.handleItemClick}/>
               ): (
-                <Menu.Item as={Link} to="/" name="logout" onClick={this.props.logoutUser}/>
+                <Menu.Item as={Link} to="/" name="logout" onClick={this.handleLogout}/>
               )}
           </Menu>
-          {this.props.history.location.pathname !== "/" && <Divider hidden fitted/>}
+          {this.props.history.location.pathname !== "/" && this.props.history.location.pathname !== '/login' && this.props.history.location.pathname !== '/signup' && <Divider hidden fitted/>}
         </div>
 
     )
