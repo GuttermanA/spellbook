@@ -17,6 +17,8 @@ export default function (state = defaultState, action) {
     case 'SELECT_CARD':
       console.log('SELECT_CARD',action.payload);
       return {...state, selected: action.payload}
+    case 'CLEAR_CARD':
+      return {...state, selected: {}}
     default:
       return {...state}
   }

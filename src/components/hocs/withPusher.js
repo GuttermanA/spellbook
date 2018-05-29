@@ -92,7 +92,8 @@ export default function withPusher(Component) {
           visible: true,
           pusher: {
             ...this.state.pusher,
-            width: this.state.pusher.initialWidth - this.state.sidebar.width - 223,
+            // width: this.state.pusher.initialWidth - this.state.sidebar.width - 223,
+             width: this.state.pusher.initialWidth - this.state.sidebar.width,
           }
         })
       }

@@ -52,7 +52,7 @@ class CardContainer extends Component {
 
     if (cards.length) {
       return (
-        <Card.Group centered>
+        <Card.Group centered={true}>
           {cards}
         </Card.Group>
 

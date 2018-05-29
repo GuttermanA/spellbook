@@ -24,13 +24,8 @@ class DeckCardInput extends Component  {
 
 
   render() {
-    const { index, removeInput, board, editing, id } = this.props
-    const { error, key } = this.props.card
-    const { name, count} = this.props.card.info
-
-
-
-
+    const { index, board, editing, id } = this.props
+    const { error, key, name, count } = this.props.card
 
     if (this.state.removed && name.length) {
       return (
@@ -69,7 +64,7 @@ class DeckCardInput extends Component  {
 
 
           { editing && (
-            <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : removeInput}/>
+            <Icon name='remove' corner fitted onClick={editing ? this.handleRemove : this.props.removeInput}/>
           )}
         </Form.Group>
       )

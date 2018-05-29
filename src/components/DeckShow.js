@@ -38,19 +38,25 @@ class DeckShow extends Component {
   handleEdit = (event) => {
     if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
       this.setState({ editing: !this.state.editing })
-    } else {
-      let mainboard = this.props.selectedDeck.cards.mainboard
-      let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
-
-      for(const type in mainboard) {
-        for(const card of mainboard[type]) {
-          deck.cards.mainboard.push(card)
-        }
-      }
-
-
-      this.props.createDeck(deck, this.props.history, this.props.currentUser)
     }
+    // else {
+    //   let mainboard = this.props.selectedDeck.cards.mainboard
+    //   let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
+    //
+    //   for(const type in mainboard) {
+    //     for(const card of mainboard[type]) {
+    //       deck.cards.mainboard.push(card)
+    //     }
+    //   }
+    //
+    //
+    //   this.props.createDeck(deck, this.props.history, this.props.currentUser)
+    // }
+  }
+
+  handleCopy = (event) => {
+    const copy = true
+    this.props.createDeck(this.state.deck, this.props.history, copy)
   }
 
   toggleDestroyModal = () => {
@@ -99,6 +105,9 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
+    }
+    if (this.props.match.params.username) {
+      this.setState({userDeck: true })
     }
     // else {
     //   console.log('mountingSelectedDeck',this.props.selectedDeck);
@@ -166,7 +175,8 @@ class DeckShow extends Component {
             handleRemoveEdit={this.handleRemoveEdit}
             totalsideboard={totalSideboard}
             handleChange={this.handleChange}
-            key={uuid()} editing={this.state.editing}
+            key={uuid()}
+            editing={this.state.editing}
             cards={sideboard}
             board='sideboard'
           />
@@ -181,7 +191,8 @@ class DeckShow extends Component {
         <Container>
           <Button.Group >
             <Button  name='edit' onClick={history.goBack}>{userDeck ? 'Return to Decks' : 'Return to Results'}</Button>
-            { loggedIn && !editing && <Button  name='edit' onClick={this.handleEdit}>{userDeck ? 'Edit' : 'Copy'}</Button>}
+            { loggedIn && !editing && userDeck && <Button  name='edit' onClick={this.handleEdit}>Edit</Button>}
+            { loggedIn && !editing && !userDeck && <Button  name='copy' onClick={this.handleCopy}>Copy</Button>}
             { loggedIn && editing && <Button  name='cancel' onClick={this.handleEdit}>Cancel</Button>}
             { userDeck && !editing && <Button  name='delete' onClick={this.toggleDestroyModal}>Delete</Button>}
             { editing && <Button  onClick={this.handleSubmit}>Update</Button>}
@@ -189,19 +200,19 @@ class DeckShow extends Component {
           <Segment.Group  horizontal>
             <Segment>
               { tournament  && <Icon name='trophy'/>}
-              Name: {name}
+              <b>Name:</b> {name}
             </Segment>
             <Segment>
-              Creator: {userName !== 'admin' ? userName : creator}
+              <b>Creator:</b> {userName !== 'admin' ? userName : creator}
             </Segment>
             <Segment>
-              Format: {formatName}
+              <b>Format:</b> {formatName}
             </Segment>
             <Segment>
-              Archtype: {archtype}
+              <b>Archtype:</b> {archtype}
             </Segment>
             <Segment>
-              Last Updated: {dateFormater(updatedAt)}
+              <b>Last Updated:</b> {dateFormater(updatedAt)}
             </Segment>
           </Segment.Group >
           <Grid as={Form} columns={2} divided size='mini' >

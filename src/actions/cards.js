@@ -34,3 +34,9 @@ export const selectCard = (card, sideboard, history) => {
     payload: {attributes: card, sideboard}
   }
 }
+
+export const clearCard = () => {
+  return {
+    type: 'CLEAR_CARD',
+  }
+}

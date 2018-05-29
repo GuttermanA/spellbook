@@ -103,10 +103,11 @@ a:hover.white-text {
 }
 
 #home {
-  padding: 1em 0em;
-  position:fixed !important;
-  position: absolute;
-  top: 64px;
+  /* padding: 1em 0em; */
+  /* position:fixed !important; */
+  /* position: absolute; */
+  /* top: 64px; */
+  margin-top: -.1em !important;
   right: 0;
   bottom: 0;
   left: 0;
@@ -116,7 +117,7 @@ a:hover.white-text {
   font-size:  4em !important;
   font-weight: normal !important;
   margin-bottom: 0 !important;
-  margin-top:  1em !important;
+  /* margin-top:  1em !important; */
   color: white !important;
 }
 

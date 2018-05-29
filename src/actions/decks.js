@@ -1,7 +1,7 @@
 import { generateSearchParams } from '../globalFunctions'
 import { API_ROOT } from '../globalVars'
 
-export const createDeck = (deck, history) => {
+export const createDeck = (deck, history, copy = false) => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING_DECKS'
@@ -13,7 +13,7 @@ export const createDeck = (deck, history) => {
         'Content-type': 'application/json',
         Authorization: localStorage.getItem('token')
       },
-      body: JSON.stringify(deck),
+      body: JSON.stringify({...deck, copy}),
     }
     return (
       fetch(`${API_ROOT}/decks`, options)
@@ -137,7 +137,7 @@ export const updateDeck = (deckId, cardsToUpdate, cardsToDelete) => {
       body: JSON.stringify({ cardsToUpdate, cardsToDelete })
     }
     return (
-      fetch(`${API_ROOT}/decks/${deckId}/deck_cards`, options)
+      fetch(`${API_ROOT}/decks/${deckId}`, options)
         .then(res => res.json())
         .then(response => {
           if (response.error) {
