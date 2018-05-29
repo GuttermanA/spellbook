@@ -20,6 +20,7 @@ class DeckShow extends Component {
       editing: false,
       destroy: false,
       deck: props.selectedDeck,
+      segmentCount: 0,
       validation: {
         error: false,
         message: "",
@@ -105,10 +106,15 @@ class DeckShow extends Component {
   componentDidMount = () => {
     if (!Object.keys(this.props.selectedDeck).length) {
       this.props.fetchDeck(this.props.match.params.id)
+    } else {
+      this.setState({
+        segmentCount: this.props.selectedDeck.cards.length
+      })
     }
     if (this.props.match.params.username) {
       this.setState({userDeck: true })
     }
+
     // else {
     //   console.log('mountingSelectedDeck',this.props.selectedDeck);
     //   const mainboard = this.props.selectedDeck.cards.mainboard
@@ -218,7 +224,12 @@ class DeckShow extends Component {
           <Grid as={Form} columns={2} divided size='mini' >
             <Grid.Column width={11}>
               <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
-              <div id="deck-container">
+              <div id={
+                  (this.state.segmentCount <= 22 && 'deck-container-small') ||
+                  ((this.state.segmentCount >= 23 || this.state.segmentCount <= 34) && 'deck-container-mid') ||
+                  (this.state.segmentCount > 34 && 'deck-container-large')
+                }
+              >
                 {
                   // { mainboard.lands && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.lands} type="lands" board='mainboard'/>}
                   //
