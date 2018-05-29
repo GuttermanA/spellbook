@@ -4,7 +4,7 @@ import uuid from 'uuid'
 import { connect } from 'react-redux'
 import withPusher from '../components/hocs/withPusher'
 import { fetchCards } from '../actions/cards'
-import { Card, Message, } from 'semantic-ui-react'
+import { Card, Message, Container } from 'semantic-ui-react'
 
 
 class CardContainer extends Component {
@@ -64,9 +64,12 @@ class CardContainer extends Component {
       )
     } else {
         return (
-          <Message>
-            <Message.Header content='No cards found' />
-          </Message>
+          <Container>
+            <Message>
+              <Message.Header content='No cards found' />
+            </Message>
+          </Container>
+
         )
     }
   }

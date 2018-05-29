@@ -93,8 +93,8 @@ class NavBar extends Component {
                 // <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
               }
 
-              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`, state:{redirect: false}}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>)  }
-              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/collection`, state:{ collection: true }}} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) }
+              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>)  }
+              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/collection`}} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) }
               {
                 // loggedIn && (<Menu.Item as={Link} to={`/${currentUser.name}/decks/new`} name="deckBuilder" active={activeItem === 'deckBuilder'} onClick={this.handleItemClick}/>)
               }

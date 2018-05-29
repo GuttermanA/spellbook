@@ -12,6 +12,7 @@ class DeckContainer extends Component {
 
   state = {
     userPage: false,
+    visible: false,
     message: "",
     decks: [],
   }
@@ -20,27 +21,43 @@ class DeckContainer extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.loggedIn && nextProps.match.path === '/:username/decks') {
       return {
+        message: (nextProps.location.state && nextProps.location.state.message) || "",
+        visible: (nextProps.location.state && nextProps.location.state.message) || false,
         userPage: true,
         decks: nextProps.currentUserDecks,
       }
     }
+
     if ( nextProps.loggedIn && nextProps.match.path === '/:username/decks' && prevState.userPage === false) {
       nextProps.fetchUser()
       return {
+        message: (nextProps.location.state && nextProps.location.state.message) || "",
+        visible: (nextProps.location.state && nextProps.location.state.message) || false,
         userPage: true,
         decks: nextProps.currentUserDecks,
       }
-    } else if (nextProps.match.path === '/decks/search') {
+    }
+
+    if (nextProps.match.path === '/decks/search') {
       return {
+        message: (nextProps.location.state && nextProps.location.state.message) || "",
+        visible: (nextProps.location.state && nextProps.location.state.message) || false,
         userPage: false,
         decks: nextProps.deckResults
       }
     }
+
+    // if (nextProps.location.state && nextProps.location.state.message) {
+    //
+    //   return {
+    //     message: nextProps.location.state.message,
+    //     visible: true,
+    //   }
+    // }
     return null
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   debugger
   //   if (nextProps.match.path === '/:username/decks' && nextState.userPage) {
   //     return false
   //   }
@@ -80,6 +97,10 @@ class DeckContainer extends Component {
 
   }
 
+  handleDismiss = () => {
+    this.setState({ visible: false, message: "" })
+  }
+
   // componentWillReceiveProps(nextProps) {
   //   if ( this.props.loggedIn && nextProps.location.pathname !== this.props.location.pathname) {
   //     this.props.fetchUser()
@@ -107,16 +128,21 @@ class DeckContainer extends Component {
     } else {
       return(
         <Container fluid>
-          { message && (
-            <Message attached>
-              <Message.Header content={message} />
-            </Message>
-          )}
-          { message && <Divider/>}
+          {this.state.visible &&
+            <Container>
+              <Message attached onDismiss={this.handleDismiss} >
+                <Message.Header content={message} />
+              </Message>
+            </Container>
+          }
+
+          { this.state.visible && <Divider/>}
           { ((!userPage && !decks.length) || (userPage && !decks.length)) && (
-            <Message attached>
-              <Message.Header content={userPage ? 'No decks yet' :  'No decks found'} />
-            </Message>
+            <Container>
+              <Message attached>
+                <Message.Header content={userPage ? 'No decks yet' :  'No decks found'} />
+              </Message>
+            </Container>
           )}
           <Card.Group centered>
             {
