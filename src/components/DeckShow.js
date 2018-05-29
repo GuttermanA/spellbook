@@ -25,7 +25,6 @@ class DeckShow extends Component {
         error: false,
         message: "",
       },
-
     }
     this.cardsToUpdate = []
     this.cardsToDelete = []
@@ -248,7 +247,7 @@ class DeckShow extends Component {
             </Grid.Column>
             <Grid.Column width={5}>
               <Segment  as={Header} content={`Sideboard (${totalSideboard})`} />
-                <Segment.Group content={sideboardSegment}  compact/>
+                {sideboardSegment}
             </Grid.Column>
 
           </Grid>

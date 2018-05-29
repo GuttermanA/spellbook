@@ -134,7 +134,7 @@ export const updateDeck = (deckId, cardsToUpdate, cardsToDelete) => {
         'Content-type': 'application/json',
         Authorization: localStorage.getItem('token')
       },
-      body: JSON.stringify({ cardsToUpdate, cardsToDelete })
+      body: JSON.stringify({deck_id: deckId, cardsToUpdate, cardsToDelete })
     }
     return (
       fetch(`${API_ROOT}/decks/${deckId}`, options)

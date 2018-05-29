@@ -134,7 +134,7 @@ a:hover.white-text {
 #deck-container-small {
   /* align-items: flex-start; */
   width: 100%;
-  height: 60%;
+  height: 80%;
   -moz-column-count:3;
   -moz-column-gap: 3%;
   -moz-column-width: 30%;
@@ -147,7 +147,7 @@ a:hover.white-text {
 #deck-container-mid {
   /* align-items: flex-start; */
   width: 100%;
-  height: 65%;
+  height: 85%;
   -moz-column-count:3;
   -moz-column-gap: 3%;
   -moz-column-width: 30%;
