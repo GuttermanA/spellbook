@@ -116,6 +116,10 @@ export const deleteDeck = (deckId, history, user) => {
             dispatch({
               type: 'LOADING_DECKS'
             })
+            const decks = response.user.data.attributes.decks.data
+            const collection = response.user.data.attributes.collection.data
+
+            dispatch({ type: 'LOAD_CURRENT_USER_DATA', payload: {decks, collection} })
             history.push(`/${user.name}/decks`, {message: response.message })
           }
         })

@@ -3,6 +3,7 @@ import uuid from 'uuid'
 import withLoader from '../components/hocs/withLoader'
 import { connect } from 'react-redux'
 import { fetchUser } from '../actions/auth'
+import { fetchDecks } from '../actions/decks'
 import DeckCard from '../components/DeckCard'
 import { Container , Message, Card, Dimmer, Loader, Divider } from 'semantic-ui-react'
 
@@ -17,6 +18,12 @@ class DeckContainer extends Component {
 
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.loggedIn && nextProps.match.path === '/:username/decks') {
+      return {
+        userPage: true,
+        decks: nextProps.currentUserDecks,
+      }
+    }
     if ( nextProps.loggedIn && nextProps.match.path === '/:username/decks' && prevState.userPage === false) {
       nextProps.fetchUser()
       return {
@@ -32,13 +39,26 @@ class DeckContainer extends Component {
     return null
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   debugger
+  //   if (nextProps.match.path === '/:username/decks' && nextState.userPage) {
+  //     return false
+  //   }
+  //   if (nextProps.match.path === '/decks/search' && !nextState.userPage) {
+  //     return false
+  //   }
+  //   return true
+  // }
+
   componentDidMount = () => {
-    if (this.props.loggedIn && this.props.match.path !== '/:username/decks') {
+    if (this.props.loggedIn && this.props.match.path === '/:username/decks') {
       this.props.fetchUser()
       this.setState({
         userPage: true,
         decks: this.props.currentUserDecks,
       })
+    } else if (!this.props.loading && !this.props.deckResults.length && this.props.match.path !== '/:username/decks') {
+      this.props.fetchDecks({term: "default"}, this.props.history)
     } else if (this.props.match.path === '/decks/search') {
       this.setState({
         userPage: false,
@@ -116,8 +136,9 @@ const mapStateToProps = (state) => {
     loading: state.decks.loading,
     currentUserDecks: state.auth.currentUserDecks,
     loggedIn: !!state.auth.currentUser.id,
-    currentUser: state.auth.currentUser
+    currentUser: state.auth.currentUser,
+    authLoading: state.auth.loading
   }
 }
 
-export default connect(mapStateToProps, { fetchUser })(withLoader(DeckContainer))
+export default connect(mapStateToProps, { fetchUser, fetchDecks })(withLoader(DeckContainer))

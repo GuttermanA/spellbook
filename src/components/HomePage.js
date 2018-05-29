@@ -48,7 +48,7 @@ const Home = (props) => {
           </Button>
         )}
         <Divider/>
-        <Grid centered>
+        <Grid centered stackable>
           <Grid.Column width={6} verticalAlign="middle">
             <Header inverted as="h3" content="Card of the Day" />
             { props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }

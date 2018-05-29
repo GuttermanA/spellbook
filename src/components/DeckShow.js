@@ -31,6 +31,45 @@ class DeckShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentDidMount = () => {
+    if (!Object.keys(this.props.selectedDeck).length) {
+      this.props.fetchDeck(this.props.match.params.id)
+      if (this.props.match.path === '/:username/decks/:id') {
+        this.setState({userDeck: true})
+      }
+    }
+    if (this.props.match.path === '/:username/decks/:id') {
+      this.setState({userDeck: true})
+    }
+
+    // else {
+    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
+    //   const mainboard = this.props.selectedDeck.cards.mainboard
+    //   for(const type in mainboard) {
+    //     mainboard[type].map(card => card.key = uuid())
+    //   }
+    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
+    //   if (this.props.match.params.username) {
+    //     this.setState({ sideboard, mainboard, userDeck: true })
+    //   } else {
+    //     this.setState({ sideboard, mainboard, userDeck: false })
+    //   }
+    //
+    // }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (!prevState.segmentCount && Object.keys(nextProps.selectedDeck).length) {
+      const mainboardSegments = nextProps.selectedDeck.cards.filter(card => !card.sideboard).length
+      const uniqCardTypes = [...new Set(nextProps.selectedDeck.cards.map(card => card.primary_type))].length
+      console.log(uniqCardTypes);
+      return {
+        segmentCount: mainboardSegments + uniqCardTypes
+      }
+    }
+    return null
+  }
+
   handleDelete = (event) => {
     this.setState({ redirect: true }, () => this.props.deleteDeck(this.props.selectedDeck.id, this.props.history, this.props.currentUser))
   }
@@ -102,39 +141,7 @@ class DeckShow extends Component {
 
 
 
-  componentDidMount = () => {
-    if (!Object.keys(this.props.selectedDeck).length) {
-      this.props.fetchDeck(this.props.match.params.id)
-      if (this.props.match.path === '/:username/decks/:id') {
-        this.setState({userDeck: true})
-      }
-    }
-    if (this.props.match.path === '/:username/decks/:id') {
-      this.setState({userDeck: true})
-    } else {
-      this.setState({
-        segmentCount: this.props.selectedDeck.cards.length
-      })
-    }
-    if (this.props.match.params.username) {
-      this.setState({userDeck: true })
-    }
 
-    // else {
-    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
-    //   const mainboard = this.props.selectedDeck.cards.mainboard
-    //   for(const type in mainboard) {
-    //     mainboard[type].map(card => card.key = uuid())
-    //   }
-    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
-    //   if (this.props.match.params.username) {
-    //     this.setState({ sideboard, mainboard, userDeck: true })
-    //   } else {
-    //     this.setState({ sideboard, mainboard, userDeck: false })
-    //   }
-    //
-    // }
-  }
 
   render() {
     const { loggedIn, history } = this.props
@@ -195,7 +202,7 @@ class DeckShow extends Component {
       }
     })()
 
-    console.log(userDeck);
+    console.log('segmentCount', this.state.segmentCount);
 
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
@@ -232,9 +239,9 @@ class DeckShow extends Component {
             <Grid.Column width={11}>
               <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
               <div id={
-                  (this.state.segmentCount <= 22 && 'deck-container-small') ||
-                  ((this.state.segmentCount >= 23 || this.state.segmentCount <= 34) && 'deck-container-mid') ||
-                  (this.state.segmentCount > 34 && 'deck-container-large')
+                  (this.state.segmentCount <= 26 && 'deck-container-small') ||
+                  (this.state.segmentCount > 38 && 'deck-container-large') ||
+                  'deck-container-mid'
                 }
               >
                 {
