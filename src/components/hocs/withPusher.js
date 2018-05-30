@@ -27,6 +27,7 @@ export default function withPusher(Component) {
     }
 
 
+
     measure() {
       this.setState({
         sidebar: {
@@ -50,22 +51,22 @@ export default function withPusher(Component) {
     }
 
     componentDidUpdate(prevProps, prevState) {
-      if (prevProps.location.pathname !== this.props.location.pathname) {
-        this.setState({
-          visible: false,
-          activeItem: '',
-          sidebar: {
-            width: null,
-            height: null,
-          },
-          pusher:{
-            width: null,
-            height: null,
-            initialWidth: null,
-            initialHeight: null,
-          }
-        })
-      }
+      // if (prevProps.location.pathname !== this.props.location.pathname) {
+      //   this.setState({
+      //     visible: false,
+      //     activeItem: '',
+      //     sidebar: {
+      //       width: null,
+      //       height: null,
+      //     },
+      //     pusher:{
+      //       width: null,
+      //       height: null,
+      //       initialWidth: null,
+      //       initialHeight: null,
+      //     }
+      //   })
+      // }
     }
 
     //
@@ -77,6 +78,7 @@ export default function withPusher(Component) {
     // }
 
     handleItemClick = (e, { name }) => {
+      debugger
       if (name === this.state.activeItem) {
         this.setState({
           activeItem: '',
@@ -95,7 +97,7 @@ export default function withPusher(Component) {
             // width: this.state.pusher.initialWidth - this.state.sidebar.width - 223,
              width: this.state.pusher.initialWidth - this.state.sidebar.width,
           }
-        })
+        },()=> console.log(this.state))
       }
     }
 
