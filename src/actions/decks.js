@@ -40,14 +40,6 @@ export const fetchDecks = (searchTerms, history) => {
     dispatch({
       type: 'LOADING_DECKS'
     })
-    // const options = {
-    //   method: 'GET',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-type': 'application/json',
-    //     Authorization: localStorage.getItem('token')
-    //   },
-    // }
     return (
       fetch(`${API_ROOT}${path}`)
         .then(res => res.json())

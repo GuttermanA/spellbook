@@ -48,7 +48,6 @@ class DeckCard extends Component {
       formatName,
       // id,
     } = this.props.deck
-    // const { currentUser } = this.props
     return (
       <Card  className='magic-card' onMouseEnter={this.handleMouseOver} onMouseLeave={this.handleMouseOver}>
         <Card.Content>

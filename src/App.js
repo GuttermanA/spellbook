@@ -4,7 +4,6 @@ import NavBar from './components/NavBar'
 import CardContainer from './containers/CardContainer'
 import DeckContainer from './containers/DeckContainer'
 import Home from './components/HomePage'
-import AdvancedSearchContainer from './containers/AdvancedSearchContainer'
 import DeckShow from './components/DeckShow'
 import LoginForm from './components/LoginForm'
 import SignupForm from './components/SignupForm'
@@ -32,7 +31,7 @@ class App extends Component {
   render() {
     const {
       selectedDeck,
-      // loggedIn, 
+      // loggedIn,
       // loading,
     } = this.props
     return (
@@ -44,7 +43,6 @@ class App extends Component {
           <Route exact path="/signup" component={SignupForm}/>
           <Route exact path="/cards/search" component={CardContainer}/>
           <Route exact path="/decks/search" component={DeckContainer}/>
-          <Route exact path="/search" component={AdvancedSearchContainer}/>
           <Route exact path="/:username/collection" component={CardContainer} />
           <Route exact path="/:username/collection/edit" component={CollectionForm} />
           <Route exact path="/:username/decks" component={DeckContainer} />

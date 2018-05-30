@@ -19,21 +19,7 @@ const CollectionCardInput = (props) => {
 
         <Form.Group>
           <Form.Input placeholder='Card name' id='name' name={index} className='name-input' onChange={handleFieldsChange} value={name} disabled={ props.editCollection ? true : false}/>
-            {
-            // <Form.Field>
-
-                // <input type='text' placeholder='Card name' value={name} name='name' data-position={index} onChange={handleCardChange}/>
-            // </Form.Field>
-            }
-
           <Form.Input type='number' placeholder='Num' name={index} value={count} id='count' onChange={handleFieldsChange} className='number-input' />
-
-            {
-              // <Form.Field>
-              // <input type='number' placeholder='Num'  value={count} name='count' data-position={index} onChange={handleCardChange}/>
-              // </Form.Field>
-            }
-
         </Form.Group>
 
         <Form.Group widths='equal'>
@@ -96,6 +82,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(CollectionCardInput)
-
-// <Checkbox label='Premium' onChange={handleFieldsChange} name={`${index}`} checked={premium} id={`premium-${key}`} data-field='premium'/>
-// <Checkbox label='Wishlist' onChange={handleFieldsChange} name={`${index}`} checked={wishlist} id={`wishlist-${key}`} data-field='wishlist'/>

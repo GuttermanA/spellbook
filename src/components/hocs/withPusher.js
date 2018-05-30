@@ -69,14 +69,6 @@ export default function withPusher(Component) {
       // }
     }
 
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //   return (
-    //     this.state.width !== nextState.width ||
-    //     this.state.height !== nextState.height
-    //   )
-    // }
-
     handleItemClick = (e, { name }) => {
       debugger
       if (name === this.state.activeItem) {

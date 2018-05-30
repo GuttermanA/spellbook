@@ -89,18 +89,8 @@ class NavBar extends Component {
             pointing
           >
               <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-              {
-                // <Menu.Item as={Link} to="/search" name='advancedSearch' active={activeItem === 'advancedSearch'} onClick={this.handleItemClick} />
-              }
-
               {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>)  }
               {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/collection`}} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) }
-              {
-                // loggedIn && (<Menu.Item as={Link} to={`/${currentUser.name}/decks/new`} name="deckBuilder" active={activeItem === 'deckBuilder'} onClick={this.handleItemClick}/>)
-              }
-              {
-                // loggedIn && (<Menu.Item as={Link} to={`/${currentUser.name}/collection/edit`} name="collectionBuilder" active={activeItem === 'collectionBuilder'} onClick={this.handleItemClick}/>)
-              }
               <Menu.Item position='right'>
                 <Form onSubmit={this.handleSearch}>
                   <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>

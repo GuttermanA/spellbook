@@ -6,31 +6,6 @@ import { addToCollection } from '../actions/collection'
 import uuid from 'uuid'
 import { Form, Button, Container, Segment, Divider } from 'semantic-ui-react'
 
-// const addCard = (addedCard, prevState) => {
-//   let updated = false
-//   const newCards = prevState.fields.cards.map((stateCard, index) => {
-//     const names = prevState.fields.cards.map(card => card.name)
-//     if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-//       ++stateCard.count
-//       updated = true
-//       return stateCard
-//     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
-//       updated = true
-//       stateCard.name = addedCard.attributes.name
-//       stateCard.setCode = addedCard.attributes.lastPrinting || addedCard.attributes.setCode
-//       stateCard.count = 1
-//       return stateCard
-//     }
-//
-//     return stateCard
-//   })
-//
-//   if (!updated) {
-//     newCards.push({key:uuid(),name: addedCard.attributes.name, count: 1, setCode: addedCard.attributes.lastPrinting || addedCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false})
-//   }
-//   return newCards
-// }
-
 const addCard = (newCard, prevState) => {
   const cards = prevState.fields.cards
   let updated = false
@@ -45,26 +20,13 @@ const addCard = (newCard, prevState) => {
       break
     }
   }
-  // const newCards = cards.forEach((card, index) => {
-  //   // const names = cards.map(card => card.name)
-  //   if ((card.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.attributes.sideboard)) {
-  //     ++card.count
-  //     updated = true
-  //     break
-  //   }
-  //   // else if (!card.name && !names.includes(newCard.attributes.name)) {
-  //   //   updated = true
-  //   //   card = {...newCard.attributes, count: 1}
-  //   //   break
-  //   // }
-  // })
 
   if (!updated) {
     for(let i = 0; i < cards.length; i++) {
       let card = cards[i]
 
       if (!card.name) {
-        cards[i] = {key:uuid(),name: newCard.attributes.name, count: 1, setCode: newCard.attributes.lastPrinting || newCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false}
+        cards[i] = {key:uuid(), name: newCard.attributes.name, count: 1, setCode: newCard.attributes.lastPrinting || newCard.attributes.setCode, condition:"", premium: false, wishlist: false, error: false}
         updated = true
         break
       }

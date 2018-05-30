@@ -99,7 +99,7 @@ class SignupForm extends Component  {
                 onChange={this.handleChange}
               />
 
-            <Button fluid size='large' >Signup</Button>
+            <Button fluid size='large'>Signup</Button>
             </Segment>
           </Form>
           <Message>

@@ -33,7 +33,8 @@ class SegmentList extends Component {
       editing,
       // totalsideboard
     } = this.props
-    let cardSegments
+    const segmentHeader = capitalizeFirstLetter(type)
+    let cardSegments = null
     if (editing) {
       cardSegments = this.props.cards.map((card, index) => {
         return (
@@ -60,12 +61,11 @@ class SegmentList extends Component {
             Add
           </Label>
         )}
-          {type && <Segment as={Header} >
-            {
-               `${capitalizeFirstLetter(this.props.type)}`
-              // type ? `${capitalizeFirstLetter(this.props.type)}`: `Sideboard (${!totalsideboard ? 0 : totalsideboard})`
-            }
-          </Segment>}
+          {type && (
+            <Segment as={Header} >
+              {segmentHeader}
+            </Segment>
+          )}
 
         {cardSegments}
       </Segment.Group>
@@ -76,9 +76,3 @@ class SegmentList extends Component {
 }
 
 export default SegmentList
-
-// { type && (
-//   <Segment as={Header}>
-//     {capitalizeFirstLetter(this.props.type)}
-//   </Segment>
-// )}

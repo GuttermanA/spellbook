@@ -8,24 +8,12 @@ class DeckCardInput extends Component  {
     removed: false,
   }
 
-  handleMouseOver = (event) => {
-    this.setState({
-      mouseOver: !this.state.mouseOver
-    })
-  }
-
-  handleChange = (event) => {
-    this.props.handleChange(event, this.props.card)
-  }
-
   handleRemove = (event) => {
     this.props.handleRemove(event, this.props.card)
   }
 
-
   render() {
-
-    const { index, board, editing, id } = this.props
+    const { index, board, editing } = this.props
     const { error, key, name, count, card_id } = this.props.card
     if (this.state.removed && name.length) {
       return (
@@ -44,41 +32,16 @@ class DeckCardInput extends Component  {
             </Label>
           )}
 
-          <Form.Input type='text' disabled={!!card_id} error={error} placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
-          <Form.Input type='number' placeholder='N' value={count} name='count' id={key} className='number-input' onChange={this.props.handleCardChange}/>
-            {
-            //   editing ? (
-            //   <Form.Field width={editing ? 10 : 12}  error={error} >
-            //     <input disabled={ name ? true : false } type='text' placeholder='Card name' defaultValue={name} name='name' id={board} data-position={index} onChange={this.handleChange} />
-            //   </Form.Field>
-            // ):(
-            //   <Form.Input type='text' error={error} placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
-            // )
-          }
-
-
-            {
-            //   editing ? (
-            //   <Form.Field width={4} >
-            //     <input type='number' placeholder='N'  defaultValue={count} name='count' id={board} data-position={index} onChange={this.handleChange}/>
-            //   </Form.Field>
-            // ):(
-            //   <Form.Input type='number' placeholder='N' value={count} name='count' id={key} className='number-input' onChange={this.props.handleCardChange}/>
-            // )
-          }
-
+          <Form.Input type='text' disabled={!!card_id} error={error} placeholder='Card name' value={name} name='name' id={key} className={editing ? 'name-input-deck-show' : 'name-input'} onChange={this.props.handleCardChange}/>
+          <Form.Input type='number' placeholder='N' value={count} name='count' id={key} className={editing ? 'number-input-deck-show' : 'number-input'} onChange={this.props.handleCardChange}/>
 
           { editing && (
-            <Icon name='remove' id={key} corner fitted onClick={this.props.removeInput} name='remove'/>
+            <Icon name='remove' id={key} corner fitted onClick={this.props.removeInput}/>
           )}
         </Form.Group>
       )
     }
-
-
   }
-
-
 }
 
 export default DeckCardInput

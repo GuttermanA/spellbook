@@ -41,21 +41,6 @@ class DeckShow extends Component {
     if (this.props.match.path === '/:username/decks/:id') {
       this.setState({userDeck: true})
     }
-
-    // else {
-    //   console.log('mountingSelectedDeck',this.props.selectedDeck);
-    //   const mainboard = this.props.selectedDeck.cards.mainboard
-    //   for(const type in mainboard) {
-    //     mainboard[type].map(card => card.key = uuid())
-    //   }
-    //   const sideboard = this.props.selectedDeck.cards.sideboard.map(card => {return {...card, key: uuid()}})
-    //   if (this.props.match.params.username) {
-    //     this.setState({ sideboard, mainboard, userDeck: true })
-    //   } else {
-    //     this.setState({ sideboard, mainboard, userDeck: false })
-    //   }
-    //
-    // }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -67,7 +52,6 @@ class DeckShow extends Component {
         card.error = false
         return card
       })
-      console.log(uniqCardTypes);
       return {
         segmentCount: mainboardSegments + uniqCardTypes,
         deck: {...nextProps.selectedDeck, cards: cardsWithKeys},
@@ -117,17 +101,6 @@ class DeckShow extends Component {
     })
   }
 
-  handleChange = (event, cardRef) => {
-    const { value, name } = event.target
-    let found = this.cardsToUpdate.find(card => card.key === cardRef.key)
-    if (found) {
-      found[name] = value
-    } else {
-      this.cardsToUpdate.push({...cardRef, [name]: value})
-    }
-    console.log('cards to edit', this.cardsToUpdate);
-  }
-
   handleSubmit(event) {
     event.preventDefault()
     if (JSON.stringify(this.state.deck) !== JSON.stringify(this.state.deckCopy) ) {
@@ -173,8 +146,6 @@ class DeckShow extends Component {
       deck: {...this.state.deck, cards}
     })
   }
-
-
 
   render() {
     const { loggedIn, history } = this.props
@@ -238,8 +209,6 @@ class DeckShow extends Component {
       }
     })()
 
-    console.log('segmentCount', this.state.segmentCount);
-
     if (redirect) {
       return <Redirect exact to={`/${this.props.currentUser.name}/decks`} />
     } else {
@@ -275,24 +244,12 @@ class DeckShow extends Component {
             <Grid.Column width={11}>
               <Segment  as={Header} content={`Mainboard (${totalMainboard})`} />
               <div id={
-                  (this.state.segmentCount <= 26 && 'deck-container-small') ||
-                  (this.state.segmentCount > 38 && 'deck-container-large') ||
-                  'deck-container-mid'
-                }
+                    (this.state.segmentCount <= 26 && 'deck-container-small') ||
+                    (this.state.segmentCount > 38 && 'deck-container-large') ||
+                    'deck-container-mid'
+                  }
               >
-                {
-                  // { mainboard.lands && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.lands} type="lands" board='mainboard'/>}
-                  //
-                  // { mainboard.instants && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.instants} type="instants" board='mainboard'/>}
-                  // { mainboard.sorceries && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.sorceries} type="sorceries" board='mainboard'/>}
-                  // { mainboard.artifacts && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.artifacts} type="artifacts" board='mainboard'/>}
-                  // { mainboard.enchantments && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.enchantments} type="enchantments" board='mainboard'/>}
-                  // { mainboard.planeswalkers && <SegmentList handleRemoveEdit={this.handleRemoveEdit} handleChange={this.handleChange} key={uuid()} editing={this.state.editing} cards={mainboard.planeswalkers} type="planeswalkers" board='mainboard'/>}
-
-                }
-                {
-                  mainboardSegments
-                }
+                {mainboardSegments}
               </div>
 
             </Grid.Column>

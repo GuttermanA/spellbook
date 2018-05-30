@@ -47,25 +47,8 @@ class DeckContainer extends Component {
       }
     }
 
-    // if (nextProps.location.state && nextProps.location.state.message) {
-    //
-    //   return {
-    //     message: nextProps.location.state.message,
-    //     visible: true,
-    //   }
-    // }
     return null
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextProps.match.path === '/:username/decks' && nextState.userPage) {
-  //     return false
-  //   }
-  //   if (nextProps.match.path === '/decks/search' && !nextState.userPage) {
-  //     return false
-  //   }
-  //   return true
-  // }
 
   componentDidMount = () => {
     if (this.props.loggedIn && this.props.match.path === '/:username/decks') {
@@ -82,47 +65,16 @@ class DeckContainer extends Component {
         decks: this.props.deckResults,
       })
     }
-    // if (this.props.location.state) {
-    //   // const { redirect, message } = this.props.location.state
-    //   this.setState({
-    //     userPage: redirect,
-    //     // message: message,
-    //   },() => console.log(this.state))
-    // } else {
-    //   this.setState({
-    //     redirect: false,
-    //     // message: "",
-    //   })
-    // }
-
   }
 
   handleDismiss = () => {
     this.setState({ visible: false, message: "" })
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if ( this.props.loggedIn && nextProps.location.pathname !== this.props.location.pathname) {
-  //     this.props.fetchUser()
-  //     this.setState({ userPage: true })
-  //   }
-  //   //   const { redirect, message } = nextProps.location.state
-  //   //   this.setState({
-  //   //     redirect: redirect,
-  //   //     message: message,
-  //   //   },() => console.log(this.state))
-  //   // } else {
-  //   //   this.setState({
-  //   //     redirect: false,
-  //   //     message: "",
-  //   //   })
-  //   // }
-  // }
-
   render() {
     const { userPage, message, decks } = this.state
     const deckCards = decks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={false}/>)
-    // const currentUserDecksCards = currentUserDecks.map(deck => <DeckCard key={uuid()} deck={deck.attributes} user={true}/>)
+
     if (this.props.loading) {
       return <Dimmer active><Loader /></Dimmer>
     } else {
@@ -145,10 +97,7 @@ class DeckContainer extends Component {
             </Container>
           )}
           <Card.Group centered>
-            {
-              deckCards
-              // userPage ? currentUserDecksCards : deckResultsCards
-            }
+            {deckCards}
           </Card.Group>
         </Container>
       )

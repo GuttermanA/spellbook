@@ -13,8 +13,6 @@ import {  archtypeOptions } from '../globalVars'
 const addCard = (newCard, prevState) => {
   const cards = prevState.fields.cards
   let updated = false
-
-  // let nextCardsState = []
   for(let i = 0; i < cards.length; i++) {
     let card = cards[i]
 
@@ -24,19 +22,6 @@ const addCard = (newCard, prevState) => {
       break
     }
   }
-  // const newCards = cards.forEach((card, index) => {
-  //   // const names = cards.map(card => card.name)
-  //   if ((card.name.toLowerCase() === newCard.attributes.name.toLowerCase()) && (card.sideboard === newCard.attributes.sideboard)) {
-  //     ++card.count
-  //     updated = true
-  //     break
-  //   }
-  //   // else if (!card.name && !names.includes(newCard.attributes.name)) {
-  //   //   updated = true
-  //   //   card = {...newCard.attributes, count: 1}
-  //   //   break
-  //   // }
-  // })
 
   if (!updated) {
     for(let i = 0; i < cards.length; i++) {
@@ -103,81 +88,8 @@ class DeckForm extends Component {
         }
       }
     }
-
     return null
-
-
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (Object.keys(nextProps.selectedCard).length && (nextProps.selectedCard.type === 'mainboard' || nextProps.selectedCard.type === 'sideboard')) {
-  //     this.addCard(nextProps.selectedCard)
-  //   }
-  //
-  //   if (nextProps.deckError) {
-  //     const mainboardCopy = this.state.fields.cards.mainboard.map(card => {
-  //       if (nextProps.deckErrorRes.keys.mainboard.includes(card.key) ) {
-  //         card.error = true
-  //       }
-  //       return card
-  //     })
-  //     const sideboardCopy = this.state.fields.cards.sideboard.map(card => {
-  //       if (nextProps.deckErrorRes.keys.sideboard.includes(card.key) ) {
-  //         card.error = true
-  //       }
-  //       return card
-  //     })
-  //
-  //     this.setState({
-  //       validation: {
-  //         error: true,
-  //         message: nextProps.deckErrorRes.message
-  //       },
-  //       fields: {
-  //         ...this.state.fields,
-  //         cards: {
-  //           mainboard: mainboardCopy,
-  //           sideboard: sideboardCopy
-  //         }
-  //       }
-  //     },()=> console.log(this.state.fields.cards))
-  //   }
-  // }
-
-  // addCard = (addedCard) => {
-  //   const board = this.state.fields.cards[addedCard.type]
-  //   let updated = false
-  //   const newCards = board.map((stateCard, index) => {
-  //     const names = board.map(card => card.name)
-  //     if (stateCard.name.toLowerCase() === addedCard.attributes.name.toLowerCase()) {
-  //       ++stateCard.count
-  //       updated = true
-  //       return stateCard
-  //     } else if (!stateCard.name && !names.includes(addedCard.attributes.name)) {
-  //       updated = true
-  //       stateCard = {...addedCard.attributes, count: 1}
-  //       return stateCard
-  //     }
-  //
-  //     return stateCard
-  //   })
-  //
-  //   if (!updated) {
-  //     newCards.push({key:uuid(), error: false, info:{...addedCard.attributes, count: 1}})
-  //   }
-  //
-  //   return newCards
-  //
-  //   this.setState({
-  //     fields: {
-  //       ...this.state.fields,
-  //       cards: {
-  //         ...this.state.fields.cards,
-  //         [addedCard.type]: newCards
-  //       }
-  //     }
-  //   })
-  // }
 
   appendInput = (event, { name }) => {
     event.preventDefault()
@@ -210,19 +122,6 @@ class DeckForm extends Component {
     })
   }
 
-  // removeInput = (event, { id, name }) => {
-  //   event.preventDefault()
-  //   this.setState({
-  //     fields: {
-  //       ...this.state.fields,
-  //       cards: {
-  //         ...this.state.fields.cards,
-  //         [id]: this.state.fields.cards[id].filter((input, index) => index !== parseInt(name, 10))
-  //       }
-  //     }
-  //   })
-  // }
-
   handleFieldChange = (event, { name, value, checked }) => {
     if (Object.keys(this.props.selectedCard).length) {
         this.props.clearCard()
@@ -240,10 +139,6 @@ class DeckForm extends Component {
         this.props.clearCard()
     }
 
-
-    // const { name, id, value } = event.target
-    // const position = event.target.dataset.position
-
     const updatedCards = this.state.fields.cards.map((card) => {
       if (card.key === id) {
         card[name] = value
@@ -258,45 +153,12 @@ class DeckForm extends Component {
     },()=> console.log(this.state.fields.cards))
   }
 
-  // handleCardChange = (event) => {
-  //   const { name, id, value } = event.target
-  //   const position = event.target.dataset.position
-  //   const copy = this.state.fields.cards[id].map((card, index) => {
-  //     if (index === parseInt(position, 10)) {
-  //       card[name] = value
-  //     }
-  //     return card
-  //   })
-  //   this.setState({
-  //     fields: {
-  //       ...this.state.fields,
-  //       cards: {
-  //         ...this.state.fields.cards,
-  //         [id]: copy
-  //       }
-  //     }
-  //   },()=> console.log(this.state.fields.cards))
-  // }
-
   handleSubmit = (event) => {
     event.preventDefault()
     const { name, formatName } = this.state.fields
     debugger
     if (name && formatName) {
       this.props.createDeck(this.state.fields, this.props.history)
-      // this.setState({
-      //   fields: {
-      //     name: "",
-      //     archtype: "",
-      //     format: "",
-      //     tournament: false,
-      //     cards: []
-      //   },
-      //   validation: {
-      //     error: false,
-      //     message: "",
-      //   }
-      // })
     } else {
       const message = `Name and format required for submission`
       this.setState({validation: { error: true, message }})
