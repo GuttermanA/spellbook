@@ -35,13 +35,14 @@ class SegmentList extends Component {
     } = this.props
     let cardSegments
     if (editing) {
-      cardSegments = this.state.cards.map(card => {
+      cardSegments = this.props.cards.map((card, index) => {
         return (
           <DeckCardInput
             removeInput={this.props.removeInput}
+            handleCardChange={this.props.handleCardChange}
             handleRemove={this.handleRemove}
             handleChange={this.props.handleChange}
-            key={card.key}
+            key={index}
             editing={editing}
             card={card}
           />
@@ -55,7 +56,7 @@ class SegmentList extends Component {
 
       <Segment.Group className="deck-list-group" compact >
         { this.props.editing && (
-          <Label as='a' onClick={this.addInput} attached='top'>
+          <Label as='a' onClick={this.props.appendInput} name={type} attached='top'>
             Add
           </Label>
         )}

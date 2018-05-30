@@ -27,3 +27,14 @@ export const conditionOptions = [
   {key: uuid(), text: 'Heavily Played', value: 'HP'},
   {key: uuid(), text: 'Damaged', value: 'D'},
 ]
+
+export const keysForDeckShow = {
+  Creature: uuid(),
+  Instant: uuid(),
+  Sorcery: uuid(),
+  Land: uuid(),
+  Artifact: uuid(),
+  Enchantment: uuid(),
+  Planeswalker: uuid(),
+  Sideboard: uuid()
+}

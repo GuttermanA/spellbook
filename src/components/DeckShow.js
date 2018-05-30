@@ -3,6 +3,7 @@ import uuid from 'uuid'
 import SegmentList from './SegmentList'
 import DeleteModal from './DeleteModal'
 import withLoader from './hocs/withLoader'
+import { keysForDeckShow } from '../globalVars'
 import { sortCardsByType, dateFormater } from '../globalFunctions'
 import { withRouter, Redirect } from 'react-router-dom'
 import { fetchDeck, deleteDeck, updateDeck, deleteFromDeck, createDeck } from  '../actions/decks'
@@ -18,6 +19,7 @@ class DeckShow extends Component {
       editing: false,
       destroy: false,
       deck: {},
+      deckCopy: {},
       segmentCount: 0,
       validation: {
         error: false,
@@ -62,12 +64,31 @@ class DeckShow extends Component {
       const uniqCardTypes = [...new Set(nextProps.selectedDeck.cards.map(card => card.primary_type))].length
       const cardsWithKeys = nextProps.selectedDeck.cards.map(card => {
         card.key = uuid()
+        card.error = false
         return card
       })
       console.log(uniqCardTypes);
       return {
         segmentCount: mainboardSegments + uniqCardTypes,
         deck: {...nextProps.selectedDeck, cards: cardsWithKeys},
+        deckCopy: {...nextProps.selectedDeck, cards: cardsWithKeys},
+      }
+    }
+
+    if (nextProps.deckError) {
+      const cards = prevState.deck.cards.map(card => {
+        if (nextProps.deckErrorRes.keys.includes(card.key) ) {
+          card.error = true
+        }
+        return card
+      })
+
+      return {
+        validation: {
+          error: true,
+          message: nextProps.deckErrorRes.message
+        },
+        deck: {...prevState.deck, cards}
       }
     }
     return null
@@ -78,23 +99,11 @@ class DeckShow extends Component {
   }
 
   handleEdit = (event) => {
-    // if (this.props.history.location.pathname.includes(this.props.currentUser.name)) {
-    //   this.setState({ editing: !this.state.editing })
-    // }
-    this.setState({ editing: !this.state.editing })
-    // else {
-    //   let mainboard = this.props.selectedDeck.cards.mainboard
-    //   let deck = {...this.props.selectedDeck, cards: {mainboard:[], sideboard:this.state.sideboard}}
-    //
-    //   for(const type in mainboard) {
-    //     for(const card of mainboard[type]) {
-    //       deck.cards.mainboard.push(card)
-    //     }
-    //   }
-    //
-    //
-    //   this.props.createDeck(deck, this.props.history, this.props.currentUser)
-    // }
+    if (this.state.editing) {
+      this.setState({ editing: !this.state.editing, deck: this.state.deckCopy })
+    } else {
+      this.setState({ editing: !this.state.editing })
+    }
   }
 
   handleCopy = (event) => {
@@ -121,16 +130,39 @@ class DeckShow extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    if (this.cardsToUpdate.length || this.cardsToDelete.length) {
-      this.props.updateDeck(this.props.selectedDeck.id, this.cardsToUpdate, this.cardsToDelete)
+    if (JSON.stringify(this.state.deck) !== JSON.stringify(this.state.deckCopy) ) {
+      this.props.updateDeck(this.state.deck)
       this.setState({
         editing: false
       })
     } else {
       alert('No changes made, submission canceled')
     }
+  }
 
+  appendInput = (event, { name }) => {
+    event.preventDefault()
+    const sideboard = name === 'sideboard'
+    const cards = this.state.deck.cards
+    if (cards.length <= 100) {
+      this.setState({
+        deck: {...this.state.deck ,cards: [...this.state.deck.cards, {key:uuid(), error: false, primary_type: name, sideboard, name:"", count: "" }]}
+      },()=>console.log(this.state.deck.cards.length))
+    } else {
+      alert("Max cards reached")
+    }
+  }
 
+  handleCardChange = (event, { name, id, value }) => {
+    const cards = this.state.deck.cards.map((card) => {
+      if (card.key === id) {
+        card[name] = value
+      }
+      return card
+    })
+    this.setState({
+      deck: {...this.state.deck, cards}
+    })
   }
 
   removeInput = (event) => {
@@ -141,8 +173,6 @@ class DeckShow extends Component {
       deck: {...this.state.deck, cards}
     })
   }
-
-
 
 
 
@@ -175,10 +205,10 @@ class DeckShow extends Component {
         for(const cardType in sortedCards) {
           segments.push(
             <SegmentList
+              appendInput={this.appendInput}
               removeInput={this.removeInput}
-              handleRemoveEdit={this.handleRemoveEdit}
-              handleChange={this.handleChange}
-              key={uuid()}
+              handleCardChange={this.handleCardChange}
+              key={keysForDeckShow[cardType]}
               editing={this.state.editing}
               cards={sortedCards[cardType]}
               type={cardType}
@@ -194,12 +224,14 @@ class DeckShow extends Component {
         const sideboard = cards.filter(card => card.sideboard)
         return (
           <SegmentList
-            handleRemoveEdit={this.handleRemoveEdit}
+            appendInput={this.appendInput}
+            removeInput={this.removeInput}
+            handleCardChange={this.handleCardChange}
             totalsideboard={totalSideboard}
-            handleChange={this.handleChange}
-            key={uuid()}
+            key={keysForDeckShow.Sideboard}
             editing={this.state.editing}
             cards={sideboard}
+            type='sideboard'
             board='sideboard'
           />
         )

@@ -127,7 +127,7 @@ export const deleteDeck = (deckId, history, user) => {
   }
 }
 
-export const updateDeck = (deckId, cardsToUpdate, cardsToDelete) => {
+export const updateDeck = (deck) => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING_DECKS'
@@ -139,10 +139,10 @@ export const updateDeck = (deckId, cardsToUpdate, cardsToDelete) => {
         'Content-type': 'application/json',
         Authorization: localStorage.getItem('token')
       },
-      body: JSON.stringify({deck_id: deckId, cardsToUpdate, cardsToDelete })
+      body: JSON.stringify(deck)
     }
     return (
-      fetch(`${API_ROOT}/decks/${deckId}`, options)
+      fetch(`${API_ROOT}/decks/${deck.id}`, options)
         .then(res => res.json())
         .then(response => {
           if (response.error) {

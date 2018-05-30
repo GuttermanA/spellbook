@@ -26,7 +26,7 @@ class DeckCardInput extends Component  {
   render() {
 
     const { index, board, editing, id } = this.props
-    const { error, key, name, count } = this.props.card
+    const { error, key, name, count, card_id } = this.props.card
     if (this.state.removed && name.length) {
       return (
         <Segment tertiary size='small'>
@@ -44,7 +44,7 @@ class DeckCardInput extends Component  {
             </Label>
           )}
 
-          <Form.Input type='text' error={error} placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
+          <Form.Input type='text' disabled={!!card_id} error={error} placeholder='Card name' value={name} name='name' id={key} className='name-input' onChange={this.props.handleCardChange}/>
           <Form.Input type='number' placeholder='N' value={count} name='count' id={key} className='number-input' onChange={this.props.handleCardChange}/>
             {
             //   editing ? (
