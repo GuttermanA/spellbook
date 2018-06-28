@@ -15,7 +15,7 @@ const Home = (props) => {
   return (
       <Segment id="home" color='grey' inverted textAlign='center' vertical style={{height: '100vh'}}>
 
-        <Menu icon='labeled' vertical floated='left' inverted size='mini' compact>
+        <Menu icon='labeled' vertical floated='right' inverted size='mini' compact>
           <Menu.Item
             name='github'
             as='a'
