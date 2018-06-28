@@ -4,7 +4,7 @@ import DeckCard from './DeckCard'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import withLoader from './hocs/withLoader'
-import { Container, Header, Button, Icon, Segment, Grid, Divider } from 'semantic-ui-react'
+import { Container, Header, Button, Icon, Segment, Grid, Divider, Menu } from 'semantic-ui-react'
 
 const Home = (props) => {
 
@@ -15,7 +15,39 @@ const Home = (props) => {
   return (
       <Segment id="home" color='grey' inverted textAlign='center' vertical style={{height: '100vh'}}>
 
+        <Menu icon='labeled' vertical floated='left' inverted size='mini' compact>
+          <Menu.Item
+            name='github'
+            as='a'
+            href='https://github.com/GuttermanA'
+            target='_blank'
+          >
+            <Icon name='github' />
+          </Menu.Item>
+
+          <Menu.Item
+            name='linkedin'
+            as='a'
+            href='https://www.linkedin.com/in/alexander-gutterman-0186a94b/'
+            target='_blank'
+          >
+            <Icon name='linkedin' />
+          </Menu.Item>
+
+          <Menu.Item
+            name='mail'
+            as='a'
+            href='mailto:alexanderf.gutterman@gmail.com'
+          >
+            <Icon name='mail' />
+          </Menu.Item>
+        </Menu>
+
         <Container text>
+
+
+
+
           <Header
             className="main-header"
             as='h1'

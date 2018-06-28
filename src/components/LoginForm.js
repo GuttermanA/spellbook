@@ -79,6 +79,7 @@ class LoginForm extends Component  {
                 <p>{this.props.authErrorMessage}</p>
               </Message>
               <Form size='large' onSubmit={this.handleSubmit} >
+                <p>For sample, use <b>username:</b> <i>demo</i> and <b>password:</b> <i>1234</i></p>
                 <Segment stacked>
                   <Form.Input
                     fluid
