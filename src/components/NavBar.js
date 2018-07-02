@@ -8,7 +8,6 @@ import {
   Menu,
   Form,
   Dropdown,
-  Divider
 } from 'semantic-ui-react'
 
 class NavBar extends Component {
@@ -82,29 +81,28 @@ class NavBar extends Component {
     ]
     const { activeItem, search, dropdown } = this.state
     const { currentUser, loggedIn } = this.props
+    const style = { marginBottom: this.props.history.location.pathname !== "/" ? '1rem' : '0'}
       return (
-        <div>
-          <Menu
-            inverted
-            pointing
-          >
-              <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
-              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>)  }
-              {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/collection`}} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) }
-              <Menu.Item position='right'>
-                <Form onSubmit={this.handleSearch}>
-                  <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>
-                </Form>
-              </Menu.Item>
-              <Dropdown name='dropdown' item onChange={this.handleChange} options={options} placeholder='Cards'/>
-              {!loggedIn ? (
-                <Menu.Item as={Link} to="/login" name="login" active={activeItem === 'login'} onClick={this.handleItemClick}/>
-              ): (
-                <Menu.Item as={Link} to="/" name="logout" onClick={this.handleLogout}/>
-              )}
-          </Menu>
-          {this.props.history.location.pathname !== "/" && this.props.history.location.pathname !== '/login' && this.props.history.location.pathname !== '/signup' && <Divider hidden fitted/>}
-        </div>
+        <Menu
+          inverted
+          pointing
+          style={style}
+        >
+            <Menu.Item as={Link} to="/" name='home' active={activeItem === 'home'} onClick={this.handleItemClick} />
+            {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/decks`}} name="decks" active={activeItem === 'decks'} onClick={this.handleItemClick}/>)  }
+            {loggedIn && (<Menu.Item as={Link} to={{pathname:`/${currentUser.name}/collection`}} name="collection" active={activeItem === 'collection'} onClick={this.handleItemClick}/>) }
+            <Menu.Item position='right'>
+              <Form onSubmit={this.handleSearch}>
+                <Form.Input icon='search' name='search' value={search} onChange={this.handleChange} placeholder={`Search ${dropdown}...`}/>
+              </Form>
+            </Menu.Item>
+            <Dropdown name='dropdown' item onChange={this.handleChange} options={options} placeholder='Cards'/>
+            {!loggedIn ? (
+              <Menu.Item as={Link} to="/login" name="login" active={activeItem === 'login'} onClick={this.handleItemClick}/>
+            ): (
+              <Menu.Item as={Link} to="/" name="logout" onClick={this.handleLogout}/>
+            )}
+        </Menu>
 
     )
   }
