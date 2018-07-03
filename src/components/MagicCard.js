@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
 import CollectionCardInput from './CollectionCardInput'
+import withLoader from './hocs/withLoader'
 import { connect } from 'react-redux'
 import { selectCard } from '../actions/cards'
 import { updateCollection, deleteFromCollection } from '../actions/collection'
@@ -197,4 +198,4 @@ class MagicCard extends Component {
 
 
 }
-export default connect(null, { selectCard, updateCollection, deleteFromCollection })(MagicCard)
+export default connect(null, { selectCard, updateCollection, deleteFromCollection })(withLoader(MagicCard))

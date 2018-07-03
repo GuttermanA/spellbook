@@ -44,10 +44,6 @@ const Home = (props) => {
         </Menu>
 
         <Container text>
-
-
-
-
           <Header
             className="main-header"
             as='h1'
@@ -79,18 +75,18 @@ const Home = (props) => {
             <Icon name='right arrow' />
           </Button>
         )}
+
         <Divider/>
+
         <Grid centered stackable>
           <Grid.Column width={6} verticalAlign="middle">
             <Header inverted as="h3" content="Card of the Day" />
-            { props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} /> }
+            { (props.cardOfTheDay && Object.keys(props.cardOfTheDay).length && <MagicCard as={Segment} card={props.cardOfTheDay.attributes} loading={props.loading}/>) || <p>Server error</p> }
           </Grid.Column>
           <Grid.Column width={6} verticalAlign="middle">
             <Header inverted as="h3" content="Deck of the Day" />
-            { props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
+            { (props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes} loading={props.loading}/>) || <p>Server error</p> }
           </Grid.Column>
-
-
         </Grid>
 
         </Container>
@@ -102,7 +98,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.auth.loading,
+    loading: state.init.loading,
     loggedIn: !!state.auth.currentUser.id,
     currentUser: state.auth.currentUser,
     cardOfTheDay: state.auth.cardOfTheDay,

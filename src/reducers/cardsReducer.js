@@ -7,7 +7,7 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    case 'LOADING_CARDS':
+    case 'LOADING_CARDS' || 'LOADING':
       return {...state, loading: !state.loading, results: []}
     case 'LOAD_METADATA':
     console.log('loading cards metadata', action.payload);

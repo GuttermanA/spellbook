@@ -11,7 +11,7 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    case 'LOADING_USER':
+    case 'LOADING_USER' || 'LOADING':
       return {...state, loading: true}
     case 'SET_CURRENT_USER':
       return { ...state, currentUser: action.user, loading: false, errorStatus: false, error:{} };

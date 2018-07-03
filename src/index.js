@@ -10,9 +10,10 @@ import thunk from 'redux-thunk'
 import cardsReducer from './reducers/cardsReducer'
 import decksReducer from './reducers/decksReducer'
 import authReducer from './reducers/authReducer'
+import initReducer from './reducers/initReducer'
 import './semantic/dist/semantic.min.css';
 
-const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer, auth: authReducer })
+const rootReducer = combineReducers({cards: cardsReducer, decks: decksReducer, auth: authReducer, init: initReducer })
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(

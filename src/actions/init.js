@@ -4,17 +4,24 @@ export const fetchMetaData = () => {
 
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'LOADING_INIT'
     })
     return (
       fetch(`${API_ROOT}/metadata_load`)
         .then(res => res.json())
-        .then(payload =>
-          dispatch({
-          type: 'LOAD_METADATA',
-          payload
+        .then(payload => {
+            return (
+              dispatch({
+                type: 'LOAD_METADATA',
+                payload
+              })
+            )
         })
-      )
+        .then(()=> {
+          dispatch({
+            type: 'LOADING_INIT'
+          })
+        })
     )
   }
 }
