@@ -21,7 +21,7 @@ Features include:
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 ## Installing
-1. Setup Rails API found [here](https://github.com/GuttermanA/spellbook-api. Ensure server is running on port 3000.
+1. Setup Rails API found [here](https://github.com/GuttermanA/spellbook-api). Ensure server is running on port 3000.
 2. Clone repository from GitHub
 3. Navigate to the repository directory
 ```
