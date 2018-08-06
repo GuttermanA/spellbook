@@ -15,10 +15,11 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchMetaData } from './actions/init'
 import { fetchUser } from './actions/auth'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-const DeckFormWithStats = withStats(DeckForm)
+// const DeckFormWithStats = withStats(DeckForm)
 
-class App extends Component {
+export class App extends Component {
 
   componentDidMount() {
     this.props.fetchMetaData()
@@ -35,23 +36,29 @@ class App extends Component {
       // loading,
     } = this.props
     return (
-      <div className="App">
-        <NavBar />
-        <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/login" component={LoginForm}/>
-          <Route exact path="/signup" component={SignupForm}/>
-          <Route exact path="/cards/search" component={CardContainer}/>
-          <Route exact path="/decks/search" component={DeckContainer}/>
-          <Route exact path="/:username/collection" component={CardContainer} />
-          <Route exact path="/:username/collection/edit" component={CollectionForm} />
-          <Route exact path="/:username/decks" component={DeckContainer} />
-          <Route exact path="/:username/decks/new" component={DeckFormWithStats} />
-          <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
-          <Route exact path="/:username/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
-          <Route component={NotFoundPage}/>
-        </Switch>
-      </div>
+      <Router>
+        <div className="App">
+          <NavBar />
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/login" component={LoginForm}/>
+            <Route exact path="/signup" component={SignupForm}/>
+            <Route exact path="/cards/search" component={CardContainer}/>
+            <Route exact path="/decks/search" component={DeckContainer}/>
+            <Route exact path="/:username/collection" component={CardContainer} />
+            <Route exact path="/:username/collection/edit" component={CollectionForm} />
+            <Route exact path="/:username/decks" component={DeckContainer} />
+
+            {
+              // <Route exact path="/:username/decks/new" component={DeckFormWithStats} />
+            }
+            <Route exact path="/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
+            <Route exact path="/:username/decks/:id" render={() => <DeckShow deck={selectedDeck}/>}/>
+            <Route component={NotFoundPage}/>
+          </Switch>
+        </div>
+      </Router>
+
     );
   }
 }
@@ -63,4 +70,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, { fetchMetaData, fetchUser })(App));
+export default connect(mapStateToProps, { fetchMetaData, fetchUser })(App);
+
+// export { App, ConnectedApp }
