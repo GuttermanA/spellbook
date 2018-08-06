@@ -38,7 +38,7 @@
 }
 .ui.popup > .header {
   padding: 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1.14285714em;
   line-height: 1.2;
   font-weight: bold;

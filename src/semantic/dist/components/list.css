@@ -159,7 +159,7 @@ ol.ui.list ol li,
 .ui.list > .item .header {
   display: block;
   margin: 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -949,3 +949,97 @@ ol.ui.horizontal.list li:before,
     User Variable Overrides
 *******************************/
 
+
+
+/*******************************
+    User Variable Overrides
+*******************************/
+
+
+
+/*******************************
+             List
+*******************************/
+
+
+/*-------------------
+         View
+--------------------*/
+
+
+/* List */
+
+/* List Item */
+
+/* Sub List */
+
+/* Sub List Item */
+
+/*-------------------
+      Elements
+--------------------*/
+
+
+/* Icon */
+
+/* Image */
+
+/* Content */
+
+/* Header */
+
+/* Description */
+
+/* Link */
+
+/* Header Link */
+
+/* Linked Icon */
+
+/*-------------------
+        States
+--------------------*/
+
+
+/*-------------------
+      Variations
+--------------------*/
+
+
+/* Float */
+
+/* Horizontal */
+
+/* Inverted */
+
+/* Link List */
+
+/* Inverted Link List */
+
+/* Selection List */
+
+/* Selection List States */
+
+/* Inverted Selection List */
+
+/* Animated List */
+
+/* Bulleted */
+
+/* Horizontal Bullets */
+
+/* Ordered List */
+
+/* Horizontal Ordered */
+
+/* Divided */
+
+/* Divided Horizontal */
+
+/* Divided */
+
+/* Divided Horizontal */
+
+/* Relaxed */
+
+/* Very Relaxed */

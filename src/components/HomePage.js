@@ -44,10 +44,6 @@ const Home = (props) => {
         </Menu>
 
         <Container text>
-
-
-
-
           <Header
             className="main-header"
             as='h1'
@@ -79,7 +75,9 @@ const Home = (props) => {
             <Icon name='right arrow' />
           </Button>
         )}
+
         <Divider/>
+
         <Grid centered stackable>
           <Grid.Column width={6} verticalAlign="middle">
             <Header inverted as="h3" content="Card of the Day" />
@@ -89,8 +87,6 @@ const Home = (props) => {
             <Header inverted as="h3" content="Deck of the Day" />
             { props.deckOfTheDay && Object.keys(props.deckOfTheDay).length  && <DeckCard as={Segment} deck={props.deckOfTheDay.attributes}/> }
           </Grid.Column>
-
-
         </Grid>
 
         </Container>

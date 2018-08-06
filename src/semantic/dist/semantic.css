@@ -569,7 +569,7 @@ body {
   overflow-x: hidden;
   min-width: 320px;
   background: #FFFFFF;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 14px;
   line-height: 1.4285em;
   color: rgba(0, 0, 0, 0.87);
@@ -585,7 +585,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   line-height: 1.28571429em;
   margin: calc(2rem -  0.14285714em ) 0em 1rem;
   font-weight: bold;
@@ -759,21 +759,6 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 /*******************************
          Site Overrides
 *******************************/
-
-/* .main-header {
-  font-size:  4em;
-  font-weight: normal;
-  margin-bottom: 0;
-  margin-top:  1em;
-  color: white;
-}
-
-.sub-header {
-  font-size: 1.7em;
-  font-weight: normal;
-  margin-top: 1.5em;
-}
-*/
 /*!
  * # Semantic UI 2.3.1 - Button
  * http://github.com/semantic-org/semantic-ui/
@@ -797,7 +782,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   vertical-align: baseline;
   background: #E0E1E2 none;
   color: rgba(0, 0, 0, 0.6);
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   margin: 0em 0.25em 0em 0em;
   padding: 0.78571429em 1.5em 0.78571429em;
   text-transform: none;
@@ -4579,6 +4564,92 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
   margin-left: -1px;
 }
 
+/* Inverted */
+
+.ui.inverted.primary.buttons .button,
+.ui.inverted.primary.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
+  box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
+  color: #54C8FF;
+}
+
+.ui.inverted.primary.buttons .button:hover,
+.ui.inverted.primary.button:hover,
+.ui.inverted.primary.buttons .button:focus,
+.ui.inverted.primary.button:focus,
+.ui.inverted.primary.buttons .button.active,
+.ui.inverted.primary.button.active,
+.ui.inverted.primary.buttons .button:active,
+.ui.inverted.primary.button:active {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #FFFFFF;
+}
+
+.ui.inverted.primary.buttons .button:hover,
+.ui.inverted.primary.button:hover {
+  background-color: #3ac0ff;
+}
+
+.ui.inverted.primary.buttons .button:focus,
+.ui.inverted.primary.button:focus {
+  background-color: #2bbbff;
+}
+
+.ui.inverted.primary.buttons .active.button,
+.ui.inverted.primary.active.button {
+  background-color: #3ac0ff;
+}
+
+.ui.inverted.primary.buttons .button:active,
+.ui.inverted.primary.button:active {
+  background-color: #21b8ff;
+}
+
+/* Inverted Basic */
+
+.ui.inverted.primary.basic.buttons .button,
+.ui.inverted.primary.buttons .basic.button,
+.ui.inverted.primary.basic.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  color: #FFFFFF !important;
+}
+
+.ui.inverted.primary.basic.buttons .button:hover,
+.ui.inverted.primary.buttons .basic.button:hover,
+.ui.inverted.primary.basic.button:hover {
+  -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.primary.basic.buttons .button:focus,
+.ui.inverted.primary.basic.buttons .button:focus,
+.ui.inverted.primary.basic.button:focus {
+  -webkit-box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
+  box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.primary.basic.buttons .active.button,
+.ui.inverted.primary.buttons .basic.active.button,
+.ui.inverted.primary.basic.active.button {
+  -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.primary.basic.buttons .button:active,
+.ui.inverted.primary.buttons .basic.button:active,
+.ui.inverted.primary.basic.button:active {
+  -webkit-box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
+  box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
+  color: #54C8FF !important;
+}
+
 /*-------------------
       Secondary
 --------------------*/
@@ -4670,6 +4741,92 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 
 .ui.buttons:not(.vertical) > .basic.primary.button:not(:first-child) {
   margin-left: -1px;
+}
+
+/* Inverted */
+
+.ui.inverted.secondary.buttons .button,
+.ui.inverted.secondary.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px #545454 inset !important;
+  box-shadow: 0px 0px 0px 2px #545454 inset !important;
+  color: #545454;
+}
+
+.ui.inverted.secondary.buttons .button:hover,
+.ui.inverted.secondary.button:hover,
+.ui.inverted.secondary.buttons .button:focus,
+.ui.inverted.secondary.button:focus,
+.ui.inverted.secondary.buttons .button.active,
+.ui.inverted.secondary.button.active,
+.ui.inverted.secondary.buttons .button:active,
+.ui.inverted.secondary.button:active {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #FFFFFF;
+}
+
+.ui.inverted.secondary.buttons .button:hover,
+.ui.inverted.secondary.button:hover {
+  background-color: #616161;
+}
+
+.ui.inverted.secondary.buttons .button:focus,
+.ui.inverted.secondary.button:focus {
+  background-color: #686868;
+}
+
+.ui.inverted.secondary.buttons .active.button,
+.ui.inverted.secondary.active.button {
+  background-color: #616161;
+}
+
+.ui.inverted.secondary.buttons .button:active,
+.ui.inverted.secondary.button:active {
+  background-color: #6e6e6e;
+}
+
+/* Inverted Basic */
+
+.ui.inverted.secondary.basic.buttons .button,
+.ui.inverted.secondary.buttons .basic.button,
+.ui.inverted.secondary.basic.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  color: #FFFFFF !important;
+}
+
+.ui.inverted.secondary.basic.buttons .button:hover,
+.ui.inverted.secondary.buttons .basic.button:hover,
+.ui.inverted.secondary.basic.button:hover {
+  -webkit-box-shadow: 0px 0px 0px 2px #616161 inset !important;
+  box-shadow: 0px 0px 0px 2px #616161 inset !important;
+  color: #545454 !important;
+}
+
+.ui.inverted.secondary.basic.buttons .button:focus,
+.ui.inverted.secondary.basic.buttons .button:focus,
+.ui.inverted.secondary.basic.button:focus {
+  -webkit-box-shadow: 0px 0px 0px 2px #686868 inset !important;
+  box-shadow: 0px 0px 0px 2px #686868 inset !important;
+  color: #545454 !important;
+}
+
+.ui.inverted.secondary.basic.buttons .active.button,
+.ui.inverted.secondary.buttons .basic.active.button,
+.ui.inverted.secondary.basic.active.button {
+  -webkit-box-shadow: 0px 0px 0px 2px #616161 inset !important;
+  box-shadow: 0px 0px 0px 2px #616161 inset !important;
+  color: #545454 !important;
+}
+
+.ui.inverted.secondary.basic.buttons .button:active,
+.ui.inverted.secondary.buttons .basic.button:active,
+.ui.inverted.secondary.basic.button:active {
+  -webkit-box-shadow: 0px 0px 0px 2px #6e6e6e inset !important;
+  box-shadow: 0px 0px 0px 2px #6e6e6e inset !important;
+  color: #545454 !important;
 }
 
 /*---------------
@@ -5079,7 +5236,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 /* Text Container */
 
 .ui.text.container {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   max-width: 700px !important;
   line-height: 1.5;
 }
@@ -6687,7 +6844,7 @@ i.flag.zimbabwe:before {
   border: none;
   margin: calc(2rem -  0.14285714em ) 0em 1rem;
   padding: 0em 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   line-height: 1.28571429em;
   text-transform: none;
@@ -8092,6 +8249,36 @@ for instance `lemon icon` not `lemon outline icon` since there is only one lemon
 /*******************************
             Icons
 *******************************/
+
+/* Deprecated *In/Out Naming Conflict) */
+
+i.icon.linkedin.in:before {
+  content: "\f0e1";
+}
+
+i.icon.zoom.in:before {
+  content: "\f00e";
+}
+
+i.icon.zoom.out:before {
+  content: "\f010";
+}
+
+i.icon.sign.in:before {
+  content: "\f2f6";
+}
+
+i.icon.in.cart:before {
+  content: "\f218";
+}
+
+i.icon.log.out:before {
+  content: "\f2f5";
+}
+
+i.icon.sign.out:before {
+  content: "\f2f5";
+}
 
 /* Icons */
 
@@ -9859,7 +10046,7 @@ i.icon.linkedin:before {
   content: "\f08c";
 }
 
-i.icon.linkedin.in:before {
+i.icon.linkedin.alt:before {
   content: "\f0e1";
 }
 
@@ -10607,16 +10794,8 @@ i.icon.shower:before {
   content: "\f2cc";
 }
 
-i.icon.sign.in.alternate:before {
-  content: "\f2f6";
-}
-
 i.icon.sign.language:before {
   content: "\f2a7";
-}
-
-i.icon.sign.out.alternate:before {
-  content: "\f2f5";
 }
 
 i.icon.signal:before {
@@ -11929,7 +12108,7 @@ i.icon.ils:before {
   content: "\f20b";
 }
 
-i.icon.in.cart:before {
+i.icon.in-cart:before {
   content: "\f218";
 }
 
@@ -12585,11 +12764,11 @@ i.icon.zip:before {
   content: "\f187";
 }
 
-i.icon.zoom.in:before {
+i.icon.zoom-in:before {
   content: "\f00e";
 }
 
-i.icon.zoom.out:before {
+i.icon.zoom-out:before {
   content: "\f010";
 }
 
@@ -12681,7 +12860,7 @@ i.icon.level.up:before {
   content: "\f3bf";
 }
 
-i.icon.log.out:before {
+i.icon.logout:before {
   content: "\f2f5";
 }
 
@@ -12721,11 +12900,11 @@ i.icon.resize.vertical:before {
   content: "\f338";
 }
 
-i.icon.sign.in:before {
+i.icon.sign-in:before {
   content: "\f2f6";
 }
 
-i.icon.sign.out:before {
+i.icon.sign-out:before {
   content: "\f2f5";
 }
 
@@ -13458,6 +13637,7 @@ i.icon.leanpub,
 i.icon.less,
 i.icon.linechat,
 i.icon.linkedin,
+i.icon.linkedin.alternate,
 i.icon.linkedin.in,
 i.icon.linode,
 i.icon.linux,
@@ -13591,6 +13771,7 @@ i.icon.vine,
 i.icon.vk,
 i.icon.vnv,
 i.icon.vuejs,
+i.icon.wechat,
 i.icon.weibo,
 i.icon.weixin,
 i.icon.whatsapp,
@@ -13982,7 +14163,7 @@ img.ui.bordered.image {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
   text-align: left;
   line-height: 1.21428571em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   padding: 0.67857143em 1em;
   background: #FFFFFF;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -15098,7 +15279,7 @@ a.ui.red.label:hover {
 /* Basic */
 
 .ui.basic.red.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #DB2828 !important;
   border-color: #DB2828 !important;
 }
@@ -15144,7 +15325,7 @@ a.ui.orange.label:hover {
 /* Basic */
 
 .ui.basic.orange.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #F2711C !important;
   border-color: #F2711C !important;
 }
@@ -15190,7 +15371,7 @@ a.ui.yellow.label:hover {
 /* Basic */
 
 .ui.basic.yellow.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #FBBD08 !important;
   border-color: #FBBD08 !important;
 }
@@ -15236,7 +15417,7 @@ a.ui.olive.label:hover {
 /* Basic */
 
 .ui.basic.olive.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #B5CC18 !important;
   border-color: #B5CC18 !important;
 }
@@ -15282,7 +15463,7 @@ a.ui.green.label:hover {
 /* Basic */
 
 .ui.basic.green.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #21BA45 !important;
   border-color: #21BA45 !important;
 }
@@ -15328,7 +15509,7 @@ a.ui.teal.label:hover {
 /* Basic */
 
 .ui.basic.teal.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #00B5AD !important;
   border-color: #00B5AD !important;
 }
@@ -15374,7 +15555,7 @@ a.ui.blue.label:hover {
 /* Basic */
 
 .ui.basic.blue.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #2185D0 !important;
   border-color: #2185D0 !important;
 }
@@ -15420,7 +15601,7 @@ a.ui.violet.label:hover {
 /* Basic */
 
 .ui.basic.violet.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #6435C9 !important;
   border-color: #6435C9 !important;
 }
@@ -15466,7 +15647,7 @@ a.ui.purple.label:hover {
 /* Basic */
 
 .ui.basic.purple.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #A333C8 !important;
   border-color: #A333C8 !important;
 }
@@ -15512,7 +15693,7 @@ a.ui.pink.label:hover {
 /* Basic */
 
 .ui.basic.pink.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #E03997 !important;
   border-color: #E03997 !important;
 }
@@ -15558,7 +15739,7 @@ a.ui.brown.label:hover {
 /* Basic */
 
 .ui.basic.brown.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #A5673F !important;
   border-color: #A5673F !important;
 }
@@ -15604,7 +15785,7 @@ a.ui.grey.label:hover {
 /* Basic */
 
 .ui.basic.grey.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #767676 !important;
   border-color: #767676 !important;
 }
@@ -15650,7 +15831,7 @@ a.ui.black.label:hover {
 /* Basic */
 
 .ui.basic.black.label {
-  background-color: #FFFFFF !important;
+  background-color: none #FFFFFF !important;
   color: #1B1C1D !important;
   border-color: #1B1C1D !important;
 }
@@ -16124,7 +16305,7 @@ ol.ui.list ol li,
 .ui.list > .item .header {
   display: block;
   margin: 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -17024,6 +17205,92 @@ ol.ui.horizontal.list li:before,
 /*******************************
     User Variable Overrides
 *******************************/
+
+/*******************************
+    User Variable Overrides
+*******************************/
+
+/*******************************
+             List
+*******************************/
+
+/*-------------------
+         View
+--------------------*/
+
+/* List */
+
+/* List Item */
+
+/* Sub List */
+
+/* Sub List Item */
+
+/*-------------------
+      Elements
+--------------------*/
+
+/* Icon */
+
+/* Image */
+
+/* Content */
+
+/* Header */
+
+/* Description */
+
+/* Link */
+
+/* Header Link */
+
+/* Linked Icon */
+
+/*-------------------
+        States
+--------------------*/
+
+/*-------------------
+      Variations
+--------------------*/
+
+/* Float */
+
+/* Horizontal */
+
+/* Inverted */
+
+/* Link List */
+
+/* Inverted Link List */
+
+/* Selection List */
+
+/* Selection List States */
+
+/* Inverted Selection List */
+
+/* Animated List */
+
+/* Bulleted */
+
+/* Horizontal Bullets */
+
+/* Ordered List */
+
+/* Horizontal Ordered */
+
+/* Divided */
+
+/* Divided Horizontal */
+
+/* Divided */
+
+/* Divided Horizontal */
+
+/* Relaxed */
+
+/* Very Relaxed */
 /*!
  * # Semantic UI 2.3.1 - Loader
  * http://github.com/semantic-org/semantic-ui/
@@ -18921,7 +19188,7 @@ ol.ui.horizontal.list li:before,
 /* Title */
 
 .ui.steps .step .title {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1.14285714em;
   font-weight: bold;
 }
@@ -19704,7 +19971,7 @@ ol.ui.horizontal.list li:before,
 .ui.form input[type="text"],
 .ui.form input[type="file"],
 .ui.form input[type="url"] {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   margin: 0em;
   outline: none;
   -webkit-appearance: none;
@@ -23113,7 +23380,7 @@ ol.ui.horizontal.list li:before,
   display: -ms-flexbox;
   display: flex;
   margin: 1rem 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   background: #FFFFFF;
   font-weight: normal;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -25431,7 +25698,7 @@ Floated Menu / Item
 
 .ui.message .header {
   display: block;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   margin: -0.14285714em 0em 0rem 0em;
 }
@@ -27720,8 +27987,8 @@ Floated Menu / Item
 .ui.card > .content > .header {
   display: block;
   margin: '';
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  color: rgba(0, 0, 0, 0.85);
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
+  color: #FFFFFF;
 }
 
 /* Default Header Size */
@@ -27801,7 +28068,7 @@ Floated Menu / Item
 .ui.cards > .card > .content > .description,
 .ui.card > .content > .description {
   clear: both;
-  color: rgba(0, 0, 0, 0.68);
+  color: #FFFFFF;
 }
 
 /*--------------
@@ -27866,7 +28133,7 @@ Floated Menu / Item
 
 .ui.cards > .card > .content > a.header,
 .ui.card > .content > a.header {
-  color: rgba(0, 0, 0, 0.85);
+  color: #FFFFFF;
 }
 
 .ui.cards > .card > .content > a.header:hover,
@@ -29394,7 +29661,7 @@ a.ui.card:hover,
 .ui.items > .item > .content > .header {
   display: inline-block;
   margin: -0.21425em 0em 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.85);
 }
@@ -29833,7 +30100,7 @@ a.ui.card:hover,
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  margin: 0em 1.5em 2em;
+  margin: 0em 1.5em 1em;
   max-width: auto;
 }
 
@@ -29841,7 +30108,7 @@ a.ui.card:hover,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 1em -1.5em -2em;
+  margin: 1em -1.5em -1em;
 }
 
 /* Clearing */
@@ -29859,10 +30126,6 @@ a.ui.card:hover,
   margin-top: 0em;
 }
 
-.ui.statistics:last-child {
-  margin-bottom: 0em;
-}
-
 /*******************************
             Content
 *******************************/
@@ -29873,7 +30136,7 @@ a.ui.card:hover,
 
 .ui.statistics .statistic > .value,
 .ui.statistic > .value {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 4rem;
   font-weight: normal;
   line-height: 1em;
@@ -29888,7 +30151,7 @@ a.ui.card:hover,
 
 .ui.statistics .statistic > .label,
 .ui.statistic > .label {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1em;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
@@ -29961,93 +30224,93 @@ a.ui.card:hover,
 ---------------*/
 
 .ui.ten.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.ten.statistics .statistic {
   min-width: 10%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.nine.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.nine.statistics .statistic {
   min-width: 11.11111111%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.eight.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.eight.statistics .statistic {
   min-width: 12.5%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.seven.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.seven.statistics .statistic {
   min-width: 14.28571429%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.six.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.six.statistics .statistic {
   min-width: 16.66666667%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.five.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.five.statistics .statistic {
   min-width: 20%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.four.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.four.statistics .statistic {
   min-width: 25%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.three.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.three.statistics .statistic {
   min-width: 33.33333333%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.two.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.two.statistics .statistic {
   min-width: 50%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 .ui.one.statistics {
-  margin: 0em 0em -2em;
+  margin: 0em 0em -1em;
 }
 
 .ui.one.statistics .statistic {
   min-width: 100%;
-  margin: 0em 0em 2em;
+  margin: 0em 0em 1em;
 }
 
 /*--------------
@@ -30436,7 +30699,7 @@ a.ui.card:hover,
 
 .ui.accordion .title:not(.ui) {
   padding: 0.5em 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1em;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -33482,7 +33745,7 @@ select.ui.dropdown {
 
 .ui.modal > .header {
   display: block;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   background: #FFFFFF;
   margin: 0em;
   padding: 1.25rem 1.5rem;
@@ -34241,7 +34504,7 @@ a.ui.nag {
 
 .ui.popup > .header {
   padding: 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1.14285714em;
   line-height: 1.2;
   font-weight: bold;
@@ -36019,7 +36282,7 @@ a.ui.nag {
 
 .ui.search > .results .result .title {
   margin: -0.14285714em 0em 0em;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-weight: bold;
   font-size: 1em;
   color: rgba(0, 0, 0, 0.85);
@@ -36045,7 +36308,7 @@ a.ui.nag {
 }
 
 .ui.search > .results > .message .header {
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1rem;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
@@ -36262,7 +36525,7 @@ a.ui.nag {
   width: 100px;
   white-space: nowrap;
   background: transparent;
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
   font-size: 1em;
   padding: 0.4em 1em;
   font-weight: bold;

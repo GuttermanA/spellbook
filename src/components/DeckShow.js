@@ -11,24 +11,19 @@ import { connect } from 'react-redux'
 import { Button, Container, Grid, Header, Segment, Form, Icon } from 'semantic-ui-react'
 
 class DeckShow extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      redirect: false,
-      userDeck: false,
-      editing: false,
-      destroy: false,
-      deck: {},
-      deckCopy: {},
-      segmentCount: 0,
-      validation: {
-        error: false,
-        message: "",
-      },
+
+  state = {
+    redirect: false,
+    userDeck: false,
+    editing: false,
+    destroy: false,
+    deck: {},
+    deckCopy: {},
+    segmentCount: 0,
+    validation: {
+      error: false,
+      message: "",
     }
-    this.cardsToUpdate = []
-    this.cardsToDelete = []
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount = () => {
@@ -37,9 +32,10 @@ class DeckShow extends Component {
       if (this.props.match.path === '/:username/decks/:id') {
         this.setState({userDeck: true})
       }
-    }
-    if (this.props.match.path === '/:username/decks/:id') {
-      this.setState({userDeck: true})
+    } else {
+      if (this.props.match.path === '/:username/decks/:id') {
+        this.setState({userDeck: true})
+      }
     }
   }
 
@@ -101,7 +97,7 @@ class DeckShow extends Component {
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     if (JSON.stringify(this.state.deck) !== JSON.stringify(this.state.deckCopy) ) {
       this.props.updateDeck(this.state.deck)
@@ -168,6 +164,7 @@ class DeckShow extends Component {
       formatName,
       updatedAt,
     } = this.state.deck
+
     const mainboardSegments = (() => {
       if (cards) {
         const segments = []
@@ -190,6 +187,7 @@ class DeckShow extends Component {
         return segments.sort((a,b) => b.props.cards.length - a.props.cards.length )
       }
     })()
+    
     const sideboardSegment =  (() =>{
       if (cards) {
         const sideboard = cards.filter(card => card.sideboard)

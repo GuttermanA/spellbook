@@ -169,8 +169,8 @@
 .ui.card > .content > .header {
   display: block;
   margin: '';
-  font-family: 'MedievalSharp', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  color: rgba(0, 0, 0, 0.85);
+  font-family: 'MedievalSharp', Garamond, "Palatino Linotype", serif;
+  color: #FFFFFF;
 }
 
 /* Default Header Size */
@@ -244,7 +244,7 @@
 .ui.cards > .card > .content > .description,
 .ui.card > .content > .description {
   clear: both;
-  color: rgba(0, 0, 0, 0.68);
+  color: #FFFFFF;
 }
 
 /*--------------
@@ -303,7 +303,7 @@
 /* Header */
 .ui.cards > .card > .content > a.header,
 .ui.card > .content > a.header {
-  color: rgba(0, 0, 0, 0.85);
+  color: #FFFFFF;
 }
 .ui.cards > .card > .content > a.header:hover,
 .ui.card > .content > a.header:hover {
